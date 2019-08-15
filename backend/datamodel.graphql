@@ -1,0 +1,34 @@
+enum Permission {
+  ADMIN
+  USER
+}
+
+type User {
+  id: ID! @id
+  email: String! @unique
+  username: String! @unique
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  token: String
+  permissions: [Permission] @scalarList(strategy: RELATION)
+}
+
+type Tournament {
+  id: ID! @id
+  name: String!
+  members: [User]
+  password: String!
+  rounds: Float!
+  teams: [Team]
+}
+
+type Team {
+  id: ID! @id
+  name: String!
+  seed: Float!
+  wins: Float!
+  draftBonus: Float!
+  seedDraftBonus: Float!
+  blindPoints: Float
+}
