@@ -2,16 +2,8 @@ import React, { useState } from 'react';
 import { Container, Header, Content, Form, Item, Input, Button, Text, Label, View } from 'native-base';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import Layout from './Layout';
-
-const LOGIN_MUTATION = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      id
-      username
-    }
-  }
-`;
+import Layout from '../src/utilities/Layout';
+import { LOGIN_MUTATION } from '../src/utilities/Mutations';
 
 const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState(null);
@@ -46,9 +38,8 @@ const LoginScreen = ({ navigation }) => {
             </Item>
             <Button
               type="submit"
-              onPress={() => {
-                login({ variables: { email, password } });
-                console.log(data);
+              onPress={async () => {
+                await login({ variables: { email, password } });
               }}
             >
               <Text>Login</Text>

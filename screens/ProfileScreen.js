@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
-import Layout from './Layout';
+import Layout from '../src/utilities/Layout';
 
 const ProfileScreen = props => (
   <Layout title="Profile">

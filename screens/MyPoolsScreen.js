@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
-import Layout from './Layout';
+import Layout from '../src/utilities/Layout';
 
 const MyPoolsScreen = props => (
   <Layout title="Pools">

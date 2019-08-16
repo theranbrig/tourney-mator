@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Header, Content, Form, Item, Input, Button, Text, Label } from 'native-base';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
-import Layout from './Layout';
+import Layout from '../src/utilities/Layout';
 
 const SIGNUP_MUTATION = gql`
   mutation Signup($username: String!, $email: String!, $password: String!) {

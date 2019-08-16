@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 export const UserContext = React.createContext();
 
 const CURRENT_USER_QUERY = gql`
-  {
+  query {
     me {
       id
       email
@@ -22,20 +22,14 @@ const UserProvider = ({ children }) => {
   const [userError, setUserError] = useState(null);
 
   const { loading, error, data } = useQuery(CURRENT_USER_QUERY);
-
-  const currentUserData = () => {
-    setUser(data);
-    setUserLoading(loading);
-    setUserError(error);
-  };
+  console.log(data);
 
   return (
     <UserContext.Provider
       value={{
-        currentUserData,
-        userLoading,
-        userError,
-        user,
+        userLoading: loading,
+        userError: error,
+        user: data,
       }}
     >
       {children}
