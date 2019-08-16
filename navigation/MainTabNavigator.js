@@ -1,80 +1,64 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+
+import {
+  createBottomTabNavigator,
+  createAppContainer,
+  createSwitchNavigator,
+  createStackNavigator,
+} from 'react-navigation';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import CreateTournamentScreen from '../screens/CreateTournamentScreen';
+import StandingsScreen from '../screens/StandingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
-const config = Platform.select({
-  web: { headerMode: 'screen' },
-  default: {}
-});
-
-const HomeStack = createStackNavigator(
+const MainContent = createBottomTabNavigator(
   {
-    Home: HomeScreen
+    Home: {
+      screen: HomeScreen,
+      navigationOptions: {
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ tintColor }) => <Icon name="home" size={20} color={tintColor} />,
+      },
+    },
+    Pools: {
+      screen: CreateTournamentScreen,
+      navigationOptions: {
+        tabBarLabel: 'Pools',
+        tabBarIcon: ({ tintColor }) => <Icon name="basketball" size={20} color={tintColor} />,
+      },
+    },
+    Standing: {
+      screen: StandingsScreen,
+      navigationOptions: {
+        tabBarLabel: 'Standings',
+        tabBarIcon: ({ tintColor }) => <Icon name="format-list-numbered" size={20} color={tintColor} />,
+      },
+    },
+    Profile: {
+      screen: ProfileScreen,
+      navigationOptions: {
+        tabBarLabel: 'Profile',
+        tabBarIcon: ({ tintColor }) => <Icon name="account" size={20} color={tintColor} />,
+      },
+    },
   },
-  config
+  {
+    initialRouteName: 'Home',
+    tabBarOptions: {
+      activeTintColor: '#F8F8F8', // active icon color
+      inactiveTintColor: '#586589', // inactive icon color
+      style: {
+        backgroundColor: '#171F33', // TabBar background
+      },
+    },
+  }
 );
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  )
-};
-
-HomeStack.path = '';
-
-const LinksStack = createStackNavigator(
-  {
-    Links: LinksScreen
-  },
-  config
-);
-
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
-  )
-};
-
-LinksStack.path = '';
-
-const SettingsStack = createStackNavigator(
-  {
-    Settings: SettingsScreen
-  },
-  config
-);
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  )
-};
-
-SettingsStack.path = '';
-
-const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack,
-  SignUpScreen
-});
-
-tabNavigator.path = '';
-
-export default tabNavigator;
+export default MainContent;

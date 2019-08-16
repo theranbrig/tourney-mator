@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Header, Content, Form, Item, Input, Button, Text, Label } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Button, Text, Label, View } from 'native-base';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from './Layout';
@@ -13,7 +13,7 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
@@ -54,6 +54,11 @@ const LoginScreen = () => {
               <Text>Login</Text>
             </Button>
           </Form>
+          <View>
+            <Button onPress={() => navigation.navigate('SignUp')}>
+              <Text>Go To Sign Up Screen</Text>
+            </Button>
+          </View>
         </Content>
       </Container>
     </Layout>

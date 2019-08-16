@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
-import Layout from '../src/Layout';
+import Layout from './Layout';
 
 const StandingsScreen = props => (
-  <Layout title={'Standings'}>
+  <Layout title="Standings">
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Standings Screen</Text>
       <Button title="Go to Home" onPress={() => props.navigation.navigate('Home')} />
