@@ -14,8 +14,8 @@ const LOGIN_MUTATION = gql`
 `;
 
 const LoginScreen = ({ navigation }) => {
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState(null);
 
   const [login, { data }] = useMutation(LOGIN_MUTATION);
   return (
@@ -29,7 +29,7 @@ const LoginScreen = ({ navigation }) => {
               <Input
                 keyboardType="email-address"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChangeText={email => setEmail(email)}
                 textContentType="emailAddress"
                 autoCapitalize="none"
               />
@@ -38,7 +38,7 @@ const LoginScreen = ({ navigation }) => {
               <Label>Password</Label>
               <Input
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChangeText={password => setPassword(password)}
                 secureTextEntry
                 textContentType="password"
                 autoCapitalize="none"

@@ -33,7 +33,7 @@ const Mutations = {
     });
     return user;
   },
-  async signin(parent, { email, password }, ctx, info) {
+  async login(parent, { email, password }, ctx, info) {
     // Check email and password
     const user = await ctx.db.query.user({ where: { email } });
     if (!user) {
@@ -49,6 +49,7 @@ const Mutations = {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 14, // Two week token
     });
+    console.log(user)
     return user;
   },
   async signout(parent, args, ctx, info) {

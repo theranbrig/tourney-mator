@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
+import PropTypes from 'prop-types';
 
 export const UserContext = React.createContext();
 
@@ -15,7 +16,7 @@ const CURRENT_USER_QUERY = gql`
   }
 `;
 
-const UserProvider = props => {
+const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(false);
   const [userError, setUserError] = useState(null);
@@ -37,9 +38,13 @@ const UserProvider = props => {
         user,
       }}
     >
-      {props.children}
+      {children}
     </UserContext.Provider>
   );
+};
+
+UserProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default UserProvider;
