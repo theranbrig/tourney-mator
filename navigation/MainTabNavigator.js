@@ -1,22 +1,10 @@
 import React from 'react';
-import { Platform } from 'react-native';
-
-import {
-  createBottomTabNavigator,
-  createAppContainer,
-  createSwitchNavigator,
-  createStackNavigator,
-} from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import SignUpScreen from '../screens/SignUpScreen';
-import CreateTournamentScreen from '../screens/CreateTournamentScreen';
 import StandingsScreen from '../screens/StandingsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import { MainTournamentNavigator } from './TournamentNavigator';
 
 const MainContent = createBottomTabNavigator(
   {
@@ -24,14 +12,14 @@ const MainContent = createBottomTabNavigator(
       screen: HomeScreen,
       navigationOptions: {
         tabBarLabel: 'Home',
-        tabBarIcon: ({ tintColor }) => <Icon name="home" size={20} color={tintColor} />,
+        tabBarIcon: ({ tintColor }) => <Icon name="basketball" size={20} color={tintColor} />,
       },
     },
     Pools: {
-      screen: CreateTournamentScreen,
+      screen: MainTournamentNavigator,
       navigationOptions: {
         tabBarLabel: 'Pools',
-        tabBarIcon: ({ tintColor }) => <Icon name="basketball" size={20} color={tintColor} />,
+        tabBarIcon: ({ tintColor }) => <Icon name="tournament" size={20} color={tintColor} />,
       },
     },
     Standing: {
@@ -45,7 +33,7 @@ const MainContent = createBottomTabNavigator(
       screen: ProfileScreen,
       navigationOptions: {
         tabBarLabel: 'Profile',
-        tabBarIcon: ({ tintColor }) => <Icon name="account" size={20} color={tintColor} />,
+        tabBarIcon: ({ tintColor }) => <Icon name="basketball-hoop" size={20} color={tintColor} />,
       },
     },
   },
