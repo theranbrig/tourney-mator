@@ -22,14 +22,13 @@ const UserProvider = ({ children }) => {
   const [userError, setUserError] = useState(null);
 
   const { loading, error, data } = useQuery(CURRENT_USER_QUERY);
-  console.log(data);
 
   return (
     <UserContext.Provider
       value={{
         userLoading: loading,
         userError: error,
-        user: data,
+        user: data.me,
       }}
     >
       {children}
