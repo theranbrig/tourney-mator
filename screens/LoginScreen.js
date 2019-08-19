@@ -1,9 +1,26 @@
 import React, { useState } from 'react';
 import { Container, Header, Content, Form, Item, Input, Button, Text, Label, View } from 'native-base';
+import {StyleSheet} from 'react-native'
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from '../src/utilities/Layout';
 import { LOGIN_MUTATION } from '../src/utilities/Mutations';
+
+const styles = StyleSheet.create({
+  mainButton: {
+    marginLeft: '5%',
+    margin: 10,
+    width: '90%',
+    borderColor: '#7a0019',
+    backgroundColor: '#ffcc33',
+    borderWidth: 2,
+  },
+  mainButtonText: {
+    fontSize: 20,
+    color: '#7a0019',
+    textAlign: 'center'
+  },
+});
 
 const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState(null);
@@ -37,17 +54,20 @@ const LoginScreen = ({ navigation }) => {
               />
             </Item>
             <Button
+              style={styles.mainButton}
               type="submit"
               onPress={async () => {
                 await login({ variables: { email, password } });
+                navigation.navigate('Home')
               }}
-            >
-              <Text>Login</Text>
+              >
+              <Text style={styles.mainButtonText}>Login</Text>
             </Button>
           </Form>
           <View>
-            <Button onPress={() => navigation.navigate('SignUp')}>
-              <Text>Go To Sign Up Screen</Text>
+
+            <Button style={styles.mainButton} onPress={() => navigation.navigate('SignUp')}>
+              <Text style={styles.mainButtonText}>Go To Sign Up Screen</Text>
             </Button>
           </View>
         </Content>

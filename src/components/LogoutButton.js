@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const LogoutButton = props => {
+const LogoutButton = ({navigation}) => {
   const [signout, {data} ] = useMutation(LOGOUT_USER_MUTATION)
   return(
 
@@ -37,6 +37,7 @@ const LogoutButton = props => {
         style={styles.orangeButton}
         onPress={async () => {
           await signout();
+          props.navigate();
         }}
       >
         <Text style={styles.orangeButtonText}>Log Out</Text>

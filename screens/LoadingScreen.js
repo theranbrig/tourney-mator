@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Content, Button, Text } from 'native-base';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
+import { Button, Text } from 'native-base';
 import { UserContext } from '../src/utilities/UserContext';
 import Layout from '../src/utilities/Layout';
 
