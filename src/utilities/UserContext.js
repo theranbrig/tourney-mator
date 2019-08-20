@@ -17,10 +17,6 @@ const CURRENT_USER_QUERY = gql`
 `;
 
 const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [userLoading, setUserLoading] = useState(false);
-  const [userError, setUserError] = useState(null);
-
   const { loading, error, data } = useQuery(CURRENT_USER_QUERY);
 
   return (
@@ -41,3 +37,4 @@ UserProvider.propTypes = {
 };
 
 export default UserProvider;
+export { CURRENT_USER_QUERY };

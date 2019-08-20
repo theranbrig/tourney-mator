@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from '../src/utilities/Layout';
 import { LOGIN_MUTATION } from '../src/utilities/Mutations';
+import {CURRENT_USER_QUERY} from '../src/utilities/UserContext'
 
 const styles = StyleSheet.create({
   mainButton: {
@@ -25,8 +26,7 @@ const styles = StyleSheet.create({
 const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState(null);
   const [email, setEmail] = useState(null);
-
-  const [login, { data }] = useMutation(LOGIN_MUTATION);
+  const [login, { data }] = useMutation(LOGIN_MUTATION, { refetchQueries: ["CURRENT_USER_QUERY"], awaitRefetchQueries: true });
   return (
     <Layout>
       <Container>

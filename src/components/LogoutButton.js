@@ -28,10 +28,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const LogoutButton = ({navigation}) => {
+const LogoutButton = (props) => {
   const [signout, {data} ] = useMutation(LOGOUT_USER_MUTATION)
   return(
-
       <Button
         block
         style={styles.orangeButton}
