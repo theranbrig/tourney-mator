@@ -18,12 +18,19 @@ const CURRENT_USER_QUERY = gql`
 
 const UserProvider = ({ children }) => {
   const { loading, error, data } = useQuery(CURRENT_USER_QUERY);
+  const [userData, setUserData] = useState(null);
+
+  const setUser = () => {
+    setUserData(data);
+  };
 
   return (
     <UserContext.Provider
       value={{
         userLoading: loading,
         userError: error,
+        userData,
+        setUser,
         user: data.me,
       }}
     >
