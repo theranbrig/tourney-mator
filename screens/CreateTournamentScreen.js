@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Form, Item, Label, Input, Button } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
 import Layout from '../src/utilities/Layout';
 import { UserContext } from '../src/utilities/UserContext';
 
 const CreateTournamentScreen = props => {
-  const { userLoading, setUser, userData, user } = useContext(UserContext);
+  const { userLoading, user } = useContext(UserContext);
   const [userState, setUserState] = useState(null);
 
   return (
@@ -16,10 +16,29 @@ const CreateTournamentScreen = props => {
           setUserState(user);
         }}
       />
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Create Pool</Text>
-        <Text>{userState.username}</Text>
-      </View>
+      {userState !== null && (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>Create a Pool</Text>
+          <Text>{userState.username}</Text>
+          <Form>
+            <Item floatingLabel>
+              <Label>Pool Name</Label>
+              <Input keyboardType="email-address" textContentType="emailAddress" autoCapitalize="none" />
+            </Item>
+            <Item floatingLabel last>
+              <Label>Pool Type</Label>
+              <Input secureTextEntry textContentType="password" autoCapitalize="none" />
+            </Item>
+            <Item floatingLabel last>
+              <Label>Start Time</Label>
+              <Input secureTextEntry textContentType="password" autoCapitalize="none" />
+            </Item>
+            <Button>
+              <Text>Create Tournament</Text>
+            </Button>
+          </Form>
+        </View>
+      )}
     </Layout>
   );
 };
