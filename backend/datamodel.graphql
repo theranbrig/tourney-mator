@@ -3,6 +3,12 @@ enum Permission {
   USER
 }
 
+enum PoolType {
+  STANDARD
+  SEED
+  RANDOM
+}
+
 type User {
   id: ID! @id
   email: String! @unique
@@ -14,13 +20,14 @@ type User {
   permissions: [Permission] @scalarList(strategy: RELATION)
 }
 
-type Tournament {
+type Pool {
   id: ID! @id
   name: String!
   members: [User]
   password: String!
   rounds: Float!
   teams: [Team]
+  type: PoolType
 }
 
 type Team {
