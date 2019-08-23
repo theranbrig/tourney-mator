@@ -18,6 +18,7 @@ type User {
   resetTokenExpiry: Float
   token: String
   permissions: [Permission] @scalarList(strategy: RELATION)
+  friends: [User] @scalarList(strategy: RELATION)
 }
 
 type Pool {
@@ -25,7 +26,7 @@ type Pool {
   name: String!
   members: [User]
   password: String!
-  rounds: Float!
+  rounds: Float
   teams: [Team]
   type: PoolType
 }
@@ -33,9 +34,9 @@ type Pool {
 type Team {
   id: ID! @id
   name: String!
+  record: String
   seed: Float!
-  wins: Float!
-  draftBonus: Float!
-  seedDraftBonus: Float!
-  blindPoints: Float
+  region: String!
+  wins: Float
+  bonusPoints: Float
 }
