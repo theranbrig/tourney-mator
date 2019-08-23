@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, Form, Item, Label, Input, Button } from 'react-native';
+import { View, Text, Form, Item, Label, Input, Button, Picker, Icon } from 'native-base';
 import { NavigationEvents } from 'react-navigation';
 import Layout from '../src/utilities/Layout';
 import { UserContext } from '../src/utilities/UserContext';
@@ -25,13 +25,26 @@ const CreateTournamentScreen = props => {
               <Label>Pool Name</Label>
               <Input keyboardType="email-address" textContentType="emailAddress" autoCapitalize="none" />
             </Item>
-            <Item floatingLabel last>
-              <Label>Pool Type</Label>
-              <Input secureTextEntry textContentType="password" autoCapitalize="none" />
+            <Item floatingLabel>
+              <Label>Pool Password</Label>
+              <Input autoCapitalize="none" />
             </Item>
+
+            <Label>Pool Type</Label>
+            <Picker
+              mode="dropdown"
+              iosHeader="Select Pool Type"
+              iosIcon={<Icon name="arrow-down" />}
+              selectedValue="random"
+              onValueChange={() => console.log('changed')}
+            >
+              <Picker.Item label="Random" value="random" />
+              <Picker.Item label="Draft" value="draft" />
+              <Picker.Item label="Seed" value="seed" />
+            </Picker>
             <Item floatingLabel last>
               <Label>Start Time</Label>
-              <Input secureTextEntry textContentType="password" autoCapitalize="none" />
+              <Input autoCapitalize="none" />
             </Item>
             <Button>
               <Text>Create Tournament</Text>
