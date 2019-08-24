@@ -7,6 +7,10 @@ import { UserContext } from '../src/utilities/UserContext';
 const CreateTournamentScreen = props => {
   const { userLoading, user } = useContext(UserContext);
   const [userState, setUserState] = useState(null);
+  const [name, setName] = useState(null);
+  const [password, setPassword] = useState(null);
+  const [type, setType] = useState(null);
+  const [nameDate, setDate] = useState(null);
 
   return (
     <Layout title="Pools">
@@ -23,13 +27,17 @@ const CreateTournamentScreen = props => {
           <Form>
             <Item floatingLabel>
               <Label>Pool Name</Label>
-              <Input keyboardType="email-address" textContentType="emailAddress" autoCapitalize="none" />
+              <Input autoCapitalize="none" />
             </Item>
             <Item floatingLabel>
               <Label>Pool Password</Label>
               <Input autoCapitalize="none" />
             </Item>
 
+            <Item floatingLabel last>
+              <Label>Start Time</Label>
+              <Input autoCapitalize="none" />
+            </Item>
             <Label>Pool Type</Label>
             <Picker
               mode="dropdown"
@@ -42,10 +50,6 @@ const CreateTournamentScreen = props => {
               <Picker.Item label="Draft" value="draft" />
               <Picker.Item label="Seed" value="seed" />
             </Picker>
-            <Item floatingLabel last>
-              <Label>Start Time</Label>
-              <Input autoCapitalize="none" />
-            </Item>
             <Button>
               <Text>Create Tournament</Text>
             </Button>

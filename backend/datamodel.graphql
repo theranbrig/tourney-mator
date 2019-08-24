@@ -28,6 +28,7 @@ type Pool {
   rounds: Float
   teams: [Team]
   type: PoolType
+  startTime: DateTime
 }
 
 type Team {
