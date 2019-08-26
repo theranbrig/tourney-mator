@@ -1,8 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, Form, Item, Label, Input, Button, Picker, Icon, DatePicker } from 'native-base';
 import { NavigationEvents } from 'react-navigation';
+import { useMutation } from '@apollo/react-hooks';
 import Layout from '../src/utilities/Layout';
 import { UserContext } from '../src/utilities/UserContext';
+import { CREATE_POOL_MUTATION } from '../src/utilities/Mutations';
 
 const CreateTournamentScreen = props => {
   const { userLoading, user } = useContext(UserContext);
@@ -10,7 +12,12 @@ const CreateTournamentScreen = props => {
   const [name, setName] = useState(null);
   const [password, setPassword] = useState(null);
   const [type, setType] = useState('draft');
-  const [nameDate, setDate] = useState(null);
+  const [date, setDate] = useState(null);
+
+  const [createPool, { data }] = useMutation(CREATE_POOL_MUTATION, {
+    refetchQueries: ['CURRENT_USER_QUERY'],
+    awaitRefetchQueries: true,
+  });
 
   return (
     <Layout title="Pools">
@@ -30,7 +37,7 @@ const CreateTournamentScreen = props => {
             </Item>
             <Item floatingLabel>
               <Label>Pool Password</Label>
-              <Input autoCapitalize="none" value={password} onChangeText={name => setPassword(password)} />
+              <Input autoCapitalize="none" value={password} onChangeText={password => setPassword(password)} />
             </Item>
             <Label>Pool Type</Label>
             <Picker
@@ -55,11 +62,12 @@ const CreateTournamentScreen = props => {
               animationType="fade"
               androidMode="default"
               placeHolderText="Select Start Date"
-              // textStyle={{ color: 'green' }}
-              placeHolderTextStyle={{ color: '#d3d3d3' }}
               disabled={false}
             />
-            <Button>
+            <Button
+              onPress={async () => {
+                await createPool({ variables: { name, password,type, date } });
+              }}>
               <Text>Create Tournament</Text>
             </Button>
           </Form>

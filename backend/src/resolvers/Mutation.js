@@ -56,6 +56,9 @@ const Mutations = {
     ctx.response.clearCookie('token');
     return { message: 'Goodbye!' };
   },
+  async createPool(parent, args, ctx, info) {
+    console.log(args)
+  }
 };
 
 module.exports = Mutations;

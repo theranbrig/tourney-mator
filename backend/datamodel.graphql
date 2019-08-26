@@ -20,7 +20,7 @@ type User {
   permissions: [Permission] @scalarList(strategy: RELATION)
 }
 
-type Pool {
+type Tournament {
   id: ID! @id
   name: String!
   members: [User] @scalarList(strategy: RELATION)

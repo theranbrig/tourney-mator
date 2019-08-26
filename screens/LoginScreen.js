@@ -26,7 +26,10 @@ const styles = StyleSheet.create({
 const LoginScreen = ({ navigation }) => {
   const [password, setPassword] = useState(null);
   const [email, setEmail] = useState(null);
+  const [username, setUsername] = useState(null)
   const [login, { data }] = useMutation(LOGIN_MUTATION, { refetchQueries: ["CURRENT_USER_QUERY"], awaitRefetchQueries: true });
+
+
   return (
     <Layout>
       <Container>

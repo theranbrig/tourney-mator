@@ -8,7 +8,7 @@ import Layout from '../src/utilities/Layout';
 
 const HomeScreen = () => {
   const { userLoading, setUser, userData, user } = useContext(UserContext);
-  const [userState, setUserState] = useState(null)
+  const [userState, setUserState] = useState(userData)
 
   return (
     <Layout>
@@ -30,7 +30,6 @@ const HomeScreen = () => {
             <Text>Hello {userState.username}</Text>
           </View>
         </Content>
-
       )}
     </Layout>
   );
