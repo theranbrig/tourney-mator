@@ -14,10 +14,8 @@ const CreateTournamentScreen = props => {
   const [type, setType] = useState('draft');
   const [date, setDate] = useState(null);
 
-  const [createPool, { data }] = useMutation(CREATE_POOL_MUTATION, {
-    refetchQueries: ['CURRENT_USER_QUERY'],
-    awaitRefetchQueries: true,
-  });
+
+  const [createTournament, { data }] = useMutation(CREATE_POOL_MUTATION);
 
   return (
     <Layout title="Pools">
@@ -66,7 +64,7 @@ const CreateTournamentScreen = props => {
             />
             <Button
               onPress={async () => {
-                await createPool({ variables: { name, password,type, date } });
+                await createTournament({ variables: { name, password,type, date } });
               }}>
               <Text>Create Tournament</Text>
             </Button>
