@@ -57,17 +57,13 @@ const Mutations = {
     return { message: 'Goodbye!' };
   },
   async createTournament(parent, args, ctx, info) {
-    args.name = args.name.toLowerCase();
-    // Check if user with submitted email exists
-    const nameCheck = await ctx.db.query.tournament({ where: { name: args.name } });
-    if (nameCheck) throw new Error(`${args.name} is already a tournament.`);
-    // Set password hash and user info
+    // Set password hash and user info;
     const password = await bcrypt.hash(args.password, 15);
     const tournament = await ctx.db.mutation.createTournament(
       {
         data: {
           ...args,
-          password
+          password,
         },
       },
       info

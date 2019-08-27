@@ -22,12 +22,11 @@ type User {
 
 type Tournament {
   id: ID! @id
-  name: String!
+  name: String! @unique
   members: [User] @scalarList(strategy: RELATION)
   password: String!
-  rounds: Float
   teams: [Team]
-  type: PoolType
+  type: PoolType!
   startTime: DateTime
 }
 

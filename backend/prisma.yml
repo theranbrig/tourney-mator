@@ -1,12 +1,11 @@
-# DEVELOPMENT ENDPOINT - PUT IN VARIABLES.ENV - UNCOMMENT FOR DEVELOPMENT / COMMENT OUT FOR PRODUCTION
 
 endpoint: ${env:PRISMA_ENDPOINT}
-
-# PRODUCTION ENDPOINT - USE YOUR OWN - UNCOMMENT OR REWRITE FOR PRODUCTION
-#endpoint: YOUR OWN END POINT
-
 datamodel: datamodel.graphql
 secret: ${env:PRISMA_SECRET}
+generate:
+  - generator: graphql-schema
+    output: ./src/generated/
 hooks:
   post-deploy:
     - graphql get-schema -p prisma
+    - prisma generate
