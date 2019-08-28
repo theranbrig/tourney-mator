@@ -29,7 +29,7 @@ const LoginScreen = ({ history }) => {
   const [email, setEmail] = useState(null);
   const [username, setUsername] = useState(null)
   const [login, { data }] = useMutation(LOGIN_MUTATION, { refetchQueries: ["CURRENT_USER_QUERY"], awaitRefetchQueries: true });
-  const { user, checkUser } = useContext(UserContext);
+  const { userRefetch } = useContext(UserContext);
 
   return (
     <Layout>
@@ -62,6 +62,7 @@ const LoginScreen = ({ history }) => {
               type="submit"
               onPress={async () => {
                 await login({ variables: { email, password } });
+                userRefetch()
                 history.push('/home')
               }}
               >

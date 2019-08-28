@@ -17,7 +17,7 @@ const CURRENT_USER_QUERY = gql`
 `;
 
 const UserProvider = ({ children }) => {
-  const { loading, error, data } = useQuery(CURRENT_USER_QUERY);
+  const { loading, error, data, refetch } = useQuery(CURRENT_USER_QUERY);
 
   const user = data && data.me;
 
@@ -27,6 +27,7 @@ const UserProvider = ({ children }) => {
         userLoading: loading,
         userError: error,
         user,
+        userRefetch: refetch,
       }}
     >
       {children}
