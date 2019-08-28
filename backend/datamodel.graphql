@@ -10,7 +10,7 @@ enum PoolType {
 }
 
 type User {
-  id: ID! @id
+  id: ID! @id @unique
   email: String! @unique
   username: String! @unique
   password: String!

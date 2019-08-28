@@ -1,9 +1,15 @@
 import React, { useContext } from 'react';
-import { Content, Text } from 'native-base';
+import { Content, Container, View } from 'native-base';
 import PropTypes from 'prop-types';
 import { UserContext } from './UserContext';
 
-const Layout = ({ children }) => <Content>{children}</Content>;
+const Layout = ({ children }) => (
+  <Content>
+    <Container>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>{children}</View>
+    </Container>
+  </Content>
+);
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,

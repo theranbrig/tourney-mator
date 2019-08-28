@@ -4,22 +4,15 @@ import Layout from '../src/utilities/Layout';
 import LogoutButton from '../src/components/LogoutButton';
 import { UserContext } from '../src/utilities/UserContext';
 
-const ProfileScreen = props => {
-  const { user, userLoading } = useContext(UserContext);
-  const [userState, setUserState] = useState(null)
+const ProfileScreen = ({ history }) => {
+  const { user } = useContext(UserContext);
   return (
     <Layout title="Profile">
-      <NavigationEvents
-        onDidFocus={async payload => {
-          if(userLoading) return <Text>Loading...</Text>
-          setUserState(user)
-        }}
-      />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Users Screen</Text>
-        <Button title="Go to Home" onPress={() => props.navigation.navigate('Home')} />
-        <Button title="Go back" onPress={() => props.navigation.goBack()} />
-        <LogoutButton navigate={() => props.navigation.navigate('Loading')} />
+        <Button title="Go to Home" onPress={() => history.push('/home')} />
+        <Button title="Go back" onPress={() => history.push('/loading')} />
+        <LogoutButton navigate={() => history.push('/loading')} />
         <Text>{user.email}</Text>
         <Text>{user.username}</Text>
       </View>

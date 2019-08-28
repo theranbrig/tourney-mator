@@ -5,10 +5,9 @@ import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import UserProvider from './src/utilities/UserContext'
-
-import AppNavigator from './navigation/AppNavigator';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
+import Routing from './navigation/NativeRouter';
 
 export default function App(props) {
   const client = new ApolloClient({
@@ -35,7 +34,7 @@ export default function App(props) {
         <UserProvider>
           <View style={styles.container}>
             {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-            <AppNavigator />
+            <Routing />
           </View>
         </UserProvider>
       </ApolloProvider>

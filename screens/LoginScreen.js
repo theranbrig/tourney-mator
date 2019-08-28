@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Container, Header, Content, Form, Item, Input, Button, Text, Label, View } from 'native-base';
 import {StyleSheet} from 'react-native'
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from '../src/utilities/Layout';
 import { LOGIN_MUTATION } from '../src/utilities/Mutations';
-import {CURRENT_USER_QUERY} from '../src/utilities/UserContext'
+import {CURRENT_USER_QUERY, UserContext} from '../src/utilities/UserContext'
+
 
 const styles = StyleSheet.create({
   mainButton: {
@@ -23,12 +24,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ history }) => {
   const [password, setPassword] = useState(null);
   const [email, setEmail] = useState(null);
   const [username, setUsername] = useState(null)
   const [login, { data }] = useMutation(LOGIN_MUTATION, { refetchQueries: ["CURRENT_USER_QUERY"], awaitRefetchQueries: true });
-
+  const { user, checkUser } = useContext(UserContext);
 
   return (
     <Layout>
@@ -61,15 +62,14 @@ const LoginScreen = ({ navigation }) => {
               type="submit"
               onPress={async () => {
                 await login({ variables: { email, password } });
-                navigation.navigate('Home')
+                history.push('/home')
               }}
               >
               <Text style={styles.mainButtonText}>Login</Text>
             </Button>
           </Form>
           <View>
-
-            <Button style={styles.mainButton} onPress={() => navigation.navigate('SignUp')}>
+            <Button style={styles.mainButton} onPress={() => history.push('/signup')}>
               <Text style={styles.mainButtonText}>Go To Sign Up Screen</Text>
             </Button>
           </View>

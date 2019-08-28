@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
@@ -18,20 +18,15 @@ const CURRENT_USER_QUERY = gql`
 
 const UserProvider = ({ children }) => {
   const { loading, error, data } = useQuery(CURRENT_USER_QUERY);
-  const [userData, setUserData] = useState(null);
 
-  const setUser = () => {
-    setUserData(data);
-  };
+  const user = data && data.me;
 
   return (
     <UserContext.Provider
       value={{
         userLoading: loading,
         userError: error,
-        userData,
-        setUser,
-        user: data.me,
+        user,
       }}
     >
       {children}

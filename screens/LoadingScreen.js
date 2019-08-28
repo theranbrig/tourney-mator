@@ -4,22 +4,22 @@ import { Button, Text, Content } from 'native-base';
 import { UserContext } from '../src/utilities/UserContext';
 import Layout from '../src/utilities/Layout';
 
-const LoadingScreen = ({ navigation }) => {
-  const { user, userLoading, } = useContext(UserContext);
+const LoadingScreen = ({ history }) => {
+  const { user, userLoading } = useContext(UserContext);
   if (userLoading) return <Text>Loading</Text>;
   if (user) {
-    navigation.navigate('Home');
+    history.push('/home');
   }
   return (
-    <Content>
+    <Layout>
       <Icon name="tournament" size={68} />
-      <Button onPress={() => navigation.navigate('Login')}>
+      <Button onPress={() => history.push('/login')}>
         <Text>Go To Login</Text>
       </Button>
-      <Button onPress={() => navigation.navigate('Login')}>
+      <Button onPress={() => history.push('/signup')}>
         <Text>Sign Up Today</Text>
       </Button>
-    </Content>
+    </Layout>
   );
 };
 

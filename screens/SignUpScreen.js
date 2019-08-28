@@ -14,7 +14,7 @@ const SIGNUP_MUTATION = gql`
   }
 `;
 
-const SignUpScreen = ({ navigation }) => {
+const SignUpScreen = ({ history }) => {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
   const [email, setEmail] = useState(null);
@@ -65,10 +65,10 @@ const SignUpScreen = ({ navigation }) => {
               <Text>Sign Up</Text>
             </Button>
           </Form>
-          <Button onPress={() => navigation.navigate('Login')}>
+          <Button onPress={() => history.push('/login')}>
             <Text>Go To Login</Text>
           </Button>
-          <Button onPress={() => navigation.navigate('Main')}>
+          <Button onPress={() => history.push('/home')}>
             <Text>Go To Main</Text>
           </Button>
         </Content>
