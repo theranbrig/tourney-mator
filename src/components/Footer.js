@@ -6,19 +6,19 @@ const BottomFooter = ({ history }) => (
   <Footer style={{ backgroundColor: '#7a0019' }}>
     <FooterTab>
       <Button onPress={() => history.push('/home')}>
-        <Icon name="basketball" size={25} color="#ffcc33" />
+        <Icon name="basketball" size={23} color="#ffcc33" />
         <Text style={{ color: '#fff' }}>Home</Text>
       </Button>
-      <Button onPress={() => history.push('/home')}>
-        <Icon name="tournament" size={25} color="#ffcc33" />
+      <Button onPress={() => history.push('/pools')}>
+        <Icon name="tournament" size={23} color="#ffcc33" />
         <Text style={{ color: '#fff' }}>Pools</Text>
       </Button>
-      <Button onPress={() => history.push('/home')}>
-        <Icon name="format-list-numbered" size={25} color="#ffcc33" />
+      <Button onPress={() => history.push('/standings')}>
+        <Icon name="format-list-numbered" size={23} color="#ffcc33" />
         <Text style={{ color: '#fff' }}>Results</Text>
       </Button>
       <Button onPress={() => history.push('/profile')}>
-        <Icon name="basketball-hoop" size={25} color="#ffcc33" />
+        <Icon name="basketball-hoop" size={23} color="#ffcc33" />
         <Text style={{ color: '#fff' }}>Profile</Text>
       </Button>
     </FooterTab>

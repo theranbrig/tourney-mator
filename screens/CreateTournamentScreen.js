@@ -14,18 +14,10 @@ const CreateTournamentScreen = props => {
   const [type, setType] = useState('draft');
   const [date, setDate] = useState(null);
 
-
   const [createTournament, { data }] = useMutation(CREATE_POOL_MUTATION);
 
   return (
     <Layout title="Pools">
-      <NavigationEvents
-        onDidFocus={payload => {
-          if (userLoading) return <Text>Loading...</Text>;
-          setUserState(user);
-        }}
-      />
-      {userState !== null && (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Text>Create a Pool</Text>
           <Form>
@@ -70,7 +62,7 @@ const CreateTournamentScreen = props => {
             </Button>
           </Form>
         </View>
-      )}
+
     </Layout>
   );
 };

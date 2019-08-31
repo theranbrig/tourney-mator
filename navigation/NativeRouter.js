@@ -3,7 +3,7 @@ import { NativeRouter, Route, Link } from 'react-router-native';
 import CreateTournamentScreen from '../screens/CreateTournamentScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LiveTournamentScreen from '../screens/LiveTournamentScreen';
-import LoadingScreen from '../screens/LoadingScreen';
+import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import LoginScreen from '../screens/LoginScreen';
 import MyPoolsScreen from '../screens/MyPoolsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -13,7 +13,7 @@ import WaitingTournamentScreen from '../screens/WaitingTournamentScreen';
 
 const Routing = () => (
   <NativeRouter>
-    <Route exact path="/" component={LoadingScreen} />
+    <Route exact path="/" component={AuthLoadingScreen} />
     <Route path="/home" component={HomeScreen} />
     <Route path="/profile" component={ProfileScreen} />
     <Route path="/standings" component={StandingsScreen} />

@@ -8,9 +8,9 @@ const MyPoolsScreen = ({ history }) => (
     <Layout title="Pools">
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Pools Screen</Text>
-        <Button title="Create Tourney" onPress={() => props.navigation.navigate('CreateTournament')} />
-        <Button title="Wait for Tourney" onPress={() => props.navigation.navigate('WaitTournament')} />
-        <Button title="Live Tourney" onPress={() => props.navigation.navigate('Tournament')} />
+        <Button title="Create Tourney" onPress={() => history.push('/create')} />
+        <Button title="Wait for Tourney" onPress={() => history.push('/waiting')} />
+        <Button title="Live Tourney" onPress={() => history.push('/live')} />
       </View>
     </Layout>
     <BottomFooter history={history} />

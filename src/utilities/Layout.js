@@ -5,9 +5,7 @@ import { UserContext } from './UserContext';
 
 const Layout = ({ children }) => (
   <Content>
-    <Container>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>{children}</View>
-    </Container>
+    <Container>{children}</Container>
   </Content>
 );
 

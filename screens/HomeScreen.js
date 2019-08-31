@@ -8,7 +8,9 @@ import BottomFooter from '../src/components/Footer';
 
 const HomeScreen = ({ history }) => {
   const { user } = useContext(UserContext);
-
+  if (!user) {
+    history.push('/');
+  }
   return (
     <>
       <Layout>
