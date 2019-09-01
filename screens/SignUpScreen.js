@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Container, Header, Content, Form, Item, Input, Button, Text, Label } from 'native-base';
+import { Container, Header, H1, Content, View, Form, Item, Input, Button, Text, Label } from 'native-base';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
+import { StyleSheet } from 'react-native';
 import Layout from '../src/utilities/Layout';
 
 const SIGNUP_MUTATION = gql`
@@ -14,6 +15,42 @@ const SIGNUP_MUTATION = gql`
   }
 `;
 
+const styles = StyleSheet.create({
+  mainButton: {
+    marginTop: 10,
+    borderColor: '#f3f3f3',
+    backgroundColor: '#ffcc33',
+    borderWidth: 2,
+    width: '100%',
+    borderRadius: 0,
+  },
+  mainButtonText: {
+    fontSize: 20,
+    color: '#7a0019',
+    fontFamily: 'graduate',
+  },
+
+  form: {
+    width: '90%',
+    backgroundColor: '#7a0019',
+  },
+  contentArea: {
+    backgroundColor: '#7a0019',
+  },
+  title: {
+    textAlign: 'center',
+    color: '#ffcc33',
+    fontFamily: 'graduate',
+    marginBottom: 10,
+  },
+  mainView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#7a0019',
+  },
+});
+
 const SignUpScreen = ({ history }) => {
   const [username, setUsername] = useState(null);
   const [password, setPassword] = useState(null);
@@ -22,57 +59,64 @@ const SignUpScreen = ({ history }) => {
   const [signup, { data }] = useMutation(SIGNUP_MUTATION);
   return (
     <Layout>
-      <Container>
-        <Header />
-        <Content>
-          <Form>
-            <Item floatingLabel>
-              <Label>Email Address</Label>
-              <Input
-                keyboardType="email-address"
-                value={email}
-                onChangeText={email => setEmail(email)}
-                textContentType="emailAddress"
-                autoCapitalize="none"
-              />
-            </Item>
-            <Item floatingLabel>
-              <Label>Username</Label>
-              <Input
-                type="text"
-                value={username}
-                onChangeText={username => setUsername(username)}
-                autoCapitalize="none"
-              />
-            </Item>
-            <Item floatingLabel last>
-              <Label>Password</Label>
-              <Input
-                value={password}
-                onChangeText={password => setPassword(password)}
-                secureTextEntry
-                textContentType="password"
-                autoCapitalize="none"
-              />
-            </Item>
-            <Button
-              type="submit"
-              onPress={() => {
-                signup({ variables: { email, username, password } });
-                console.log(data);
-              }}
-            >
-              <Text>Sign Up</Text>
-            </Button>
-          </Form>
-          <Button onPress={() => history.push('/login')}>
-            <Text>Go To Login</Text>
+      <View style={styles.mainView}>
+        <H1 style={styles.title}>Tourney-mator</H1>
+        <Form style={styles.form}>
+          <Item regular style={{ marginBottom: 10 }}>
+            <Input
+              keyboardType="email-address"
+              value={email}
+              style={{ color: '#f3f3f3', fontFamily: 'graduate' }}
+              onChangeText={email => setEmail(email)}
+              textContentType="emailAddress"
+              autoCapitalize="none"
+              placeholder="Email Address"
+              placeholderTextColor="#fc3"
+            />
+          </Item>
+          <Item regular style={{ marginBottom: 10 }}>
+            <Input
+              type="text"
+              value={username}
+              style={{ color: '#f3f3f3', fontFamily: 'graduate' }}
+              onChangeText={username => setUsername(username)}
+              autoCapitalize="none"
+              placeholder="Username"
+              placeholderTextColor="#fc3"
+            />
+          </Item>
+          <Item regular style={{ marginBottom: 10 }}>
+            <Input
+              value={password}
+              style={{ color: '#f3f3f3', fontFamily: 'graduate' }}
+              onChangeText={password => setPassword(password)}
+              secureTextEntry
+              textContentType="password"
+              autoCapitalize="none"
+              placeholder="Password"
+              placeholderTextColor="#fc3"
+            />
+          </Item>
+          <Button
+            style={styles.mainButton}
+            block
+            type="submit"
+            onPress={async () => {
+              await signup({ variables: { email, username, password } });
+              history.push('/home');
+            }}
+          >
+            <Text style={styles.mainButtonText}>Sign Up</Text>
           </Button>
-          <Button onPress={() => history.push('/home')}>
-            <Text>Go To Main</Text>
-          </Button>
-        </Content>
-      </Container>
+        </Form>
+        <Button transparent onPress={() => history.push('/login')}>
+          <Text style={{ color: '#f3f3f3' }}>Already a member?</Text>
+          <Text style={{ color: '#f3f3f3' }}>Go To Login</Text>
+        </Button>
+        <Button transparent onPress={() => history.push('/home')}>
+          <Text style={{ color: '#f3f3f3' }}>Go To Main</Text>
+        </Button>
+      </View>
     </Layout>
   );
 };

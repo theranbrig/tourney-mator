@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffcc33',
     borderWidth: 2,
     width: '90%',
-    marginLeft: '5%'
+    marginLeft: '5%',
     borderRadius: 0,
   },
   mainButtonText: {
@@ -64,10 +64,10 @@ const LoadingScreen = ({ history }) => {
         {!user && (
           <>
             <Button block style={styles.mainButton} onPress={() => history.push('/login')}>
-              <Text style={styles.mainButtonText}>Go To Login</Text>
+              <Text style={styles.mainButtonText}>Login</Text>
             </Button>
             <Button block style={styles.mainButton} onPress={() => history.push('/signup')}>
-              <Text style={styles.mainButtonText}>Sign Up Today</Text>
+              <Text style={styles.mainButtonText}>Sign Up</Text>
             </Button>
           </>
         )}
