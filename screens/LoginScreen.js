@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Container, Header, Content, Form, Item, Input, Button, Text, Label, View, H1 } from 'native-base';
-import {StyleSheet} from 'react-native'
+import {StyleSheet, StatusBar} from 'react-native'
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 import Layout from '../src/utilities/Layout';
@@ -37,6 +37,12 @@ const styles = StyleSheet.create({
     color: "#ffcc33",
     fontFamily: 'graduate',
     marginBottom: 10
+  },
+  mainView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#7a0019'
   }
 });
 
@@ -49,7 +55,8 @@ const LoginScreen = ({ history }) => {
 
   return (
     <Layout>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#7a0019' }}>
+      <StatusBar barStyle="light-content" />
+      <View style={styles.mainView}>
         <Form style={styles.form}>
           <H1 style={styles.title}>Tourney-mator</H1>
           <Item regular style={{marginBottom: 10}} >
@@ -61,7 +68,7 @@ const LoginScreen = ({ history }) => {
               textContentType="emailAddress"
               autoCapitalize="none"
               style={{color: "#f3f3f3", fontFamily: 'graduate'}}
-              placeholderTextColor="#ffcc33"
+              placeholderTextColor="#fc3"
               />
           </Item>
           <Item regular>
