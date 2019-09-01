@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Container, Header, Content, Form, Item, Input, Button, Text, Label, View } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Button, Text, Label, View, H1 } from 'native-base';
 import {StyleSheet} from 'react-native'
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   mainButtonText: {
     fontSize: 20,
     color: '#7a0019',
-
+    fontFamily: 'graduate'
   },
 
   form: {
@@ -30,6 +30,12 @@ const styles = StyleSheet.create({
   },
   contentArea: {
     backgroundColor: "#7a0019"
+  },
+  title: {
+    textAlign: 'center',
+    color: "#ffcc33",
+    fontFamily: 'graduate',
+    marginBottom: 10
   }
 });
 
@@ -42,29 +48,31 @@ const LoginScreen = ({ history }) => {
 
   return (
     <Layout>
-
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#7a0019' }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#7a0019' }}>
         <Form style={styles.form}>
-          <Item floatingLabel>
-            <Label style={{color: "#f3f3f3"}}>Email Address</Label>
+          <H1 style={styles.title}>Tourney-mator</H1>
+          <Item regular style={{marginBottom: 10}} >
             <Input
+              placeholder="Email Address"
               keyboardType="email-address"
               value={email}
               onChangeText={email => setEmail(email)}
               textContentType="emailAddress"
               autoCapitalize="none"
-              style={{color: "#f3f3f3"}}
+              style={{color: "#f3f3f3", fontFamily: 'graduate'}}
+              placeholderTextColor="#ffcc33"
               />
           </Item>
-          <Item floatingLabel last>
-            <Label style={{color: "#f3f3f3"}}>Password</Label>
+          <Item regular>
             <Input
-              style={{color: "#f3f3f3"}}
+              placeholder="Password"
+              style={{color: "#f3f3f3", fontFamily: 'graduate'}}
               value={password}
               onChangeText={password => setPassword(password)}
               secureTextEntry
               textContentType="password"
               autoCapitalize="none"
+              placeholderTextColor="#fc3"
               />
           </Item>
           <Button
@@ -82,6 +90,7 @@ const LoginScreen = ({ history }) => {
         </Form>
         <View>
           <Button transparent onPress={() => history.push('/signup')}>
+            <Text style={{color: "#f3f3f3"}}>Not yet a member?</Text>
             <Text style={{color: "#f3f3f3"}}>Go To Sign Up Screen</Text>
           </Button>
         </View>
