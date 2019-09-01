@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Container, Header, Content, Form, Item, Input, Button, Text, Label, View, H1 } from 'native-base';
 import {StyleSheet} from 'react-native'
 import gql from 'graphql-tag';
@@ -6,6 +6,7 @@ import { useMutation } from '@apollo/react-hooks';
 import Layout from '../src/utilities/Layout';
 import { LOGIN_MUTATION } from '../src/utilities/Mutations';
 import {CURRENT_USER_QUERY, UserContext} from '../src/utilities/UserContext'
+import ErrorMessage from '../src/components/ErrorMessage'
 
 
 const styles = StyleSheet.create({
@@ -44,7 +45,7 @@ const LoginScreen = ({ history }) => {
   const [email, setEmail] = useState(null);
   const [username, setUsername] = useState(null)
   const [login, { data }] = useMutation(LOGIN_MUTATION, { refetchQueries: ["CURRENT_USER_QUERY"], awaitRefetchQueries: true });
-  const { userRefetch } = useContext(UserContext);
+  const { userRefetch, userError } = useContext(UserContext);
 
   return (
     <Layout>
@@ -88,13 +89,13 @@ const LoginScreen = ({ history }) => {
             <Text style={styles.mainButtonText}>Login</Text>
           </Button>
         </Form>
+        {userError && <ErrorMessage error={userError}/>}
         <View>
           <Button transparent onPress={() => history.push('/signup')}>
             <Text style={{color: "#f3f3f3"}}>Not yet a member?</Text>
             <Text style={{color: "#f3f3f3"}}>Go To Sign Up Screen</Text>
           </Button>
         </View>
-
       </View>
     </Layout>
   );

@@ -5473,6 +5473,16 @@ react-native-safe-area-view@^0.14.1:
   dependencies:
     debounce "^1.2.0"
 
+react-native-spinner@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-spinner/-/react-native-spinner-0.0.3.tgz#facf4d7c5b309e5308dbd04a263db3a936d1e092"
+  integrity sha1-+s9NfFswnlMI29BKJj2zqTbR4JI=
+
+react-native-spinning-image@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-spinning-image/-/react-native-spinning-image-1.0.2.tgz#e5fc76dc5647ea237801cb281635e53679576ff3"
+  integrity sha512-4KpX7MBbojVRoOUp7SjIUZgr0+bBmznSQiokWlwNHSbCzbJ+xdwoQuUqw81zKsqxDGNz+P+sB0/uMLUwfVhz4Q==
+
 react-native-tab-view@^1.2.0, react-native-tab-view@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-1.4.1.tgz#f113cd87485808f0c991abec937f70fa380478b9"
