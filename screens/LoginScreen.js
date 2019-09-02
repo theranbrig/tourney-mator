@@ -53,6 +53,10 @@ const LoginScreen = ({ history }) => {
   const [login, { data }] = useMutation(LOGIN_MUTATION, { refetchQueries: ["CURRENT_USER_QUERY"], awaitRefetchQueries: true });
   const { userRefetch, userError } = useContext(UserContext);
 
+  if(userError) {
+    console.log("Error", userError)
+  }
+
   return (
     <Layout>
       <StatusBar barStyle="light-content" />

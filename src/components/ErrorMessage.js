@@ -13,25 +13,23 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     textAlign: 'center',
-    fontFamily: 'Roboto',
+    fontFamily: 'graduate',
   },
 });
 
 const DisplayError = ({ error }) => {
-  if (!error || !error.message) return null;
-  if (error.networkError && error.networkError.result && error.networkError.result.errors.length) {
-    return error.networkError.result.errors.map((error, i) => (
-      <View style={styles.container} data-test="graphql-error" key={i}>
-        <Text style={styles.text}>Oh No!</Text>
-        <Text style={styles.text}>{error.message.replace('GraphQL error: ', '')}</Text>
-      </View>
-    ));
+  if (!error || !error.message) {
+    return null;
   }
+  console.log('errrr', error);
+
   return (
-    <View style={styles.container} data-test="graphql-error">
-      <Text style={styles.text}>Oh No!</Text>
-      <Text style={styles.text}>{error.message.replace('GraphQL error: ', '')}</Text>
-    </View>
+    <>
+      <View style={styles.container}>
+        <Text style={styles.text}>Foul!</Text>
+        <Text style={styles.text}>{error.message}</Text>
+      </View>
+    </>
   );
 };
 
