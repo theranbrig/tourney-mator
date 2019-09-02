@@ -18,7 +18,7 @@ const BottomFooter = ({ history }) => (
         <Text style={{ color: '#fff' }}>Results</Text>
       </Button>
       <Button onPress={() => history.push('/profile')}>
-        <Icon name="basketball-hoop" size={23} color="#ffcc33" />
+        <Icon name="basketball-hoop-outline" size={23} color="#ffcc33" />
         <Text style={{ color: '#fff' }}>Profile</Text>
       </Button>
     </FooterTab>
