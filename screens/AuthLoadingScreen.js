@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   mainButton: {
     marginTop: 10,
     borderColor: '#f3f3f3',
-    backgroundColor: '#ffcc33',
+    backgroundColor: '#7a0019',
     borderWidth: 2,
     width: '90%',
     marginLeft: '5%',
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
   mainButtonText: {
     fontSize: 20,
-    color: '#7a0019',
+    color: '#fc3',
     fontFamily: 'graduate',
   },
 
@@ -26,13 +26,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#7a0019',
   },
   contentArea: {
-    backgroundColor: '#7a0019',
+    backgroundColor: '#fc3',
   },
   title: {
     textAlign: 'center',
     color: '#ffcc33',
     fontFamily: 'graduate',
     marginBottom: 10,
+    fontSize: 18,
   },
   mainView: {
     flex: 1,
@@ -50,15 +51,14 @@ const LoadingScreen = ({ history }) => {
   }
   return (
     <Layout>
-      <StatusBar barStyle="light-content" />
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#7a0019' }}>
-        <H1 style={{ fontFamily: 'graduate', color: '#ffcc33' }}>Tourney-mator</H1>
-        <View style={{ height: 250 }}>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fc3' }}>
+        <H1 style={{ fontFamily: 'graduate', color: '#7a0019' }}>Tourney-mator</H1>
+        <View style={{ height: 350 }}>
           <SpinningImage
             speed={15000}
             height={200}
-            width={200}
-            source="https://www.iconsdb.com/icons/preview/white/basketball-xxl.png"
+            width={300}
+            source="https://res.cloudinary.com/dq7uyauun/image/upload/v1567483827/BRACKETBALL_copy.png"
           />
         </View>
         {!user && (
