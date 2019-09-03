@@ -113,7 +113,7 @@ const SignUpScreen = ({ history }) => {
           <Text style={{ color: '#f3f3f3' }}>Already a member?</Text>
           <Text style={{ color: '#f3f3f3' }}>Go To Login</Text>
         </Button>
-        <Button transparent onPress={() => history.push('/home')}>
+        <Button transparent onPress={() => history.push('/loading', {params: {destination: "/home"}})}>
           <Text style={{ color: '#f3f3f3' }}>Go To Main</Text>
         </Button>
       </View>

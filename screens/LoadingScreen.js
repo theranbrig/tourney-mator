@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     color: '#ffcc33',
     fontFamily: 'graduate',
     marginBottom: 10,
-    fontSize: 18,
+    fontSize: 24,
   },
   mainView: {
     flex: 1,
@@ -43,11 +43,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const AuthLoadingScreen = ({ history }) => {
+const LoadingScreen = ({ history, destination }) => {
   const { user, userLoading } = useContext(UserContext);
-  if (userLoading) return <Text>Loading</Text>;
   if (user) {
-    history.push('/home');
+    setTimeout(() => {
+      history.push(`${destination}`);
+    }, 1000);
+  } else {
+    setTimeout(() => {
+      history.push('/login');
+    }, 1000);
   }
   return (
     <Layout>
@@ -61,19 +66,9 @@ const AuthLoadingScreen = ({ history }) => {
             source="https://res.cloudinary.com/dq7uyauun/image/upload/v1567483827/BRACKETBALL_copy.png"
           />
         </View>
-        {!user && (
-          <>
-            <Button block style={styles.mainButton} onPress={() => history.push('/login')}>
-              <Text style={styles.mainButtonText}>Login</Text>
-            </Button>
-            <Button block style={styles.mainButton} onPress={() => history.push('/signup')}>
-              <Text style={styles.mainButtonText}>Sign Up</Text>
-            </Button>
-          </>
-        )}
       </View>
     </Layout>
   );
 };
 
-export default AuthLoadingScreen;
+export default LoadingScreen;
