@@ -103,7 +103,7 @@ const SignUpScreen = ({ history }) => {
             type="submit"
             onPress={async () => {
               await signup({ variables: { email, username, password } });
-              history.push('/home');
+              history.push('/loading', {destination: '/home'});
             }}
           >
             <Text style={styles.mainButtonText}>Sign Up</Text>
@@ -113,7 +113,7 @@ const SignUpScreen = ({ history }) => {
           <Text style={{ color: '#f3f3f3' }}>Already a member?</Text>
           <Text style={{ color: '#f3f3f3' }}>Go To Login</Text>
         </Button>
-        <Button transparent onPress={() => history.push('/loading', {params: {destination: "/home"}})}>
+        <Button transparent onPress={() => history.push('/loading', {destination: '/home'})}>
           <Text style={{ color: '#f3f3f3' }}>Go To Main</Text>
         </Button>
       </View>

@@ -43,17 +43,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const LoadingScreen = ({ history, destination }) => {
+const LoadingScreen = ({ history }) => {
   const { user, userLoading } = useContext(UserContext);
+  console.log(history.location.state.destination);
+
   if (user) {
-    setTimeout(() => {
-      history.push(`${destination}`);
-    }, 1000);
-  } else {
-    setTimeout(() => {
-      history.push('/login');
-    }, 1000);
+    history.push(history.location.state.destination);
   }
+
   return (
     <Layout>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fc3' }}>

@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 const LoginScreen = ({ history }) => {
   const [password, setPassword] = useState(null);
   const [email, setEmail] = useState(null);
-  const [username, setUsername] = useState(null)
+  const [username, setUsername] = useState(null);
   const [login, { data }] = useMutation(LOGIN_MUTATION, { refetchQueries: ["CURRENT_USER_QUERY"], awaitRefetchQueries: true });
   const { userRefetch, userError } = useContext(UserContext);
 
@@ -93,8 +93,8 @@ const LoginScreen = ({ history }) => {
             type="submit"
             onPress={async () => {
               await login({ variables: { email, password } });
-              userRefetch()
-              history.push('/home')
+              userRefetch();
+              history.push('/loading', {destination: '/home'});
             }}
             >
             <Text style={styles.mainButtonText}>Login</Text>
