@@ -1,6 +1,5 @@
 import React from 'react';
 import { Header, Button, Left, Body, Right, Icon, Text, Title } from 'native-base';
-import { withNavigation } from 'react-navigation';
 
 const AppHeader = props => (
   <Header style={{ backgroundColor: '#171f33' }} iosBarStyle="light-content">
@@ -16,4 +15,4 @@ const AppHeader = props => (
   </Header>
 );
 
-export default withNavigation(AppHeader);
+export default AppHeader;
