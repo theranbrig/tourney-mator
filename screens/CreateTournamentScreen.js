@@ -38,6 +38,10 @@ const styles = StyleSheet.create({
     fontFamily: 'graduate',
     marginBottom: 10
   },
+  label: {
+    color: "#ffcc33",
+    fontFamily: 'graduate',
+  },
   mainView: {
     flex: 1,
     alignItems: 'center',
@@ -51,24 +55,38 @@ const CreateTournamentScreen = ({history}) => {
   const [userState, setUserState] = useState(null);
   const [name, setName] = useState(null);
   const [password, setPassword] = useState(null);
-  const [type, setType] = useState('draft');
+  const [type, setType] = useState('DRAFT');
   const [date, setDate] = useState(null);
 
   const [createTournament, { data }] = useMutation(CREATE_POOL_MUTATION);
 
   return (
     <Layout title="Pools">
-      <Header history={history}/>
+      <Header history={history} title="Create Pool"/>
         <View style={styles.mainView}>
           <H1 style={styles.title}>Create a Pool</H1>
           <Form style={styles.form}>
             <Item regular style={{marginBottom: 10}}>
-              <Input placeholder="Enter Pool Name" autoCapitalize="none" value={name} onChangeText={name => setName(name)} style={{color: "#f3f3f3", fontFamily: 'graduate'}} placeholderTextColor="#fc3" />
+              <Input
+                placeholder="Enter Pool Name"
+                autoCapitalize="none"
+                value={name}
+                onChangeText={name => setName(name)}
+                style={{color: "#f3f3f3", fontFamily: 'graduate'}}
+                placeholderTextColor="#fc3"
+              />
             </Item>
             <Item regular style={{marginBottom: 10}}>
-              <Input placeholder="Enter Pool Password" autoCapitalize="none" value={password} onChangeText={password => setPassword(password)} style={{color: "#f3f3f3", fontFamily: 'graduate'}} placeholderTextColor="#fc3" />
+              <Input
+                placeholder="Enter Pool Password"
+                autoCapitalize="none"
+                value={password}
+                onChangeText={password => setPassword(password)}
+                style={{color: "#f3f3f3", fontFamily: 'graduate'}}
+                placeholderTextColor="#fc3"
+              />
             </Item>
-            <Label>Pool Type</Label>
+            <Label style={styles.label}>Pool Type</Label>
             <Picker
               mode="dropdown"
               iosHeader="Select Pool Type"
@@ -76,10 +94,18 @@ const CreateTournamentScreen = ({history}) => {
               selectedValue={type}
               onValueChange={type => setType(type)}
               placeholder="Choose One"
+              textStyle={{ color: "#fc3", fontFamily: 'graduate' }}
+              itemStyle={{
+                backgroundColor: "#d3d3d3",
+                marginLeft: 0,
+                paddingLeft: 10
+              }}
+              itemTextStyle={{ color: '#788ad2' }}
+              style={{ width: undefined }}
             >
-              <Picker.Item label="Random" value="random" />
-              <Picker.Item label="Draft" value="draft" />
-              <Picker.Item label="Seed" value="seed" />
+              <Picker.Item label="Random" value="RANDOM" />
+              <Picker.Item label="Draft" value="DRAFT" />
+              <Picker.Item label="Seed" value="SEED" />
             </Picker>
             <DatePicker
               defaultDate={new Date(2018, 4, 4)}
@@ -92,8 +118,19 @@ const CreateTournamentScreen = ({history}) => {
               androidMode="default"
               placeHolderText="Select Start Date"
               disabled={false}
+              animationType="slide"
+              textStyle={{ color: "#fc3" }}
+              itemStyle={{
+                backgroundColor: "#d3d3d3",
+                marginLeft: 0,
+                paddingLeft: 10
+              }}
+              itemTextStyle={{ color: '#788ad2' }}
+              style={{ width: undefined }}
+              placeholderTextColor="#fc3"
             />
             <Button
+              block
               style={styles.mainButton}
               onPress={async () => {
                 await createTournament({ variables: { name, password,type, date } });
