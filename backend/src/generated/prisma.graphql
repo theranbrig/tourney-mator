@@ -58,12 +58,6 @@ enum Permission {
   USER
 }
 
-enum PoolType {
-  STANDARD
-  SEED
-  RANDOM
-}
-
 type Query {
   teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team]!
   teamsConnection(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TeamConnection!
@@ -270,7 +264,7 @@ type Tournament {
   members(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   password: String!
   teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
-  type: PoolType!
+  type: String
   startTime: DateTime
 }
 
@@ -285,7 +279,7 @@ input TournamentCreateInput {
   members: UserCreateManyInput
   password: String!
   teams: TeamCreateManyInput
-  type: PoolType!
+  type: String
   startTime: DateTime
 }
 
@@ -315,7 +309,7 @@ type TournamentPreviousValues {
   id: ID!
   name: String!
   password: String!
-  type: PoolType!
+  type: String
   startTime: DateTime
 }
 
@@ -342,7 +336,7 @@ input TournamentUpdateInput {
   members: UserUpdateManyInput
   password: String
   teams: TeamUpdateManyInput
-  type: PoolType
+  type: String
   startTime: DateTime
 }
 
@@ -395,10 +389,20 @@ input TournamentWhereInput {
   teams_every: TeamWhereInput
   teams_some: TeamWhereInput
   teams_none: TeamWhereInput
-  type: PoolType
-  type_not: PoolType
-  type_in: [PoolType!]
-  type_not_in: [PoolType!]
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
   startTime: DateTime
   startTime_not: DateTime
   startTime_in: [DateTime!]

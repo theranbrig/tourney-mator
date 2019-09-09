@@ -8,7 +8,7 @@ type Mutation {
   signup(username: String!, email: String!, password: String!): User!
   login(email: String!, password: String!): User!
   signout: SuccessMessage
-  createTournament(name: String!, password: String!): Tournament!
+  createTournament(name: String!, password: String!, type: String, startTime: DateTime): Tournament!
 }
 
 type Query {

@@ -3,11 +3,6 @@ enum Permission {
   USER
 }
 
-enum PoolType {
-  STANDARD
-  SEED
-  RANDOM
-}
 
 type User {
   id: ID! @id @unique
@@ -26,7 +21,7 @@ type Tournament {
   members: [User] @scalarList(strategy: RELATION)
   password: String!
   teams: [Team]
-  type: PoolType!
+  type: String
   startTime: DateTime
 }
 

@@ -58,6 +58,10 @@ const Mutations = {
   },
   async createTournament(parent, args, ctx, info) {
     // Set password hash and user info;
+    const tournamentCheck = await ctx.db.query.tournament({ where: { name } });
+    if (tournamentCheck) {
+      throw new Error('Pool name already exists.  Please choose a new one.')
+    }
     const password = await bcrypt.hash(args.password, 15);
     const tournament = await ctx.db.mutation.createTournament(
       {
@@ -68,6 +72,7 @@ const Mutations = {
       },
       info
     )
+    console.log(tournament)
     return tournament
   }
 
