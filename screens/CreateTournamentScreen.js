@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
 
   form: {
     width: '90%',
-    backgroundColor: '#7a0019'
+    backgroundColor: '#7a0019',
+    marginBottom: 10
   },
   contentArea: {
     backgroundColor: '#7a0019'
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffcc33',
     fontFamily: 'graduate',
-    marginBottom: 10
+    marginBottom: 20
   },
   label: {
     color: '#ffcc33',
@@ -65,7 +66,7 @@ const CreateTournamentScreen = ({ history }) => {
   const [userState, setUserState] = useState(null);
   const [name, setName] = useState(null);
   const [password, setPassword] = useState(null);
-  const [type, setType] = useState('DRAFT');
+  const [type, setType] = useState(null);
   const [startDate, setStartDate] = useState(new Date().toString().substr(4, 11));
 
   const [createTournament, { data }] = useMutation(CREATE_POOL_MUTATION);
@@ -100,15 +101,17 @@ const CreateTournamentScreen = ({ history }) => {
           <Picker
             mode='dropdown'
             iosHeader='Select Pool Type'
-            iosIcon={<Icon name='arrow-down' />}
+            iosIcon={<Icon name='arrow-down' style={{ color: '#fc3', fontSize: 25 }} />}
             selectedValue={type}
             onValueChange={type => setType(type)}
             placeholder='Choose One'
-            textStyle={{ color: '#fc3', fontFamily: 'graduate' }}>
+            placeholderStyle={{ color: '#fc3', fontFamily: 'graduate' }}
+            textStyle={{ color: '#fff', fontFamily: 'graduate' }}>
             <Picker.Item label='Random' value='RANDOM' />
             <Picker.Item label='Draft' value='DRAFT' />
             <Picker.Item label='Seed' value='SEED' />
           </Picker>
+          <Label style={styles.label}>Draft Date</Label>
           <DatePicker
             defaultDate={new Date()}
             minimumDate={new Date(2018, 1, 1)}
@@ -118,16 +121,11 @@ const CreateTournamentScreen = ({ history }) => {
             modalTransparent={false}
             animationType='fade'
             androidMode='default'
-            placeHolderText='Select Start Date'
+            placeHolderText='Select Date'
             disabled={false}
             animationType='slide'
-            textStyle={{ color: '#fc3', fontFamily: 'graduate' }}
-            itemStyle={{
-              backgroundColor: '#d3d3d3',
-              marginLeft: 0,
-              paddingLeft: 10
-            }}
-            style={{ width: undefined }}
+            textStyle={{ color: '#fff', fontFamily: 'graduate' }}
+            placeHolderTextStyle={{ color: '#fc3', fontFamily: 'graduate' }}
             placeholderTextColor='#fc3'
             onDateChange={startDate => {
               console.log(startDate.toString().substr(4, 11));
@@ -143,6 +141,7 @@ const CreateTournamentScreen = ({ history }) => {
             <Text style={styles.mainButtonText}>Create Tournament</Text>
           </Button>
         </Form>
+        <Text style={styles.label}>Please note your password for your group members.</Text>
       </View>
     </Layout>
   );
