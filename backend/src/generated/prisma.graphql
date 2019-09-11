@@ -274,7 +274,20 @@ type TournamentConnection {
 
 input TournamentCreateInput {
   name: String!
-  members: UserCreateManyInput
+  members: UserCreateManyWithoutTournamentsInput
+  password: String!
+  teams: TeamCreateManyInput
+  type: String
+  startDate: String
+}
+
+input TournamentCreateManyWithoutMembersInput {
+  create: [TournamentCreateWithoutMembersInput!]
+  connect: [TournamentWhereUniqueInput!]
+}
+
+input TournamentCreateWithoutMembersInput {
+  name: String!
   password: String!
   teams: TeamCreateManyInput
   type: String
@@ -331,11 +344,39 @@ input TournamentSubscriptionWhereInput {
 
 input TournamentUpdateInput {
   name: String
-  members: UserUpdateManyInput
+  members: UserUpdateManyWithoutTournamentsInput
   password: String
   teams: TeamUpdateManyInput
   type: String
   startDate: String
+}
+
+input TournamentUpdateManyWithoutMembersInput {
+  create: [TournamentCreateWithoutMembersInput!]
+  delete: [TournamentWhereUniqueInput!]
+  connect: [TournamentWhereUniqueInput!]
+  disconnect: [TournamentWhereUniqueInput!]
+  update: [TournamentUpdateWithWhereUniqueWithoutMembersInput!]
+  upsert: [TournamentUpsertWithWhereUniqueWithoutMembersInput!]
+}
+
+input TournamentUpdateWithoutMembersDataInput {
+  name: String
+  password: String
+  teams: TeamUpdateManyInput
+  type: String
+  startDate: String
+}
+
+input TournamentUpdateWithWhereUniqueWithoutMembersInput {
+  where: TournamentWhereUniqueInput!
+  data: TournamentUpdateWithoutMembersDataInput!
+}
+
+input TournamentUpsertWithWhereUniqueWithoutMembersInput {
+  where: TournamentWhereUniqueInput!
+  update: TournamentUpdateWithoutMembersDataInput!
+  create: TournamentCreateWithoutMembersInput!
 }
 
 input TournamentWhereInput {
@@ -433,6 +474,7 @@ type User {
   resetTokenExpiry: Float
   token: String
   permissions: [Permission!]!
+  tournaments(where: TournamentWhereInput, orderBy: TournamentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tournament!]
 }
 
 type UserConnection {
@@ -449,15 +491,26 @@ input UserCreateInput {
   resetTokenExpiry: Float
   token: String
   permissions: UserCreatepermissionsInput
+  tournaments: TournamentCreateManyWithoutMembersInput
 }
 
-input UserCreateManyInput {
-  create: [UserCreateInput!]
+input UserCreateManyWithoutTournamentsInput {
+  create: [UserCreateWithoutTournamentsInput!]
   connect: [UserWhereUniqueInput!]
 }
 
 input UserCreatepermissionsInput {
   set: [Permission!]
+}
+
+input UserCreateWithoutTournamentsInput {
+  email: String!
+  username: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  token: String
+  permissions: UserCreatepermissionsInput
 }
 
 type UserEdge {
@@ -515,16 +568,6 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
-input UserUpdateDataInput {
-  email: String
-  username: String
-  password: String
-  resetToken: String
-  resetTokenExpiry: Float
-  token: String
-  permissions: UserUpdatepermissionsInput
-}
-
 input UserUpdateInput {
   email: String
   username: String
@@ -533,30 +576,41 @@ input UserUpdateInput {
   resetTokenExpiry: Float
   token: String
   permissions: UserUpdatepermissionsInput
+  tournaments: TournamentUpdateManyWithoutMembersInput
 }
 
-input UserUpdateManyInput {
-  create: [UserCreateInput!]
+input UserUpdateManyWithoutTournamentsInput {
+  create: [UserCreateWithoutTournamentsInput!]
   delete: [UserWhereUniqueInput!]
   connect: [UserWhereUniqueInput!]
   disconnect: [UserWhereUniqueInput!]
-  update: [UserUpdateWithWhereUniqueNestedInput!]
-  upsert: [UserUpsertWithWhereUniqueNestedInput!]
+  update: [UserUpdateWithWhereUniqueWithoutTournamentsInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutTournamentsInput!]
 }
 
 input UserUpdatepermissionsInput {
   set: [Permission!]
 }
 
-input UserUpdateWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput!
-  data: UserUpdateDataInput!
+input UserUpdateWithoutTournamentsDataInput {
+  email: String
+  username: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  token: String
+  permissions: UserUpdatepermissionsInput
 }
 
-input UserUpsertWithWhereUniqueNestedInput {
+input UserUpdateWithWhereUniqueWithoutTournamentsInput {
   where: UserWhereUniqueInput!
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
+  data: UserUpdateWithoutTournamentsDataInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutTournamentsInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutTournamentsDataInput!
+  create: UserCreateWithoutTournamentsInput!
 }
 
 input UserWhereInput {
@@ -652,6 +706,9 @@ input UserWhereInput {
   token_not_starts_with: String
   token_ends_with: String
   token_not_ends_with: String
+  tournaments_every: TournamentWhereInput
+  tournaments_some: TournamentWhereInput
+  tournaments_none: TournamentWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

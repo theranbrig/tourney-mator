@@ -3,7 +3,6 @@ enum Permission {
   USER
 }
 
-
 type User {
   id: ID! @id @unique
   email: String! @unique
@@ -13,6 +12,7 @@ type User {
   resetTokenExpiry: Float
   token: String
   permissions: [Permission] @scalarList(strategy: RELATION)
+  tournaments: [Tournament] @scalarList(strategy: RELATION)
 }
 
 type Tournament {
