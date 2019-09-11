@@ -11,6 +11,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 import StandingsScreen from '../screens/StandingsScreen';
 import WaitingTournamentScreen from '../screens/WaitingTournamentScreen';
 import LoadingScreen from '../screens/LoadingScreen';
+import TournamentInformationScreen from '../screens/TournamentInformationScreen';
 
 const Routing = () => (
   <NativeRouter>
@@ -25,6 +26,7 @@ const Routing = () => (
     <Route path="/waiting" component={WaitingTournamentScreen} />
     <Route path="/live" component={LiveTournamentScreen} />
     <Route path="/loading" component={LoadingScreen} />
+    <Route path="/tournament" component={TournamentInformationScreen} />
   </NativeRouter>
 );
 

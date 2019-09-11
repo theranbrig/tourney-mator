@@ -462,6 +462,7 @@ input TournamentWhereInput {
 }
 
 input TournamentWhereUniqueInput {
+  id: ID
   name: String
 }
 
