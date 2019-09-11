@@ -14,8 +14,6 @@ type BatchPayload {
   count: Long!
 }
 
-scalar DateTime
-
 scalar Long
 
 type Mutation {
@@ -265,7 +263,7 @@ type Tournament {
   password: String!
   teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
   type: String
-  startTime: DateTime
+  startDate: String
 }
 
 type TournamentConnection {
@@ -280,7 +278,7 @@ input TournamentCreateInput {
   password: String!
   teams: TeamCreateManyInput
   type: String
-  startTime: DateTime
+  startDate: String
 }
 
 type TournamentEdge {
@@ -297,8 +295,8 @@ enum TournamentOrderByInput {
   password_DESC
   type_ASC
   type_DESC
-  startTime_ASC
-  startTime_DESC
+  startDate_ASC
+  startDate_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -310,7 +308,7 @@ type TournamentPreviousValues {
   name: String!
   password: String!
   type: String
-  startTime: DateTime
+  startDate: String
 }
 
 type TournamentSubscriptionPayload {
@@ -337,7 +335,7 @@ input TournamentUpdateInput {
   password: String
   teams: TeamUpdateManyInput
   type: String
-  startTime: DateTime
+  startDate: String
 }
 
 input TournamentWhereInput {
@@ -403,14 +401,20 @@ input TournamentWhereInput {
   type_not_starts_with: String
   type_ends_with: String
   type_not_ends_with: String
-  startTime: DateTime
-  startTime_not: DateTime
-  startTime_in: [DateTime!]
-  startTime_not_in: [DateTime!]
-  startTime_lt: DateTime
-  startTime_lte: DateTime
-  startTime_gt: DateTime
-  startTime_gte: DateTime
+  startDate: String
+  startDate_not: String
+  startDate_in: [String!]
+  startDate_not_in: [String!]
+  startDate_lt: String
+  startDate_lte: String
+  startDate_gt: String
+  startDate_gte: String
+  startDate_contains: String
+  startDate_not_contains: String
+  startDate_starts_with: String
+  startDate_not_starts_with: String
+  startDate_ends_with: String
+  startDate_not_ends_with: String
   AND: [TournamentWhereInput!]
   OR: [TournamentWhereInput!]
   NOT: [TournamentWhereInput!]

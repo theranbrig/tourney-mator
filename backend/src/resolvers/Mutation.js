@@ -9,7 +9,8 @@ const Mutations = {
     if (emailCheck) throw new Error(`${args.email} already has an account.  Please Log In.`);
     const nameCheck = await ctx.db.query.user({ where: { username: args.username } });
     // Check if user with submitted username exists
-    if (nameCheck) throw new Error(`${args.username} already exists.  Please choose a new user name.`);
+    if (nameCheck)
+      throw new Error(`${args.username} already exists.  Please choose a new user name.`);
     // Set password hash and user info
     const password = await bcrypt.hash(args.password, 15);
     console.log(password);
@@ -19,8 +20,8 @@ const Mutations = {
           ...args,
           password,
           token: jwt.sign({ userId: args.email }, process.env.APP_SECRET),
-          permissions: { set: ['USER'] },
-        },
+          permissions: { set: ['USER'] }
+        }
       },
       info
     );
@@ -29,7 +30,7 @@ const Mutations = {
     const token = await jwt.sign({ userId: user.id }, process.env.APP_SECRET);
     ctx.response.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 14, // Two week token
+      maxAge: 1000 * 60 * 60 * 24 * 14 // Two week token
     });
     return user;
   },
@@ -47,9 +48,9 @@ const Mutations = {
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
     ctx.response.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 14, // Two week token
+      maxAge: 1000 * 60 * 60 * 24 * 14 // Two week token
     });
-    console.log(user)
+    console.log(user);
     return user;
   },
   async signout(parent, args, ctx, info) {
@@ -58,24 +59,28 @@ const Mutations = {
   },
   async createTournament(parent, args, ctx, info) {
     // Set password hash and user info;
-    const tournamentCheck = await ctx.db.query.tournament({ where: { name } });
-    if (tournamentCheck) {
-      throw new Error('Pool name already exists.  Please choose a new one.')
-    }
+    // const tournamentCheck = await ctx.db.query.tournament({ where: { name: args.name } });
+    // if (tournamentCheck) {
+    //   throw new Error('Pool name already exists.  Please choose a new one.')
+    // }
+    // TODO - Needs to add user to tournament
     const password = await bcrypt.hash(args.password, 15);
     const tournament = await ctx.db.mutation.createTournament(
       {
         data: {
           ...args,
+          startDate: args.startDate,
           password,
-        },
+          members: {
+            connect: { id: ctx.request.userId }
+          }
+        }
       },
       info
-    )
-    console.log(tournament)
-    return tournament
+    );
+    console.log(tournament);
+    return tournament;
   }
-
 };
 
 module.exports = Mutations;

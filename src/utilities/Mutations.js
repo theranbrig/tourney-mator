@@ -20,11 +20,13 @@ export const LOGIN_MUTATION = gql`
 `;
 
 export const CREATE_POOL_MUTATION = gql`
-  mutation CreateTournament($name: String!, $password: String!) {
-    createTournament(name: $name, password: $password) {
+  mutation CreateTournament($name: String!, $password: String!, $type: String, $startDate: String) {
+    createTournament(name: $name, password: $password, type: $type, startDate: $startDate) {
       id
       name
       password
+      type
+      startDate
     }
   }
 `;

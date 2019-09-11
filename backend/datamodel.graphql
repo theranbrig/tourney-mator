@@ -22,7 +22,7 @@ type Tournament {
   password: String!
   teams: [Team]
   type: String
-  startTime: DateTime
+  startDate: String
 }
 
 type Team {
