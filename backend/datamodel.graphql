@@ -13,6 +13,8 @@ type User {
   token: String
   permissions: [Permission] @scalarList(strategy: RELATION)
   tournaments: [Tournament] @scalarList(strategy: RELATION)
+  friends: [User] @scalarList(strategy: RELATION)
+  tournamentMembers: [TournamentMember] @scalarList(strategy: RELATION)
 }
 
 type Tournament {
@@ -23,6 +25,15 @@ type Tournament {
   teams: [Team]
   type: String
   startDate: String
+  tournamentMembers: [TournamentMember] @scalarList(strategy: RELATION)
+}
+
+type TournamentMember {
+  id: ID! @id @unique
+  user: User
+  tournament: Tournament
+  points: Float
+  teams: [Team] @scalarList(strategy: RELATION)
 }
 
 type Team {

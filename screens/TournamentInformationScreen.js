@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text } from 'native-base';
+import { View, Text, Form, Button, Input, Item } from 'native-base';
 import { NavigationEvents } from 'react-navigation';
 import { StyleSheet, Image } from 'react-native';
 import { useQuery } from '@apollo/react-hooks';
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     width: '90%',
     backgroundColor: '#7a0019',
     marginBottom: 10,
+    marginTop: 100,
   },
   contentArea: {
     backgroundColor: '#7a0019',
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
     color: '#ffcc33',
     fontFamily: 'graduate',
     marginBottom: 20,
+    fontSize: 30,
   },
   label: {
     color: '#ffcc33',
@@ -70,27 +72,49 @@ const TournamentInformationScreen = ({ history }) => {
   });
   const { tournament } = data;
   console.log(tournament);
+  const [email, setEmail] = useState(null);
 
   return (
     <Layout title='Pools'>
       <Header history={history} title='Pool Info' />
       <View style={styles.mainView}>
         {loading && (
-          <View style={{ height: 350 }}>
-            <Image
-              style={{ width: 300, height: 250 }}
-              source={require('../assets/images/goldBasketball.png')}
-            />
-          </View>
+          <>
+            <Text style={styles.title}>Loading Pool Information...</Text>
+            <View style={{ height: 350 }}>
+              <Image
+                style={{ width: 300, height: 250 }}
+                source={require('../assets/images/goldBasketball.png')}
+              />
+            </View>
+          </>
         )}
         {tournament !== undefined && (
           <>
             <Text>{tournament.name}</Text>
             <Text>{tournament.startDate}</Text>
+            <Text>{tournament.type}</Text>
             <Text>{tournament.name} Members</Text>
             {tournament.members.map(member => (
               <Text>{member.username}</Text>
             ))}
+            <Form style={styles.form}>
+              <Item regular style={{ marginBottom: 10 }}>
+                <Input
+                  placeholder='Email Address'
+                  keyboardType='email-address'
+                  value={email}
+                  onChangeText={email => setEmail(email)}
+                  textContentType='emailAddress'
+                  autoCapitalize='none'
+                  style={{ color: '#f3f3f3', fontFamily: 'graduate' }}
+                  placeholderTextColor='#fc3'
+                />
+              </Item>
+              <Button style={styles.mainButton}>
+                <Text style={styles.mainButtonText}>Send Invitation</Text>
+              </Button>
+            </Form>
           </>
         )}
       </View>
