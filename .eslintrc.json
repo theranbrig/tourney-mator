@@ -26,6 +26,11 @@
     "react/display-name": 1,
     "react/react-in-jsx-scope": 0,
     "react/forbid-prop-types": 0,
+    "react/jsx-one-expression-per-line": [
+      {
+        "allow": "none"
+      }
+    ],
     "react/no-unescaped-entities": 0,
     "react/jsx-filename-extension": [
       1,

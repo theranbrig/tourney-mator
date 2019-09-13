@@ -4,7 +4,7 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import UserProvider from './src/utilities/UserContext'
+import UserProvider from './src/utilities/UserContext';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
 import Routing from './navigation/NativeRouter';
@@ -24,7 +24,7 @@ export default function App(props) {
             startAsync={loadResourcesAsync}
             onError={handleLoadingError}
             onFinish={() => handleFinishLoading(setLoadingComplete)}
-            />
+          />
         </UserProvider>
       </ApolloProvider>
     );
@@ -33,7 +33,7 @@ export default function App(props) {
       <ApolloProvider client={client}>
         <UserProvider>
           <View style={styles.container}>
-            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            {Platform.OS === 'ios' && <StatusBar barStyle='default' />}
             <Routing />
           </View>
         </UserProvider>
@@ -46,6 +46,7 @@ async function loadResourcesAsync() {
   await Promise.all([
     Asset.loadAsync([
       // Images go here.
+      require('./assets/images/goldBasketball.png')
     ]),
     Font.loadAsync({
       // This is the font that we are using for our tab bar
@@ -53,7 +54,7 @@ async function loadResourcesAsync() {
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-      'graduate': require('./assets/fonts/graduate-regular.ttf')
+      graduate: require('./assets/fonts/graduate-regular.ttf')
     })
   ]);
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
@@ -32,15 +32,16 @@ const UserProvider = ({ children }) => {
         userLoading: loading,
         userError: error,
         user,
-        userRefetch: refetch
-      }}>
+        userRefetch: refetch,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
 };
 
 UserProvider.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default UserProvider;
