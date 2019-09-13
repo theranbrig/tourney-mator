@@ -58,12 +58,7 @@ const Mutations = {
     return { message: 'Goodbye!' };
   },
   async createTournament(parent, args, ctx, info) {
-    // Set password hash and user info;
-    // const tournamentCheck = await ctx.db.query.tournament({ where: { name: args.name } });
-    // if (tournamentCheck) {
-    //   throw new Error('Pool name already exists.  Please choose a new one.')
-    // }
-    // TODO - Needs to add user to tournament
+    // TODO - NEED TO ADD TOURNAMENT TO USER
     const password = await bcrypt.hash(args.password, 15);
     const tournament = await ctx.db.mutation.createTournament(
       {
@@ -78,7 +73,13 @@ const Mutations = {
       },
       info
     );
+    const user = await ctx.db.mutation.updateUser({
+      where: { id: ctx.request.userId },
+      data: { tournaments: { connect: { id: tournament.id } } }
+    });
+
     console.log(tournament);
+    console.log(user);
     return tournament;
   }
 };

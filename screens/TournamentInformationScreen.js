@@ -55,15 +55,21 @@ const TOURNAMENT_INFORMATION_QUERY = gql`
       type
       name
       startDate
+      members {
+        id
+        username
+      }
     }
   }
 `;
 
 const TournamentInformationScreen = ({ history }) => {
   const { loading, error, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
-    variables: { id: 'ck0ep4nfzc8si0b09p6kls1b5' },
+    variables: { id: history.location.state.tournamentId },
   });
-
+  if (loading) {
+    return <Text>Loading</Text>;
+  }
   console.log(data.tournament);
 
   return (

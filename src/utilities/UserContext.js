@@ -12,6 +12,11 @@ const CURRENT_USER_QUERY = gql`
       email
       username
       token
+      tournaments {
+        id
+        name
+        startDate
+      }
     }
   }
 `;
@@ -27,16 +32,15 @@ const UserProvider = ({ children }) => {
         userLoading: loading,
         userError: error,
         user,
-        userRefetch: refetch,
-      }}
-    >
+        userRefetch: refetch
+      }}>
       {children}
     </UserContext.Provider>
   );
 };
 
 UserProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 export default UserProvider;
