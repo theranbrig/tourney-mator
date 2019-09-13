@@ -30,8 +30,8 @@ type Tournament {
 
 type TournamentMember {
   id: ID! @id @unique
-  user: User
-  tournament: Tournament
+  user: User @unique
+  tournament: Tournament @unique
   points: Float
   teams: [Team] @scalarList(strategy: RELATION)
 }
