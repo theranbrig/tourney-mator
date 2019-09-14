@@ -83,7 +83,7 @@ const TOURNAMENT_INFORMATION_QUERY = gql`
 
 const TournamentInformationScreen = ({ history }) => {
   const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
-
+  const [adminRole, setAdminRole] = useState(false);
   const { loading, error, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
   });
@@ -99,15 +99,13 @@ const TournamentInformationScreen = ({ history }) => {
   const { tournament } = data;
   console.log(tournament);
   const [email, setEmail] = useState(null);
-  console.log(user.id);
   if (tournament) {
     const isAdmin = tournament.tournamentMembers.some(member => {
       return member.user.id === user.id && member.role === 'ADMIN';
     });
-    console.log(isAdmin);
-    tournament.tournamentMembers.forEach(member => {
-      console.log(member.role);
-    });
+    if (isAdmin) {
+      setAdminRole(true);
+    }
   }
 
   return (
@@ -155,7 +153,7 @@ const TournamentInformationScreen = ({ history }) => {
               block
               style={styles.mainButton2}
               onPress={() => {
-                if (isAdmin) {
+                if (adminRole) {
                   removeTournament();
                 }
               }}
