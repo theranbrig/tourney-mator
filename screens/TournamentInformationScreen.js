@@ -49,6 +49,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#7a0019',
   },
+  mainButton2: {
+    marginTop: 10,
+    borderColor: '#fc3',
+    backgroundColor: '#f3f3f3',
+    borderWidth: 2,
+    width: '90%',
+    borderRadius: 0,
+    marginLeft: '5%',
+  },
 });
 
 const TOURNAMENT_INFORMATION_QUERY = gql`
@@ -66,10 +75,20 @@ const TOURNAMENT_INFORMATION_QUERY = gql`
   }
 `;
 
+const TOURNAMENT_MEMBER_QUERY = gql`
+  query TOURNAMENT_MEMBER_QUERY($tournament: ID!) {
+    tournamentMembers(where: { tournament: $tournament }) {
+      id
+      username
+    }
+  }
+`;
+
 const TournamentInformationScreen = ({ history }) => {
-  const { loading, error, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
+  const { loading, error, data, refetch, onCompleted } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
   });
+
   const { tournament } = data;
   console.log(tournament);
   const [email, setEmail] = useState(null);
@@ -111,10 +130,13 @@ const TournamentInformationScreen = ({ history }) => {
                   placeholderTextColor='#fc3'
                 />
               </Item>
-              <Button style={styles.mainButton}>
+              <Button block style={styles.mainButton}>
                 <Text style={styles.mainButtonText}>Send Invitation</Text>
               </Button>
             </Form>
+            <Button block style={styles.mainButton2}>
+              <Text style={styles.mainButtonText}>Remove Tournament</Text>
+            </Button>
           </>
         )}
       </View>

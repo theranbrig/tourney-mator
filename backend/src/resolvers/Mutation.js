@@ -20,8 +20,8 @@ const Mutations = {
           ...args,
           password,
           token: jwt.sign({ userId: args.email }, process.env.APP_SECRET),
-          permissions: { set: ['USER'] }
-        }
+          permissions: { set: ['USER'] },
+        },
       },
       info
     );
@@ -30,7 +30,7 @@ const Mutations = {
     const token = await jwt.sign({ userId: user.id }, process.env.APP_SECRET);
     ctx.response.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 14 // Two week token
+      maxAge: 1000 * 60 * 60 * 24 * 14, // Two week token
     });
     return user;
   },
@@ -48,7 +48,7 @@ const Mutations = {
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
     ctx.response.cookie('token', token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 14 // Two week token
+      maxAge: 1000 * 60 * 60 * 24 * 14, // Two week token
     });
     console.log(user);
     return user;
@@ -59,29 +59,41 @@ const Mutations = {
   },
   async createTournament(parent, args, ctx, info) {
     // TODO - NEED TO ADD TOURNAMENT TO USER
-    const password = await bcrypt.hash(args.password, 15);
     const tournament = await ctx.db.mutation.createTournament(
       {
         data: {
           ...args,
           startDate: args.startDate,
-          password,
           members: {
-            connect: { id: ctx.request.userId }
-          }
-        }
+            connect: { id: ctx.request.userId },
+          },
+        },
       },
       info
     );
+    const tournamentMember = await ctx.db.mutation.createTournamentMember({
+      data: {
+        user: { connect: { id: ctx.request.userId } },
+        tournament: { connect: { id: tournament.id } },
+      },
+    });
+    const updatedTournament = await ctx.db.mutation.updateTournament({
+      where: { id: tournament.id },
+      data: {
+        tournamentMembers: {
+          connect: { id: tournamentMember.id },
+        },
+      },
+    });
     const user = await ctx.db.mutation.updateUser({
       where: { id: ctx.request.userId },
-      data: { tournaments: { connect: { id: tournament.id } } }
+      data: { tournamentMembers: { connect: { id: tournamentMember.id } } },
     });
-
-    console.log(tournament);
-    console.log(user);
     return tournament;
-  }
+  },
+  async removeTournament(parent, args, ctx, info) {
+    const removedTournament = await ctx.db.mutation.deleteTournament({ where: { id: args.id } });
+  },
 };
 
 module.exports = Mutations;

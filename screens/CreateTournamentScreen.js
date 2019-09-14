@@ -10,7 +10,7 @@ import {
   Picker,
   Icon,
   DatePicker,
-  H1
+  H1,
 } from 'native-base';
 import { NavigationEvents } from 'react-navigation';
 import { StyleSheet } from 'react-native';
@@ -27,38 +27,38 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffcc33',
     borderWidth: 2,
     width: '100%',
-    borderRadius: 0
+    borderRadius: 0,
   },
   mainButtonText: {
     fontSize: 20,
     color: '#7a0019',
-    fontFamily: 'graduate'
+    fontFamily: 'graduate',
   },
 
   form: {
     width: '90%',
     backgroundColor: '#7a0019',
-    marginBottom: 10
+    marginBottom: 10,
   },
   contentArea: {
-    backgroundColor: '#7a0019'
+    backgroundColor: '#7a0019',
   },
   title: {
     textAlign: 'center',
     color: '#ffcc33',
     fontFamily: 'graduate',
-    marginBottom: 20
+    marginBottom: 20,
   },
   label: {
     color: '#ffcc33',
-    fontFamily: 'graduate'
+    fontFamily: 'graduate',
   },
   mainView: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#7a0019'
-  }
+    backgroundColor: '#7a0019',
+  },
 });
 
 const CreateTournamentScreen = ({ history }) => {
@@ -66,10 +66,14 @@ const CreateTournamentScreen = ({ history }) => {
   const [userState, setUserState] = useState(null);
   const [name, setName] = useState(null);
   const [password, setPassword] = useState(null);
-  const [type, setType] = useState(null);
+  const [type, setType] = useState('DRAFT');
   const [startDate, setStartDate] = useState(new Date().toString().substr(4, 11));
 
-  const [createTournament, { data }] = useMutation(CREATE_POOL_MUTATION);
+  const [createTournament, onCompleted] = useMutation(CREATE_POOL_MUTATION, {
+    onCompleted: data => {
+      history.push('/tournament', { tournamentId: data.createTournament.id });
+    },
+  });
 
   return (
     <Layout title='Pools'>
@@ -106,7 +110,8 @@ const CreateTournamentScreen = ({ history }) => {
             onValueChange={type => setType(type)}
             placeholder='Choose One'
             placeholderStyle={{ color: '#fc3', fontFamily: 'graduate' }}
-            textStyle={{ color: '#fff', fontFamily: 'graduate' }}>
+            textStyle={{ color: '#fff', fontFamily: 'graduate' }}
+          >
             <Picker.Item label='Random' value='RANDOM' />
             <Picker.Item label='Draft' value='DRAFT' />
             <Picker.Item label='Seed' value='SEED' />
@@ -137,7 +142,8 @@ const CreateTournamentScreen = ({ history }) => {
             style={styles.mainButton}
             onPress={async () => {
               await createTournament({ variables: { name, password, type, startDate } });
-            }}>
+            }}
+          >
             <Text style={styles.mainButtonText}>Create Tournament</Text>
           </Button>
         </Form>
