@@ -75,6 +75,7 @@ const Mutations = {
       data: {
         user: { connect: { id: ctx.request.userId } },
         tournament: { connect: { id: tournament.id } },
+        role: 'ADMIN',
       },
     });
     const updatedTournament = await ctx.db.mutation.updateTournament({

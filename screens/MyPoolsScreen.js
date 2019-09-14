@@ -7,7 +7,6 @@ import { UserContext } from '../src/utilities/UserContext';
 const MyPoolsScreen = ({ history }) => {
   const { user } = useContext(UserContext);
 
-  console.log(user.tournaments);
   return (
     <>
       <Layout title='Pools'>

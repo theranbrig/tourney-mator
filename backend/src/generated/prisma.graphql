@@ -336,6 +336,7 @@ type TournamentMember {
   tournament: Tournament
   points: Float
   teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
+  role: String
 }
 
 type TournamentMemberConnection {
@@ -349,6 +350,7 @@ input TournamentMemberCreateInput {
   tournament: TournamentCreateOneWithoutTournamentMembersInput
   points: Float
   teams: TeamCreateManyInput
+  role: String
 }
 
 input TournamentMemberCreateManyWithoutTournamentInput {
@@ -365,12 +367,14 @@ input TournamentMemberCreateWithoutTournamentInput {
   user: UserCreateOneWithoutTournamentMembersInput
   points: Float
   teams: TeamCreateManyInput
+  role: String
 }
 
 input TournamentMemberCreateWithoutUserInput {
   tournament: TournamentCreateOneWithoutTournamentMembersInput
   points: Float
   teams: TeamCreateManyInput
+  role: String
 }
 
 type TournamentMemberEdge {
@@ -383,6 +387,8 @@ enum TournamentMemberOrderByInput {
   id_DESC
   points_ASC
   points_DESC
+  role_ASC
+  role_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -392,6 +398,7 @@ enum TournamentMemberOrderByInput {
 type TournamentMemberPreviousValues {
   id: ID!
   points: Float
+  role: String
 }
 
 type TournamentMemberSubscriptionPayload {
@@ -417,6 +424,7 @@ input TournamentMemberUpdateInput {
   tournament: TournamentUpdateOneWithoutTournamentMembersInput
   points: Float
   teams: TeamUpdateManyInput
+  role: String
 }
 
 input TournamentMemberUpdateManyWithoutTournamentInput {
@@ -441,12 +449,14 @@ input TournamentMemberUpdateWithoutTournamentDataInput {
   user: UserUpdateOneWithoutTournamentMembersInput
   points: Float
   teams: TeamUpdateManyInput
+  role: String
 }
 
 input TournamentMemberUpdateWithoutUserDataInput {
   tournament: TournamentUpdateOneWithoutTournamentMembersInput
   points: Float
   teams: TeamUpdateManyInput
+  role: String
 }
 
 input TournamentMemberUpdateWithWhereUniqueWithoutTournamentInput {
@@ -499,6 +509,20 @@ input TournamentMemberWhereInput {
   teams_every: TeamWhereInput
   teams_some: TeamWhereInput
   teams_none: TeamWhereInput
+  role: String
+  role_not: String
+  role_in: [String!]
+  role_not_in: [String!]
+  role_lt: String
+  role_lte: String
+  role_gt: String
+  role_gte: String
+  role_contains: String
+  role_not_contains: String
+  role_starts_with: String
+  role_not_starts_with: String
+  role_ends_with: String
+  role_not_ends_with: String
   AND: [TournamentMemberWhereInput!]
   OR: [TournamentMemberWhereInput!]
   NOT: [TournamentMemberWhereInput!]

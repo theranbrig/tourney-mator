@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     width: '90%',
     borderRadius: 0,
     marginLeft: '5%',
+    marginTop: 100,
   },
 });
 
@@ -74,13 +75,14 @@ const TOURNAMENT_INFORMATION_QUERY = gql`
           id
           username
         }
+        role
       }
     }
   }
 `;
 
 const TournamentInformationScreen = ({ history }) => {
-  const { userRefetch } = useContext(UserContext); // Used to refetch data for going back to the previous page.
+  const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
 
   const { loading, error, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
@@ -97,6 +99,16 @@ const TournamentInformationScreen = ({ history }) => {
   const { tournament } = data;
   console.log(tournament);
   const [email, setEmail] = useState(null);
+  console.log(user.id);
+  if (tournament) {
+    const isAdmin = tournament.tournamentMembers.some(member => {
+      return member.user.id === user.id && member.role === 'ADMIN';
+    });
+    console.log(isAdmin);
+    tournament.tournamentMembers.forEach(member => {
+      console.log(member.role);
+    });
+  }
 
   return (
     <Layout title='Pools'>
@@ -113,7 +125,7 @@ const TournamentInformationScreen = ({ history }) => {
             </View>
           </>
         )}
-        {tournament !== undefined ? (
+        {tournament !== undefined && (
           <>
             <Text>{tournament.name}</Text>
             <Text>{tournament.startDate}</Text>
@@ -139,12 +151,18 @@ const TournamentInformationScreen = ({ history }) => {
                 <Text style={styles.mainButtonText}>Send Invitation</Text>
               </Button>
             </Form>
-            <Button block style={styles.mainButton2} onPress={() => removeTournament()}>
+            <Button
+              block
+              style={styles.mainButton2}
+              onPress={() => {
+                if (isAdmin) {
+                  removeTournament();
+                }
+              }}
+            >
               <Text style={styles.mainButtonText}>Remove Pool</Text>
             </Button>
           </>
-        ) : (
-          <Text>Hello</Text>
         )}
       </View>
     </Layout>

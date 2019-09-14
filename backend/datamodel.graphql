@@ -34,6 +34,7 @@ type TournamentMember {
   tournament: Tournament @unique
   points: Float
   teams: [Team] @scalarList(strategy: RELATION)
+  role: String
 }
 
 type Team {
