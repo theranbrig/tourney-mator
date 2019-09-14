@@ -2,11 +2,12 @@ import React, { useState, useContext, useEffect } from 'react';
 import { View, Text, Form, Button, Input, Item } from 'native-base';
 import { NavigationEvents } from 'react-navigation';
 import { StyleSheet, Image } from 'react-native';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import SpinningImage from 'react-native-spinning-image';
 import Layout from '../src/utilities/Layout';
 import Header from '../src/components/Header';
+import { UserContext } from '../src/utilities/UserContext';
 
 const styles = StyleSheet.create({
   mainButton: {
@@ -71,22 +72,37 @@ const TOURNAMENT_INFORMATION_QUERY = gql`
         id
         username
       }
+      tournamentMembers {
+        user {
+          id
+          username
+        }
+      }
     }
   }
 `;
 
-const TOURNAMENT_MEMBER_QUERY = gql`
-  query TOURNAMENT_MEMBER_QUERY($tournament: ID!) {
-    tournamentMembers(where: { tournament: $tournament }) {
-      id
-      username
+const REMOVE_POOL_MUTATION = gql`
+  mutation RemoveTournament($id: ID!) {
+    removeTournament(id: $id) {
+      message
     }
   }
 `;
 
 const TournamentInformationScreen = ({ history }) => {
-  const { loading, error, data, refetch, onCompleted } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
+  const { userRefetch } = useContext(UserContext); // Used to refetch data for going back to the previous page.
+
+  const { loading, error, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
+  });
+
+  const [removeTournament, onCompleted] = useMutation(REMOVE_POOL_MUTATION, {
+    variables: { id: history.location.state.tournamentId },
+    onCompleted: async data => {
+      await userRefetch();
+      history.push('/pools');
+    },
   });
 
   const { tournament } = data;
@@ -134,8 +150,8 @@ const TournamentInformationScreen = ({ history }) => {
                 <Text style={styles.mainButtonText}>Send Invitation</Text>
               </Button>
             </Form>
-            <Button block style={styles.mainButton2}>
-              <Text style={styles.mainButtonText}>Remove Tournament</Text>
+            <Button block style={styles.mainButton2} onPress={() => removeTournament()}>
+              <Text style={styles.mainButtonText}>Remove Pool</Text>
             </Button>
           </>
         )}

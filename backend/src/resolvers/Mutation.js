@@ -93,6 +93,7 @@ const Mutations = {
   },
   async removeTournament(parent, args, ctx, info) {
     const removedTournament = await ctx.db.mutation.deleteTournament({ where: { id: args.id } });
+    return { message: 'Pool Deleted' };
   },
 };
 

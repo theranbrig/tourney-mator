@@ -73,6 +73,7 @@ const CreateTournamentScreen = ({ history }) => {
     onCompleted: data => {
       history.push('/tournament', { tournamentId: data.createTournament.id });
     },
+    refetchQueries: []
   });
 
   return (
