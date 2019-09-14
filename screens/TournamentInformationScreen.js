@@ -8,6 +8,7 @@ import SpinningImage from 'react-native-spinning-image';
 import Layout from '../src/utilities/Layout';
 import Header from '../src/components/Header';
 import { UserContext } from '../src/utilities/UserContext';
+import { REMOVE_POOL_MUTATION } from '../src/utilities/Mutations';
 
 const styles = StyleSheet.create({
   mainButton: {
@@ -68,24 +69,12 @@ const TOURNAMENT_INFORMATION_QUERY = gql`
       type
       name
       startDate
-      members {
-        id
-        username
-      }
       tournamentMembers {
         user {
           id
           username
         }
       }
-    }
-  }
-`;
-
-const REMOVE_POOL_MUTATION = gql`
-  mutation RemoveTournament($id: ID!) {
-    removeTournament(id: $id) {
-      message
     }
   }
 `;
@@ -124,14 +113,14 @@ const TournamentInformationScreen = ({ history }) => {
             </View>
           </>
         )}
-        {tournament !== undefined && (
+        {tournament !== undefined ? (
           <>
             <Text>{tournament.name}</Text>
             <Text>{tournament.startDate}</Text>
             <Text>{tournament.type}</Text>
             <Text>{tournament.name} Members</Text>
-            {tournament.members.map(member => (
-              <Text>{member.username}</Text>
+            {tournament.tournamentMembers.map(member => (
+              <Text>{member.user.username}</Text>
             ))}
             <Form style={styles.form}>
               <Item regular style={{ marginBottom: 10 }}>
@@ -154,6 +143,8 @@ const TournamentInformationScreen = ({ history }) => {
               <Text style={styles.mainButtonText}>Remove Pool</Text>
             </Button>
           </>
+        ) : (
+          <Text>Hello</Text>
         )}
       </View>
     </Layout>

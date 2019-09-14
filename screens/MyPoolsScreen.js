@@ -7,7 +7,6 @@ import { UserContext } from '../src/utilities/UserContext';
 const MyPoolsScreen = ({ history }) => {
   const { user } = useContext(UserContext);
 
-
   console.log(user.tournaments);
   return (
     <>
@@ -18,7 +17,7 @@ const MyPoolsScreen = ({ history }) => {
           <Button title='Wait for Tourney' onPress={() => history.push('/waiting')} />
           <Button title='Live Tourney' onPress={() => history.push('/live')} />
           <Button title='View Tourney' onPress={() => history.push('/tournament')} />
-          {user.tournaments.length && (
+          {user.tournaments && user.tournaments.length ? (
             <>
               <Text>Tournaments</Text>
               {user.tournaments.map(tournament => (
@@ -29,6 +28,8 @@ const MyPoolsScreen = ({ history }) => {
                 </TouchableOpacity>
               ))}
             </>
+          ) : (
+            <Text>No Pools Yet</Text>
           )}
         </View>
       </Layout>

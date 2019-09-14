@@ -30,3 +30,11 @@ export const CREATE_POOL_MUTATION = gql`
     }
   }
 `;
+
+export const REMOVE_POOL_MUTATION = gql`
+  mutation RemoveTournament($id: ID!) {
+    removeTournament(id: $id) {
+      message
+    }
+  }
+`;
