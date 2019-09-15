@@ -101,6 +101,7 @@ const TournamentInformationScreen = ({ history }) => {
   const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
   const [email, setEmail] = useState(null);
   const [adminRole, setAdminRole] = useState(null);
+  const [admin, setAdmin] = useState(null);
 
   const { loading, error, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
@@ -122,8 +123,10 @@ const TournamentInformationScreen = ({ history }) => {
       if (adminCheck[0].user.id === user.id) {
         setAdminRole(true);
       }
+      setAdmin(adminCheck[0].user.id);
+      console.log(admin);
     }
-  }, [data]);
+  }, [data, user]);
 
   return (
     <Layout title='Pools'>
@@ -149,12 +152,16 @@ const TournamentInformationScreen = ({ history }) => {
             <List style={{ backgroundColor: '#FF9501', width: '100%' }}>
               {tournament.tournamentMembers.map(member => (
                 <ListItem style={{ backgroundColor: '#FF9501', width: '100%' }}>
-                  <Left>
-                    <Button style={{ backgroundColor: '#FF9501' }}>
-                      <Icon active name='airplane' />
-                    </Button>
-                  </Left>
-                  <Text>{member.user.username}</Text>
+                  <Body>
+                    <Text>{member.user.username}</Text>
+                  </Body>
+                  {admin === user.id && (
+                    <Right>
+                      <Button style={{ backgroundColor: '#FF9501' }}>
+                        <Icon active name='airplane' />
+                      </Button>
+                    </Right>
+                  )}
                 </ListItem>
               ))}
             </List>
