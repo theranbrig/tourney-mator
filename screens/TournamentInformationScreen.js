@@ -83,7 +83,9 @@ const TOURNAMENT_INFORMATION_QUERY = gql`
 
 const TournamentInformationScreen = ({ history }) => {
   const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
-  const [adminRole, setAdminRole] = useState(false);
+  const [email, setEmail] = useState(null);
+  const [adminRole, setAdminRole] = useState(null);
+
   const { loading, error, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
   });
@@ -97,16 +99,15 @@ const TournamentInformationScreen = ({ history }) => {
   });
 
   const { tournament } = data;
-  console.log(tournament);
-  const [email, setEmail] = useState(null);
-  if (tournament) {
-    const isAdmin = tournament.tournamentMembers.some(member => {
-      return member.user.id === user.id && member.role === 'ADMIN';
-    });
-    if (isAdmin) {
-      setAdminRole(true);
+
+  useEffect(() => {
+    if (tournament && tournament.tournamentMembers.length) {
+      const memberCheck = tournament.tournamentMembers.filter(member => (member.user.id = user.id));
+      if (memberCheck[0].role === 'ADMIN') {
+        setAdminRole(true);
+      }
     }
-  }
+  }, [data]);
 
   return (
     <Layout title='Pools'>
@@ -123,7 +124,7 @@ const TournamentInformationScreen = ({ history }) => {
             </View>
           </>
         )}
-        {tournament !== undefined && (
+        {tournament && (
           <>
             <Text>{tournament.name}</Text>
             <Text>{tournament.startDate}</Text>
@@ -149,17 +150,17 @@ const TournamentInformationScreen = ({ history }) => {
                 <Text style={styles.mainButtonText}>Send Invitation</Text>
               </Button>
             </Form>
-            <Button
-              block
-              style={styles.mainButton2}
-              onPress={() => {
-                if (adminRole) {
+            {adminRole && (
+              <Button
+                block
+                style={styles.mainButton2}
+                onPress={() => {
                   removeTournament();
-                }
-              }}
-            >
-              <Text style={styles.mainButtonText}>Remove Pool</Text>
-            </Button>
+                }}
+              >
+                <Text style={styles.mainButtonText}>Remove Pool</Text>
+              </Button>
+            )}
           </>
         )}
       </View>
