@@ -28,7 +28,8 @@
     "react/forbid-prop-types": 0,
     "react/jsx-one-expression-per-line": [
       {
-        "allow": "none"
+        "allow": "none",
+        "severity": 0
       }
     ],
     "react/no-unescaped-entities": 0,

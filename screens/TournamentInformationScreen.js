@@ -1,5 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, Form, Button, Input, Item } from 'native-base';
+import {
+  View,
+  Text,
+  Form,
+  Button,
+  Input,
+  Item,
+  Container,
+  Content,
+  List,
+  ListItem,
+  Left,
+  Body,
+  Right,
+  Thumbnail,
+  Icon,
+} from 'native-base';
 import { NavigationEvents } from 'react-navigation';
 import { StyleSheet, Image } from 'react-native';
 import { useQuery, useMutation } from '@apollo/react-hooks';
@@ -102,8 +118,8 @@ const TournamentInformationScreen = ({ history }) => {
 
   useEffect(() => {
     if (tournament && tournament.tournamentMembers.length) {
-      const memberCheck = tournament.tournamentMembers.filter(member => (member.user.id = user.id));
-      if (memberCheck[0].role === 'ADMIN') {
+      const adminCheck = tournament.tournamentMembers.filter(member => member.role === 'ADMIN');
+      if (adminCheck[0].user.id === user.id) {
         setAdminRole(true);
       }
     }
@@ -130,9 +146,18 @@ const TournamentInformationScreen = ({ history }) => {
             <Text>{tournament.startDate}</Text>
             <Text>{tournament.type}</Text>
             <Text>{tournament.name} Members</Text>
-            {tournament.tournamentMembers.map(member => (
-              <Text>{member.user.username}</Text>
-            ))}
+            <List style={{ backgroundColor: '#FF9501', width: '100%' }}>
+              {tournament.tournamentMembers.map(member => (
+                <ListItem style={{ backgroundColor: '#FF9501', width: '100%' }}>
+                  <Left>
+                    <Button style={{ backgroundColor: '#FF9501' }}>
+                      <Icon active name='airplane' />
+                    </Button>
+                  </Left>
+                  <Text>{member.user.username}</Text>
+                </ListItem>
+              ))}
+            </List>
             <Form style={styles.form}>
               <Item regular style={{ marginBottom: 10 }}>
                 <Input
