@@ -14,7 +14,6 @@ import {
   Body,
   Right,
   Thumbnail,
-  Icon,
 } from 'native-base';
 import { NavigationEvents } from 'react-navigation';
 import { StyleSheet, Image } from 'react-native';
@@ -25,6 +24,7 @@ import Layout from '../src/utilities/Layout';
 import Header from '../src/components/Header';
 import { UserContext } from '../src/utilities/UserContext';
 import { REMOVE_POOL_MUTATION } from '../src/utilities/Mutations';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const styles = StyleSheet.create({
   mainButton: {
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ffcc33',
     fontFamily: 'graduate',
-    marginBottom: 20,
+    marginBottom: 5,
     fontSize: 30,
   },
   label: {
@@ -77,6 +77,12 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
     marginTop: 100,
   },
+  subTitle: {
+    textAlign: 'center',
+    color: '#f3f3f3',
+    fontFamily: 'graduate',
+    fontSize: 20,
+  }
 });
 
 const TOURNAMENT_INFORMATION_QUERY = gql`
@@ -145,20 +151,25 @@ const TournamentInformationScreen = ({ history }) => {
         )}
         {tournament && (
           <>
-            <Text>{tournament.name}</Text>
-            <Text>{tournament.startDate}</Text>
-            <Text>{tournament.type}</Text>
-            <Text>{tournament.name} Members</Text>
-            <List style={{ backgroundColor: '#FF9501', width: '100%' }}>
+            <View style={{marginBottom: 10}}>
+              <Text style={styles.title}>{tournament.name}</Text>
+              <View style={{ flexDirection:'row'}}>
+                <Text style={styles.subTitle}>{tournament.startDate} </Text>
+                <Text style={styles.subTitle}>~ {tournament.type}</Text>
+              </View>
+            </View>
+            <List style={{ backgroundColor: '#fc3', width: '100%' }}>
               {tournament.tournamentMembers.map(member => (
-                <ListItem style={{ backgroundColor: '#FF9501', width: '100%' }}>
+                <ListItem style={{ backgroundColor: '#fc3', width: '100%', height: 50 }}>
                   <Body>
-                    <Text>{member.user.username}</Text>
+                    <Text style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 20 }}>
+                      {member.user.username}
+                    </Text>
                   </Body>
                   {admin === user.id && (
                     <Right>
-                      <Button style={{ backgroundColor: '#FF9501' }}>
-                        <Icon active name='airplane' />
+                      <Button style={{ backgroundColor: '#fc3' }}>
+                        <Icon name='star' size={30} color='#7a0019' style={{ paddingRight: 10 }} />
                       </Button>
                     </Right>
                   )}
@@ -201,3 +212,4 @@ const TournamentInformationScreen = ({ history }) => {
 };
 
 export default TournamentInformationScreen;
+

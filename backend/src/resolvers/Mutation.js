@@ -58,7 +58,6 @@ const Mutations = {
     return { message: 'Goodbye!' };
   },
   async createTournament(parent, args, ctx, info) {
-    // TODO - NEED TO ADD TOURNAMENT TO USER
     const tournament = await ctx.db.mutation.createTournament(
       {
         data: {
