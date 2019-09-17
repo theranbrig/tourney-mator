@@ -46,3 +46,10 @@ type Team {
   wins: Float
   bonusPoints: Float
 }
+
+
+type TournamentRequest {
+  id: ID! @id
+  tournament: Tournament
+  user: User
+}

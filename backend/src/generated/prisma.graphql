@@ -10,6 +10,10 @@ type AggregateTournamentMember {
   count: Int!
 }
 
+type AggregateTournamentRequest {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -36,6 +40,9 @@ type Mutation {
   upsertTournamentMember(where: TournamentMemberWhereUniqueInput!, create: TournamentMemberCreateInput!, update: TournamentMemberUpdateInput!): TournamentMember!
   deleteTournamentMember(where: TournamentMemberWhereUniqueInput!): TournamentMember
   deleteManyTournamentMembers(where: TournamentMemberWhereInput): BatchPayload!
+  createTournamentRequest(data: TournamentRequestCreateInput!): TournamentRequest!
+  updateManyTournamentRequests(data: TournamentRequestUpdateInput!, where: TournamentRequestWhereInput): BatchPayload!
+  deleteManyTournamentRequests(where: TournamentRequestWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
@@ -75,6 +82,8 @@ type Query {
   tournamentMember(where: TournamentMemberWhereUniqueInput!): TournamentMember
   tournamentMembers(where: TournamentMemberWhereInput, orderBy: TournamentMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentMember]!
   tournamentMembersConnection(where: TournamentMemberWhereInput, orderBy: TournamentMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TournamentMemberConnection!
+  tournamentRequests(where: TournamentRequestWhereInput, orderBy: TournamentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentRequest]!
+  tournamentRequestsConnection(where: TournamentRequestWhereInput, orderBy: TournamentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TournamentRequestConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -85,6 +94,7 @@ type Subscription {
   team(where: TeamSubscriptionWhereInput): TeamSubscriptionPayload
   tournament(where: TournamentSubscriptionWhereInput): TournamentSubscriptionPayload
   tournamentMember(where: TournamentMemberSubscriptionWhereInput): TournamentMemberSubscriptionPayload
+  tournamentRequest(where: TournamentRequestSubscriptionWhereInput): TournamentRequestSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -300,6 +310,11 @@ input TournamentCreateInput {
 input TournamentCreateManyWithoutMembersInput {
   create: [TournamentCreateWithoutMembersInput!]
   connect: [TournamentWhereUniqueInput!]
+}
+
+input TournamentCreateOneInput {
+  create: TournamentCreateInput
+  connect: TournamentWhereUniqueInput
 }
 
 input TournamentCreateOneWithoutTournamentMembersInput {
@@ -557,6 +572,86 @@ type TournamentPreviousValues {
   startDate: String
 }
 
+type TournamentRequest {
+  id: ID!
+  tournament: Tournament
+  user: User
+}
+
+type TournamentRequestConnection {
+  pageInfo: PageInfo!
+  edges: [TournamentRequestEdge]!
+  aggregate: AggregateTournamentRequest!
+}
+
+input TournamentRequestCreateInput {
+  tournament: TournamentCreateOneInput
+  user: UserCreateOneInput
+}
+
+type TournamentRequestEdge {
+  node: TournamentRequest!
+  cursor: String!
+}
+
+enum TournamentRequestOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type TournamentRequestPreviousValues {
+  id: ID!
+}
+
+type TournamentRequestSubscriptionPayload {
+  mutation: MutationType!
+  node: TournamentRequest
+  updatedFields: [String!]
+  previousValues: TournamentRequestPreviousValues
+}
+
+input TournamentRequestSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: TournamentRequestWhereInput
+  AND: [TournamentRequestSubscriptionWhereInput!]
+  OR: [TournamentRequestSubscriptionWhereInput!]
+  NOT: [TournamentRequestSubscriptionWhereInput!]
+}
+
+input TournamentRequestUpdateInput {
+  tournament: TournamentUpdateOneInput
+  user: UserUpdateOneInput
+}
+
+input TournamentRequestWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  tournament: TournamentWhereInput
+  user: UserWhereInput
+  AND: [TournamentRequestWhereInput!]
+  OR: [TournamentRequestWhereInput!]
+  NOT: [TournamentRequestWhereInput!]
+}
+
 type TournamentSubscriptionPayload {
   mutation: MutationType!
   node: Tournament
@@ -573,6 +668,16 @@ input TournamentSubscriptionWhereInput {
   AND: [TournamentSubscriptionWhereInput!]
   OR: [TournamentSubscriptionWhereInput!]
   NOT: [TournamentSubscriptionWhereInput!]
+}
+
+input TournamentUpdateDataInput {
+  name: String
+  members: UserUpdateManyWithoutTournamentsInput
+  password: String
+  teams: TeamUpdateManyInput
+  type: String
+  startDate: String
+  tournamentMembers: TournamentMemberUpdateManyWithoutTournamentInput
 }
 
 input TournamentUpdateInput {
@@ -592,6 +697,15 @@ input TournamentUpdateManyWithoutMembersInput {
   disconnect: [TournamentWhereUniqueInput!]
   update: [TournamentUpdateWithWhereUniqueWithoutMembersInput!]
   upsert: [TournamentUpsertWithWhereUniqueWithoutMembersInput!]
+}
+
+input TournamentUpdateOneInput {
+  create: TournamentCreateInput
+  update: TournamentUpdateDataInput
+  upsert: TournamentUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: TournamentWhereUniqueInput
 }
 
 input TournamentUpdateOneWithoutTournamentMembersInput {
@@ -624,6 +738,11 @@ input TournamentUpdateWithoutTournamentMembersDataInput {
 input TournamentUpdateWithWhereUniqueWithoutMembersInput {
   where: TournamentWhereUniqueInput!
   data: TournamentUpdateWithoutMembersDataInput!
+}
+
+input TournamentUpsertNestedInput {
+  update: TournamentUpdateDataInput!
+  create: TournamentCreateInput!
 }
 
 input TournamentUpsertWithoutTournamentMembersInput {
@@ -770,6 +889,11 @@ input UserCreateManyWithoutTournamentsInput {
   connect: [UserWhereUniqueInput!]
 }
 
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreateOneWithoutTournamentMembersInput {
   create: UserCreateWithoutTournamentMembersInput
   connect: UserWhereUniqueInput
@@ -902,6 +1026,15 @@ input UserUpdateManyWithoutTournamentsInput {
   upsert: [UserUpsertWithWhereUniqueWithoutTournamentsInput!]
 }
 
+input UserUpdateOneInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateOneWithoutTournamentMembersInput {
   create: UserCreateWithoutTournamentMembersInput
   update: UserUpdateWithoutTournamentMembersDataInput
@@ -947,6 +1080,11 @@ input UserUpdateWithWhereUniqueNestedInput {
 input UserUpdateWithWhereUniqueWithoutTournamentsInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutTournamentsDataInput!
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithoutTournamentMembersInput {
