@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     color: '#f3f3f3',
     fontFamily: 'graduate',
     fontSize: 20,
-  }
+  },
 });
 
 const TOURNAMENT_INFORMATION_QUERY = gql`
@@ -108,6 +108,7 @@ const TournamentInformationScreen = ({ history }) => {
   const [email, setEmail] = useState(null);
   const [adminRole, setAdminRole] = useState(null);
   const [admin, setAdmin] = useState(null);
+  const [message, setMessage] = useState(null);
 
   const { loading, error, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
@@ -118,6 +119,13 @@ const TournamentInformationScreen = ({ history }) => {
     onCompleted: async data => {
       await userRefetch();
       history.push('/pools');
+    },
+  });
+
+  const [createTournamentRequest, onCompleted] = useMutation(CREATE_TOURNAMENT_REQUEST, {
+    variables: { tournament: history.location.state.tournamentId, userEmail: email },
+    onCompleted: async data => {
+      setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`);
     },
   });
 
@@ -151,9 +159,9 @@ const TournamentInformationScreen = ({ history }) => {
         )}
         {tournament && (
           <>
-            <View style={{marginBottom: 10}}>
+            <View style={{ marginBottom: 10 }}>
               <Text style={styles.title}>{tournament.name}</Text>
-              <View style={{ flexDirection:'row'}}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.subTitle}>{tournament.startDate} </Text>
                 <Text style={styles.subTitle}>~ {tournament.type}</Text>
               </View>
@@ -212,4 +220,3 @@ const TournamentInformationScreen = ({ history }) => {
 };
 
 export default TournamentInformationScreen;
-

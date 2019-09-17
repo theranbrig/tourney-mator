@@ -95,6 +95,16 @@ const Mutations = {
     const removedTournament = await ctx.db.mutation.deleteTournament({ where: { id: args.id } });
     return { message: 'Pool Deleted' };
   },
+  async createTournamentRequest(parent, args, ctx, info) {
+    const tournamentRequest = await ctx.db.mutation.createTournament({
+      data: { tournament: args.tournament },
+    });
+    const user = await ctx.db.mutation.updateUser({
+      where: { email: args.userEmail },
+      data: { tournamentRequests: { connect: { id: tournamentRequest.id } } },
+    });
+    return tournamentRequest;
+  },
 };
 
 module.exports = Mutations;

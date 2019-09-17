@@ -17,6 +17,10 @@ const CURRENT_USER_QUERY = gql`
         name
         startDate
       }
+      tournamentRequests {
+        id
+        tournament
+      }
     }
   }
 `;
