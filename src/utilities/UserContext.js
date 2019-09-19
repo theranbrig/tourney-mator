@@ -19,7 +19,10 @@ const CURRENT_USER_QUERY = gql`
       }
       tournamentRequests {
         id
-        tournament
+        tournament {
+          id
+          name
+        }
       }
     }
   }

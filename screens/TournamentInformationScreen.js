@@ -23,7 +23,7 @@ import SpinningImage from 'react-native-spinning-image';
 import Layout from '../src/utilities/Layout';
 import Header from '../src/components/Header';
 import { UserContext } from '../src/utilities/UserContext';
-import { REMOVE_POOL_MUTATION } from '../src/utilities/Mutations';
+import { REMOVE_POOL_MUTATION, CREATE_TOURNAMENT_REQUEST } from '../src/utilities/Mutations';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const styles = StyleSheet.create({
@@ -108,7 +108,7 @@ const TournamentInformationScreen = ({ history }) => {
   const [email, setEmail] = useState(null);
   const [adminRole, setAdminRole] = useState(null);
   const [admin, setAdmin] = useState(null);
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState('null');
 
   const { loading, error, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
@@ -122,12 +122,15 @@ const TournamentInformationScreen = ({ history }) => {
     },
   });
 
-  const [createTournamentRequest, onCompleted] = useMutation(CREATE_TOURNAMENT_REQUEST, {
-    variables: { tournament: history.location.state.tournamentId, userEmail: email },
-    onCompleted: async data => {
-      setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`);
-    },
-  });
+  const [createTournamentRequest, requestOnCompleted: onCompleted] = useMutation(
+    CREATE_TOURNAMENT_REQUEST,
+    {
+      variables: { tournament: history.location.state.tournamentId, userEmail: email },
+      requestOnCompleted: async data => {
+        setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`);
+      },
+    }
+  );
 
   const { tournament } = data;
 
@@ -197,7 +200,7 @@ const TournamentInformationScreen = ({ history }) => {
                   placeholderTextColor='#fc3'
                 />
               </Item>
-              <Button block style={styles.mainButton}>
+              <Button block style={styles.mainButton} onPress={() => createTournamentRequest()}>
                 <Text style={styles.mainButtonText}>Send Invitation</Text>
               </Button>
             </Form>
@@ -212,6 +215,7 @@ const TournamentInformationScreen = ({ history }) => {
                 <Text style={styles.mainButtonText}>Remove Pool</Text>
               </Button>
             )}
+            {message && <Text>{message}</Text>}
           </>
         )}
       </View>

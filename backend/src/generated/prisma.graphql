@@ -575,7 +575,6 @@ type TournamentPreviousValues {
 type TournamentRequest {
   id: ID!
   tournament: Tournament
-  user: User
 }
 
 type TournamentRequestConnection {
@@ -586,7 +585,10 @@ type TournamentRequestConnection {
 
 input TournamentRequestCreateInput {
   tournament: TournamentCreateOneInput
-  user: UserCreateOneInput
+}
+
+input TournamentRequestCreateManyInput {
+  create: [TournamentRequestCreateInput!]
 }
 
 type TournamentRequestEdge {
@@ -627,7 +629,10 @@ input TournamentRequestSubscriptionWhereInput {
 
 input TournamentRequestUpdateInput {
   tournament: TournamentUpdateOneInput
-  user: UserUpdateOneInput
+}
+
+input TournamentRequestUpdateManyInput {
+  create: [TournamentRequestCreateInput!]
 }
 
 input TournamentRequestWhereInput {
@@ -646,7 +651,6 @@ input TournamentRequestWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   tournament: TournamentWhereInput
-  user: UserWhereInput
   AND: [TournamentRequestWhereInput!]
   OR: [TournamentRequestWhereInput!]
   NOT: [TournamentRequestWhereInput!]
@@ -858,6 +862,7 @@ type User {
   tournaments(where: TournamentWhereInput, orderBy: TournamentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tournament!]
   friends(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   tournamentMembers(where: TournamentMemberWhereInput, orderBy: TournamentMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentMember!]
+  tournamentRequests(where: TournamentRequestWhereInput, orderBy: TournamentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentRequest!]
 }
 
 type UserConnection {
@@ -877,6 +882,7 @@ input UserCreateInput {
   tournaments: TournamentCreateManyWithoutMembersInput
   friends: UserCreateManyInput
   tournamentMembers: TournamentMemberCreateManyWithoutUserInput
+  tournamentRequests: TournamentRequestCreateManyInput
 }
 
 input UserCreateManyInput {
@@ -887,11 +893,6 @@ input UserCreateManyInput {
 input UserCreateManyWithoutTournamentsInput {
   create: [UserCreateWithoutTournamentsInput!]
   connect: [UserWhereUniqueInput!]
-}
-
-input UserCreateOneInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutTournamentMembersInput {
@@ -913,6 +914,7 @@ input UserCreateWithoutTournamentMembersInput {
   permissions: UserCreatepermissionsInput
   tournaments: TournamentCreateManyWithoutMembersInput
   friends: UserCreateManyInput
+  tournamentRequests: TournamentRequestCreateManyInput
 }
 
 input UserCreateWithoutTournamentsInput {
@@ -925,6 +927,7 @@ input UserCreateWithoutTournamentsInput {
   permissions: UserCreatepermissionsInput
   friends: UserCreateManyInput
   tournamentMembers: TournamentMemberCreateManyWithoutUserInput
+  tournamentRequests: TournamentRequestCreateManyInput
 }
 
 type UserEdge {
@@ -993,6 +996,7 @@ input UserUpdateDataInput {
   tournaments: TournamentUpdateManyWithoutMembersInput
   friends: UserUpdateManyInput
   tournamentMembers: TournamentMemberUpdateManyWithoutUserInput
+  tournamentRequests: TournamentRequestUpdateManyInput
 }
 
 input UserUpdateInput {
@@ -1006,6 +1010,7 @@ input UserUpdateInput {
   tournaments: TournamentUpdateManyWithoutMembersInput
   friends: UserUpdateManyInput
   tournamentMembers: TournamentMemberUpdateManyWithoutUserInput
+  tournamentRequests: TournamentRequestUpdateManyInput
 }
 
 input UserUpdateManyInput {
@@ -1024,15 +1029,6 @@ input UserUpdateManyWithoutTournamentsInput {
   disconnect: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutTournamentsInput!]
   upsert: [UserUpsertWithWhereUniqueWithoutTournamentsInput!]
-}
-
-input UserUpdateOneInput {
-  create: UserCreateInput
-  update: UserUpdateDataInput
-  upsert: UserUpsertNestedInput
-  delete: Boolean
-  disconnect: Boolean
-  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneWithoutTournamentMembersInput {
@@ -1058,6 +1054,7 @@ input UserUpdateWithoutTournamentMembersDataInput {
   permissions: UserUpdatepermissionsInput
   tournaments: TournamentUpdateManyWithoutMembersInput
   friends: UserUpdateManyInput
+  tournamentRequests: TournamentRequestUpdateManyInput
 }
 
 input UserUpdateWithoutTournamentsDataInput {
@@ -1070,6 +1067,7 @@ input UserUpdateWithoutTournamentsDataInput {
   permissions: UserUpdatepermissionsInput
   friends: UserUpdateManyInput
   tournamentMembers: TournamentMemberUpdateManyWithoutUserInput
+  tournamentRequests: TournamentRequestUpdateManyInput
 }
 
 input UserUpdateWithWhereUniqueNestedInput {
@@ -1080,11 +1078,6 @@ input UserUpdateWithWhereUniqueNestedInput {
 input UserUpdateWithWhereUniqueWithoutTournamentsInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutTournamentsDataInput!
-}
-
-input UserUpsertNestedInput {
-  update: UserUpdateDataInput!
-  create: UserCreateInput!
 }
 
 input UserUpsertWithoutTournamentMembersInput {
@@ -1206,6 +1199,9 @@ input UserWhereInput {
   tournamentMembers_every: TournamentMemberWhereInput
   tournamentMembers_some: TournamentMemberWhereInput
   tournamentMembers_none: TournamentMemberWhereInput
+  tournamentRequests_every: TournamentRequestWhereInput
+  tournamentRequests_some: TournamentRequestWhereInput
+  tournamentRequests_none: TournamentRequestWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
