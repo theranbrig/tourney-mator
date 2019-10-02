@@ -2,31 +2,9 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/react-hooks';
 import PropTypes from 'prop-types';
+import { CURRENT_USER_QUERY } from './Queries';
 
 export const UserContext = React.createContext();
-
-const CURRENT_USER_QUERY = gql`
-  query {
-    me {
-      id
-      email
-      username
-      token
-      tournaments {
-        id
-        name
-        startDate
-      }
-      tournamentRequests {
-        id
-        tournament {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
 
 const UserProvider = ({ children }) => {
   const { loading: userLoading, error: userError, data, refetch } = useQuery(CURRENT_USER_QUERY);
