@@ -96,13 +96,18 @@ const Mutations = {
     return { message: 'Pool Deleted' };
   },
   async createTournamentRequest(parent, args, ctx, info) {
-    const tournamentRequest = await ctx.db.mutation.createTournament({
-      data: { tournament: args.tournament },
+    console.log('Started');
+    const user = await ctx.db.query.user({ where: { email: args.userEmail } });
+    if (!user) {
+      console.log('No User Found!');
+    }
+    const tournamentRequest = await ctx.db.mutation.createTournamentRequest({
+      data: {
+        tournament: { connect: { id: args.tournament } },
+        user: { connect: { id: user.id } },
+      },
     });
-    const user = await ctx.db.mutation.updateUser({
-      where: { email: args.userEmail },
-      data: { tournamentRequests: { connect: { id: tournamentRequest.id } } },
-    });
+
     return tournamentRequest;
   },
 };

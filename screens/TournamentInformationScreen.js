@@ -108,7 +108,7 @@ const TournamentInformationScreen = ({ history }) => {
   const [email, setEmail] = useState(null);
   const [adminRole, setAdminRole] = useState(null);
   const [admin, setAdmin] = useState(null);
-  const [message, setMessage] = useState('null');
+  const [message, setMessage] = useState(null);
 
   const { loading, error, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
@@ -143,7 +143,7 @@ const TournamentInformationScreen = ({ history }) => {
       setAdmin(adminCheck[0].user.id);
       console.log(admin);
     }
-  }, [data, user]);
+  }, [data, user, message]);
 
   return (
     <Layout title='Pools'>
@@ -171,7 +171,10 @@ const TournamentInformationScreen = ({ history }) => {
             </View>
             <List style={{ backgroundColor: '#fc3', width: '100%' }}>
               {tournament.tournamentMembers.map(member => (
-                <ListItem style={{ backgroundColor: '#fc3', width: '100%', height: 50 }}>
+                <ListItem
+                  style={{ backgroundColor: '#fc3', width: '100%', height: 50 }}
+                  key={member.user.id}
+                >
                   <Body>
                     <Text style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 20 }}>
                       {member.user.username}
@@ -215,7 +218,7 @@ const TournamentInformationScreen = ({ history }) => {
                 <Text style={styles.mainButtonText}>Remove Pool</Text>
               </Button>
             )}
-            {message && <Text>{message}</Text>}
+            {message !== null && <Text>{message}</Text>}
           </>
         )}
       </View>

@@ -22,6 +22,7 @@ const MyPoolsScreen = ({ history }) => {
               {user.tournaments.map(tournament => (
                 <TouchableOpacity
                   onPress={() => history.push('/tournament', { tournamentId: tournament.id })}
+                  key={tournament.id}
                 >
                   <Text>{tournament.name}</Text>
                 </TouchableOpacity>

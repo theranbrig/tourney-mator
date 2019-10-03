@@ -10,7 +10,7 @@ type Mutation {
   signout: SuccessMessage
   createTournament(name: String!, password: String!, type: String, startDate: String): Tournament!
   removeTournament(id: ID!): SuccessMessage
-  createTournamentRequest(userEmail: String!, tournament: ID!): TournamentRequest
+  createTournamentRequest(tournament: ID!, userEmail: String!): TournamentRequest!
 }
 
 type Query {
