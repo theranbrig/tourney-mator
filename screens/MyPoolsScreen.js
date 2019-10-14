@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { View, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
-import { Button, Text } from 'native-base';
+import { Button, Text, List, ListItem, Body, Right } from 'native-base';
 import Layout from '../src/utilities/Layout';
 import BottomFooter from '../src/components/Footer';
 import { UserContext } from '../src/utilities/UserContext';
@@ -22,23 +22,30 @@ const MyPoolsScreen = ({ history }) => {
       <ScrollView
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />}
       >
+        {user.tournamentRequests.length && (
+          <List style={{ backgroundColor: '#fc3', width: '100%', height: 50, marginTop: 50 }}>
+            {user.tournamentRequests.map(request => (
+              <ListItem
+                style={{ backgroundColor: '#fc3', width: '100%', height: 50, marginLeft: 0 }}
+                key={request.id}
+              >
+                <Body>
+                  <Text>{request.tournament.name}</Text>
+                </Body>
+                <Right style={{ flexDirection: 'row' }}>
+                  <Button>
+                    <Text>Hi</Text>
+                  </Button>
+                  <Button>
+                    <Text>Hi</Text>
+                  </Button>
+                </Right>
+              </ListItem>
+            ))}
+          </List>
+        )}
         <Layout title='Pools'>
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            {user.tournamentRequests.length && (
-              <View>
-                {user.tournamentRequests.map(request => (
-                  <>
-                    <Text>You have a pool request for {request.tournament.name}.</Text>
-                    <Button>
-                      <Text>Yes</Text>
-                    </Button>
-                    <Button>
-                      <Text>No</Text>
-                    </Button>
-                  </>
-                ))}
-              </View>
-            )}
             <Text>Pools Screen</Text>
             <Button title='Create Tourney' onPress={() => history.push('/create')} />
             <Button title='Wait for Tourney' onPress={() => history.push('/waiting')} />
