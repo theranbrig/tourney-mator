@@ -15,6 +15,7 @@ type User {
   tournaments: [Tournament] @scalarList(strategy: RELATION)
   friends: [User] @scalarList(strategy: RELATION)
   tournamentMembers: [TournamentMember] @scalarList(strategy: RELATION)
+  tournamentRequests: [TournamentRequest] @scalarList(strategy: RELATION)
 }
 
 type Tournament {

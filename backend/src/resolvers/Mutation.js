@@ -107,6 +107,10 @@ const Mutations = {
         user: { connect: { id: user.id } },
       },
     });
+    const updatedUser = await ctx.db.query.user({
+      where: { email: args.userEmail },
+      data: { tournamentRequests: { connect: { id: tournamentRequest.id } } },
+    });
 
     return tournamentRequest;
   },
