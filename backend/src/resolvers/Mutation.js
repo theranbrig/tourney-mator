@@ -96,7 +96,6 @@ const Mutations = {
     return { message: 'Pool Deleted' };
   },
   async createTournamentRequest(parent, args, ctx, info) {
-    console.log('Started');
     const user = await ctx.db.query.user({ where: { email: args.userEmail } });
     if (!user) {
       console.log('No User Found!');
@@ -111,8 +110,38 @@ const Mutations = {
       where: { email: args.userEmail },
       data: { tournamentRequests: { connect: { id: tournamentRequest.id } } },
     });
-
     return tournamentRequest;
+  },
+  async acceptRequest(parent, args, ctx, info) {
+    const tournamentMember = await ctx.db.mutation.createTournamentMember({
+      data: {
+        user: { connect: { id: ctx.request.userId } },
+        tournament: { connect: { id: args.tournamentId } },
+        role: 'USER',
+      },
+    });
+    const updatedTournament = await ctx.db.mutation.updateTournament({
+      where: { id: args.tournamentId },
+      data: {
+        tournamentMembers: {
+          connect: { id: tournamentMember.id },
+        },
+      },
+    });
+    const user = await ctx.db.mutation.updateUser({
+      where: { id: ctx.request.userId },
+      data: { tournamentMembers: { connect: { id: tournamentMember.id } } },
+    });
+    const deletedRequest = await ctx.db.mutation.deleteTournamentRequest({
+      where: { id: args.id },
+    });
+    return user;
+  },
+  async deleteRequest(parent, args, ctx, info) {
+    const deletedRequest = await ctx.db.mutation.deleteTournamentRequest({
+      where: { id: args.id },
+    });
+    return user;
   },
 };
 

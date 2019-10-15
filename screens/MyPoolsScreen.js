@@ -4,6 +4,7 @@ import { Button, Text, List, ListItem, Body, Right } from 'native-base';
 import Layout from '../src/utilities/Layout';
 import BottomFooter from '../src/components/Footer';
 import { UserContext } from '../src/utilities/UserContext';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
@@ -23,7 +24,7 @@ const MyPoolsScreen = ({ history }) => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />}
       >
         {user.tournamentRequests.length && (
-          <List style={{ backgroundColor: '#fc3', width: '100%', height: 50, marginTop: 50 }}>
+          <List style={{ backgroundColor: '#fc3', width: '100%', height: 50, marginTop: 40 }}>
             {user.tournamentRequests.map(request => (
               <ListItem
                 style={{ backgroundColor: '#fc3', width: '100%', height: 50, marginLeft: 0 }}
@@ -32,12 +33,40 @@ const MyPoolsScreen = ({ history }) => {
                 <Body>
                   <Text>{request.tournament.name}</Text>
                 </Body>
-                <Right style={{ flexDirection: 'row' }}>
-                  <Button>
-                    <Text>Hi</Text>
+                <Right style={{ flexDirection: 'row', marginRight: 10 }}>
+                  <Button
+                    rounded
+                    bordered
+                    style={{
+                      margin: 5,
+                      borderColor: '#7a0019',
+                      borderWidth: 3,
+                      width: 40,
+                      height: 40,
+                      textAlign: 'center',
+                    }}
+                  >
+                    <Icon
+                      name='check-outline'
+                      style={{ fontSize: 27, color: '#7a0019', paddingLeft: 6 }}
+                    />
                   </Button>
-                  <Button>
-                    <Text>Hi</Text>
+                  <Button
+                    rounded
+                    bordered
+                    style={{
+                      margin: 5,
+                      borderColor: '#7a0019',
+                      borderWidth: 3,
+                      width: 40,
+                      height: 40,
+                      textAlign: 'center',
+                    }}
+                  >
+                    <Icon
+                      name='close-outline'
+                      style={{ fontSize: 27, color: '#7a0019', paddingLeft: 6 }}
+                    />
                   </Button>
                 </Right>
               </ListItem>
@@ -47,10 +76,18 @@ const MyPoolsScreen = ({ history }) => {
         <Layout title='Pools'>
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Pools Screen</Text>
-            <Button title='Create Tourney' onPress={() => history.push('/create')} />
-            <Button title='Wait for Tourney' onPress={() => history.push('/waiting')} />
-            <Button title='Live Tourney' onPress={() => history.push('/live')} />
-            <Button title='View Tourney' onPress={() => history.push('/tournament')} />
+            <Button title='Create Tourney' onPress={() => history.push('/create')}>
+              <Text>Create</Text>
+            </Button>
+            <Button title='Wait for Tourney' onPress={() => history.push('/waiting')}>
+              <Text>Wait</Text>
+            </Button>
+            <Button title='Live Tourney' onPress={() => history.push('/live')}>
+              <Text>Live</Text>
+            </Button>
+            <Button title='View Tourney' onPress={() => history.push('/tournament')}>
+              <Text>View</Text>
+            </Button>
             {user.tournaments && user.tournaments.length ? (
               <>
                 <Text>Tournaments</Text>
