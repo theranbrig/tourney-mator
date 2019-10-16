@@ -141,7 +141,7 @@ const Mutations = {
     const deletedRequest = await ctx.db.mutation.deleteTournamentRequest({
       where: { id: args.id },
     });
-    return user;
+    return { message: 'Request Deleted' };
   },
 };
 
