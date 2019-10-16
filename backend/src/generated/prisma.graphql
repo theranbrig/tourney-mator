@@ -41,7 +41,10 @@ type Mutation {
   deleteTournamentMember(where: TournamentMemberWhereUniqueInput!): TournamentMember
   deleteManyTournamentMembers(where: TournamentMemberWhereInput): BatchPayload!
   createTournamentRequest(data: TournamentRequestCreateInput!): TournamentRequest!
+  updateTournamentRequest(data: TournamentRequestUpdateInput!, where: TournamentRequestWhereUniqueInput!): TournamentRequest
   updateManyTournamentRequests(data: TournamentRequestUpdateInput!, where: TournamentRequestWhereInput): BatchPayload!
+  upsertTournamentRequest(where: TournamentRequestWhereUniqueInput!, create: TournamentRequestCreateInput!, update: TournamentRequestUpdateInput!): TournamentRequest!
+  deleteTournamentRequest(where: TournamentRequestWhereUniqueInput!): TournamentRequest
   deleteManyTournamentRequests(where: TournamentRequestWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
@@ -82,6 +85,7 @@ type Query {
   tournamentMember(where: TournamentMemberWhereUniqueInput!): TournamentMember
   tournamentMembers(where: TournamentMemberWhereInput, orderBy: TournamentMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentMember]!
   tournamentMembersConnection(where: TournamentMemberWhereInput, orderBy: TournamentMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TournamentMemberConnection!
+  tournamentRequest(where: TournamentRequestWhereUniqueInput!): TournamentRequest
   tournamentRequests(where: TournamentRequestWhereInput, orderBy: TournamentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentRequest]!
   tournamentRequestsConnection(where: TournamentRequestWhereInput, orderBy: TournamentRequestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TournamentRequestConnection!
   user(where: UserWhereUniqueInput!): User
@@ -591,6 +595,7 @@ input TournamentRequestCreateInput {
 
 input TournamentRequestCreateManyWithoutUserInput {
   create: [TournamentRequestCreateWithoutUserInput!]
+  connect: [TournamentRequestWhereUniqueInput!]
 }
 
 input TournamentRequestCreateWithoutUserInput {
@@ -640,6 +645,26 @@ input TournamentRequestUpdateInput {
 
 input TournamentRequestUpdateManyWithoutUserInput {
   create: [TournamentRequestCreateWithoutUserInput!]
+  delete: [TournamentRequestWhereUniqueInput!]
+  connect: [TournamentRequestWhereUniqueInput!]
+  disconnect: [TournamentRequestWhereUniqueInput!]
+  update: [TournamentRequestUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [TournamentRequestUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input TournamentRequestUpdateWithoutUserDataInput {
+  tournament: TournamentUpdateOneInput
+}
+
+input TournamentRequestUpdateWithWhereUniqueWithoutUserInput {
+  where: TournamentRequestWhereUniqueInput!
+  data: TournamentRequestUpdateWithoutUserDataInput!
+}
+
+input TournamentRequestUpsertWithWhereUniqueWithoutUserInput {
+  where: TournamentRequestWhereUniqueInput!
+  update: TournamentRequestUpdateWithoutUserDataInput!
+  create: TournamentRequestCreateWithoutUserInput!
 }
 
 input TournamentRequestWhereInput {
@@ -662,6 +687,10 @@ input TournamentRequestWhereInput {
   AND: [TournamentRequestWhereInput!]
   OR: [TournamentRequestWhereInput!]
   NOT: [TournamentRequestWhereInput!]
+}
+
+input TournamentRequestWhereUniqueInput {
+  id: ID
 }
 
 type TournamentSubscriptionPayload {
