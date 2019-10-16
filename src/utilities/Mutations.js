@@ -39,13 +39,24 @@ export const REMOVE_POOL_MUTATION = gql`
   }
 `;
 
-export const CREATE_TOURNAMENT_REQUEST = gql`
+export const CREATE_TOURNAMENT_REQUEST_MUTATION = gql`
   mutation CreateTournamentRequest($userEmail: String!, $tournament: ID!) {
     createTournamentRequest(userEmail: $userEmail, tournament: $tournament) {
       id
       tournament {
         id
         name
+      }
+    }
+  }
+`;
+
+export const ACCEPT_REQUEST_MUTATION = gql`
+  mutation AcceptRequest($id: ID!, $tournamentId: ID!) {
+    acceptRequest(id: $id, tournamentId: $tournamentId) {
+      id
+      tournamentRequests {
+        id
       }
     }
   }

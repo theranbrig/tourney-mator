@@ -23,7 +23,7 @@ import SpinningImage from 'react-native-spinning-image';
 import Layout from '../src/utilities/Layout';
 import Header from '../src/components/Header';
 import { UserContext } from '../src/utilities/UserContext';
-import { REMOVE_POOL_MUTATION, CREATE_TOURNAMENT_REQUEST } from '../src/utilities/Mutations';
+import { REMOVE_POOL_MUTATION, CREATE_TOURNAMENT_REQUEST_MUTATION } from '../src/utilities/Mutations';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const styles = StyleSheet.create({
@@ -123,7 +123,7 @@ const TournamentInformationScreen = ({ history }) => {
   });
 
   const [createTournamentRequest, requestOnCompleted: onCompleted] = useMutation(
-    CREATE_TOURNAMENT_REQUEST,
+    CREATE_TOURNAMENT_REQUEST_MUTATION,
     {
       variables: { tournament: history.location.state.tournamentId, userEmail: email },
       requestOnCompleted: async data => {

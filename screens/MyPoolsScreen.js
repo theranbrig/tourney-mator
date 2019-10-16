@@ -9,7 +9,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
   const [refreshing, setRefreshing] = useState(false);
-  console.log(user);
+
+  const [acceptRequest, onCompleted] = useMutation(ACCEPT_REQUEST_MUTATION, {
+    onCompleted: async data => {
+      await userRefetch();
+    },
+  });
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -35,6 +40,11 @@ const MyPoolsScreen = ({ history }) => {
                 </Body>
                 <Right style={{ flexDirection: 'row', marginRight: 10 }}>
                   <Button
+                    onPress={() => {
+                      acceptRequest({
+                        variables: { id: request.id, tournamentId: request.tournament.id },
+                      });
+                    }}
                     rounded
                     bordered
                     style={{
