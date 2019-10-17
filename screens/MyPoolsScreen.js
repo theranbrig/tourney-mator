@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { View, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
 import { Button, Text, List, ListItem, Body, Right } from 'native-base';
 import Layout from '../src/utilities/Layout';
@@ -6,17 +6,30 @@ import BottomFooter from '../src/components/Footer';
 import { UserContext } from '../src/utilities/UserContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useMutation } from '@apollo/react-hooks';
-import { ACCEPT_REQUEST_MUTATION } from '../src/utilities/Mutations';
+import { ACCEPT_REQUEST_MUTATION, DELETE_REQUEST_MUTATION } from '../src/utilities/Mutations';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
   const [refreshing, setRefreshing] = useState(false);
 
-  const [acceptRequest, onCompleted] = useMutation(ACCEPT_REQUEST_MUTATION, {
-    onCompleted: async data => {
-      await userRefetch();
-    },
-  });
+  const [acceptRequest, onAcceptCompleted: onCompleted, acceptData: data] = useMutation(
+    ACCEPT_REQUEST_MUTATION,
+    {
+      onAcceptCompleted: async data => {
+        await userRefetch();
+      },
+    }
+  );
+
+  const [deleteRequest, onDeleteCompleted: onCompleted, deleteData: data] = useMutation(
+    DELETE_REQUEST_MUTATION,
+    {
+      onDeleteCompleted: async data => {
+        console.log(deleteData);
+        await userRefetch();
+      },
+    }
+  );
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -25,13 +38,17 @@ const MyPoolsScreen = ({ history }) => {
     });
   };
 
+  useEffect(() => {
+    userRefetch();
+  }, [onDeleteCompleted, onAcceptCompleted]);
+
   return (
     <>
       <ScrollView
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />}
       >
-        {user.tournamentRequests.length ? (
-          <List style={{ backgroundColor: '#fc3', width: '100%', height: 50, marginTop: 40 }}>
+        {user.tournamentRequests ? (
+          <List style={{ marginTop: 40 }}>
             {user.tournamentRequests.map(request => (
               <ListItem
                 style={{ backgroundColor: '#fc3', width: '100%', height: 50, marginLeft: 0 }}
@@ -64,6 +81,9 @@ const MyPoolsScreen = ({ history }) => {
                     />
                   </Button>
                   <Button
+                    onPress={() => {
+                      deleteRequest({ variables: { id: request.id } });
+                    }}
                     rounded
                     bordered
                     style={{

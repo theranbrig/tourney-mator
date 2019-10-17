@@ -61,3 +61,11 @@ export const ACCEPT_REQUEST_MUTATION = gql`
     }
   }
 `;
+
+export const DELETE_REQUEST_MUTATION = gql`
+  mutation DeleteRequest($id: ID!) {
+    deleteRequest(id: $id) {
+      message
+    }
+  }
+`;
