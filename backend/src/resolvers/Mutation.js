@@ -98,20 +98,33 @@ const Mutations = {
   async createTournamentRequest(parent, args, ctx, info) {
     const user = await ctx.db.query.user({ where: { email: args.userEmail } });
     if (!user) {
-      console.log('No User Found!');
+      throw new Error(`No User Found.`);
     }
-    console.log(user);
-    const tournamentRequest = await ctx.db.mutation.createTournamentRequest({
-      data: {
-        tournament: { connect: { id: args.tournament } },
-        user: { connect: { id: user.id } },
-      },
+    if (user.id === ctx.request.userId) {
+      throw new Error(`Cannot request to self.`);
+    }
+    const requestCheck = await ctx.db.query.tournamentRequests({
+      where: { AND: [{ tournament: args.tournamentId }, { user: user }] },
     });
-    const updatedUser = await ctx.db.query.user({
-      where: { email: args.userEmail },
-      data: { tournamentRequests: { connect: { id: tournamentRequest.id } } },
-    });
-    return tournamentRequest;
+    console.log(requestCheck);
+    // TODO: Needs check for if user has already joined tournament.
+    if (!requestCheck.length) {
+      console.log(requestCheck);
+      const tournamentRequest = await ctx.db.mutation.createTournamentRequest({
+        data: {
+          tournament: { connect: { id: args.tournament } },
+          user: { connect: { id: user.id } },
+        },
+      });
+      const updatedUser = await ctx.db.query.user({
+        where: { email: args.userEmail },
+        data: { tournamentRequests: { connect: { id: tournamentRequest.id } } },
+      });
+      console.log(tournamentRequest);
+      return tournamentRequest;
+    } else {
+      throw new Error(`Request already sent.  Waiting for response from ${user.username}.`);
+    }
   },
   async acceptRequest(parent, args, ctx, info) {
     const tournamentMember = await ctx.db.mutation.createTournamentMember({
