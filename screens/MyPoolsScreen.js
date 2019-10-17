@@ -5,6 +5,8 @@ import Layout from '../src/utilities/Layout';
 import BottomFooter from '../src/components/Footer';
 import { UserContext } from '../src/utilities/UserContext';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useMutation } from '@apollo/react-hooks';
+import { ACCEPT_REQUEST_MUTATION } from '../src/utilities/Mutations';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
@@ -28,7 +30,7 @@ const MyPoolsScreen = ({ history }) => {
       <ScrollView
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />}
       >
-        {user.tournamentRequests.length && (
+        {user.tournamentRequests.length ? (
           <List style={{ backgroundColor: '#fc3', width: '100%', height: 50, marginTop: 40 }}>
             {user.tournamentRequests.map(request => (
               <ListItem
@@ -82,6 +84,8 @@ const MyPoolsScreen = ({ history }) => {
               </ListItem>
             ))}
           </List>
+        ) : (
+          <></>
         )}
         <Layout title='Pools'>
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>

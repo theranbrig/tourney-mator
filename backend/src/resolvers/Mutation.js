@@ -100,6 +100,7 @@ const Mutations = {
     if (!user) {
       console.log('No User Found!');
     }
+    console.log(user);
     const tournamentRequest = await ctx.db.mutation.createTournamentRequest({
       data: {
         tournament: { connect: { id: args.tournament } },
@@ -130,7 +131,10 @@ const Mutations = {
     });
     const user = await ctx.db.mutation.updateUser({
       where: { id: ctx.request.userId },
-      data: { tournamentMembers: { connect: { id: tournamentMember.id } } },
+      data: {
+        tournamentMembers: { connect: { id: tournamentMember.id } },
+        tournaments: { connect: { id: args.tournamentId } },
+      },
     });
     const deletedRequest = await ctx.db.mutation.deleteTournamentRequest({
       where: { id: args.id },
