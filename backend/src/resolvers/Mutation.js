@@ -13,7 +13,6 @@ const Mutations = {
       throw new Error(`${args.username} already exists.  Please choose a new user name.`);
     // Set password hash and user info
     const password = await bcrypt.hash(args.password, 15);
-    console.log(password);
     const user = await ctx.db.mutation.createUser(
       {
         data: {
@@ -25,7 +24,6 @@ const Mutations = {
       },
       info
     );
-    console.log(user);
     // Create JWT and set as cookie
     const token = await jwt.sign({ userId: user.id }, process.env.APP_SECRET);
     ctx.response.cookie('token', token, {
@@ -50,7 +48,6 @@ const Mutations = {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 14, // Two week token
     });
-    console.log(user);
     return user;
   },
   async signout(parent, args, ctx, info) {
@@ -103,17 +100,18 @@ const Mutations = {
     if (user.id === ctx.request.userId) {
       throw new Error(`Cannot request to self.`);
     }
+    const currentMember = await ctx.db.query.tournamentMembers({
+      where: { AND: [{ tournament: args.tournamentId }, { user }] },
+    });
+    console.log('CURRENT MEMBER', currentMember);
+    if (currentMember.length) {
+      throw new Error(`${user.username} is already a member.`);
+    }
     const requestCheck = await ctx.db.query.tournamentRequests({
       where: { AND: [{ tournament: args.tournamentId }, { user: user }] },
     });
     if (requestCheck) {
       throw new Error(`Request already sent.  Waiting for response from ${user.username}.`);
-    }
-    const currentMember = await ctx.db.query.tournamentMembers({
-      where: { AND: [{ tournament: args.tournamentId }, { user }] },
-    });
-    if (currentMember.length) {
-      throw new Error(`${user.username} is already a member.`);
     }
     const tournamentRequest = await ctx.db.mutation.createTournamentRequest({
       data: {
