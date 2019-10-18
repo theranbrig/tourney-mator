@@ -5,7 +5,7 @@ import { UserContext } from './UserContext';
 
 const Layout = ({ children }) => (
   <Content>
-    <Container>{children}</Container>
+    <Container style={{backgroundColor: '#7a0019'}}>{children}</Container>
   </Content>
 );
 

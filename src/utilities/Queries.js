@@ -22,3 +22,21 @@ export const CURRENT_USER_QUERY = gql`
     }
   }
 `;
+
+export const TOURNAMENT_INFORMATION_QUERY = gql`
+  query TOURNAMENT_INFORMATION_QUERY($id: ID!) {
+    tournament(where: { id: $id }) {
+      id
+      type
+      name
+      startDate
+      tournamentMembers {
+        user {
+          id
+          username
+        }
+        role
+      }
+    }
+  }
+`;
