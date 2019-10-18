@@ -106,25 +106,26 @@ const Mutations = {
     const requestCheck = await ctx.db.query.tournamentRequests({
       where: { AND: [{ tournament: args.tournamentId }, { user: user }] },
     });
-    console.log(requestCheck);
-    // TODO: Needs check for if user has already joined tournament.
-    if (!requestCheck.length) {
-      console.log(requestCheck);
-      const tournamentRequest = await ctx.db.mutation.createTournamentRequest({
-        data: {
-          tournament: { connect: { id: args.tournament } },
-          user: { connect: { id: user.id } },
-        },
-      });
-      const updatedUser = await ctx.db.query.user({
-        where: { email: args.userEmail },
-        data: { tournamentRequests: { connect: { id: tournamentRequest.id } } },
-      });
-      console.log(tournamentRequest);
-      return tournamentRequest;
-    } else {
+    if (requestCheck) {
       throw new Error(`Request already sent.  Waiting for response from ${user.username}.`);
     }
+    const currentMember = await ctx.db.query.tournamentMembers({
+      where: { AND: [{ tournament: args.tournamentId }, { user }] },
+    });
+    if (currentMember.length) {
+      throw new Error(`${user.username} is already a member.`);
+    }
+    const tournamentRequest = await ctx.db.mutation.createTournamentRequest({
+      data: {
+        tournament: { connect: { id: args.tournament } },
+        user: { connect: { id: user.id } },
+      },
+    });
+    const updatedUser = await ctx.db.query.user({
+      where: { email: args.userEmail },
+      data: { tournamentRequests: { connect: { id: tournamentRequest.id } } },
+    });
+    return tournamentRequest;
   },
   async acceptRequest(parent, args, ctx, info) {
     const tournamentMember = await ctx.db.mutation.createTournamentMember({
