@@ -128,7 +128,7 @@ const LoginScreen = ({ history }) => {
             <Text style={{ color: '#f3f3f3' }}>Go To Sign Up Screen</Text>
           </Button>
         </View>
-        {error && <ErrorMessage errorMessage={error} />}
+        {error || (userError && <ErrorMessage errorMessage={error} error={userError} />)}
       </View>
     </Layout>
   );
