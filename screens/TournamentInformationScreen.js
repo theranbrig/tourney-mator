@@ -14,6 +14,7 @@ import {
   Body,
   Right,
   Thumbnail,
+  Spinner,
 } from 'native-base';
 import { NavigationEvents } from 'react-navigation';
 import { StyleSheet, Image, ScrollView } from 'react-native';
@@ -29,6 +30,7 @@ import {
 } from '../src/utilities/Mutations';
 import { TOURNAMENT_INFORMATION_QUERY } from '../src/utilities/Queries';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Error from '../src/components/ErrorMessage';
 
 const styles = StyleSheet.create({
   mainButton: {
@@ -97,8 +99,9 @@ const TournamentInformationScreen = ({ history }) => {
   const [adminRole, setAdminRole] = useState(null);
   const [admin, setAdmin] = useState('');
   const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
 
-  const { loading, error, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
+  const { loading, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
   });
 
@@ -110,24 +113,30 @@ const TournamentInformationScreen = ({ history }) => {
     },
   });
 
-  const [createTournamentRequest, requestOnCompleted: onCompleted] = useMutation(
-    CREATE_TOURNAMENT_REQUEST_MUTATION,
-    {
-      variables: { tournament: history.location.state.tournamentId, userEmail: email },
-      requestOnCompleted: async data => {
-        setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`);
-      },
-    }
-  );
+  const [
+    createTournamentRequest,
+    requestOnCompleted: onCompleted,
+    requestLoading: loading,
+    onError,
+  ] = useMutation(CREATE_TOURNAMENT_REQUEST_MUTATION, {
+    variables: { tournament: history.location.state.tournamentId, userEmail: email },
+    requestOnCompleted: async data => {
+      console.log('REQUEST DATA', data);
+      setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`);
+    },
+    onError: async error => setError(error.message),
+  });
 
   const { tournament } = data;
+
   useEffect(() => {
     console.log(tournament);
     if (tournament) {
       const adminRole = tournament.tournamentMembers.filter(member => member.role === 'ADMIN');
       setAdmin(adminRole[0].user.id);
     }
-  }, [data]);
+    console.log('Error', error);
+  }, [data, requestOnCompleted, onError]);
 
   if (loading)
     return (
@@ -208,9 +217,14 @@ const TournamentInformationScreen = ({ history }) => {
                   />
                 </Item>
                 <Button block style={styles.mainButton} onPress={() => createTournamentRequest()}>
-                  <Text style={styles.mainButtonText}>Send Invitation</Text>
+                  {requestLoading ? (
+                    <Spinner />
+                  ) : (
+                    <Text style={styles.mainButtonText}>Send Invitation</Text>
+                  )}
                 </Button>
               </Form>
+              {error && <Text>{error}</Text>}
               {adminRole && (
                 <Button
                   block

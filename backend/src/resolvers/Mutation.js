@@ -110,9 +110,11 @@ const Mutations = {
     const requestCheck = await ctx.db.query.tournamentRequests({
       where: { AND: [{ tournament: args.tournamentId }, { user: user }] },
     });
-    if (requestCheck) {
+    console.log('REQUEST CHECK', requestCheck);
+    if (requestCheck.length) {
       throw new Error(`Request already sent.  Waiting for response from ${user.username}.`);
     }
+
     const tournamentRequest = await ctx.db.mutation.createTournamentRequest({
       data: {
         tournament: { connect: { id: args.tournament } },

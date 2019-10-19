@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text } from 'native-base';
 import { StyleSheet } from 'react-native';
 
@@ -22,7 +22,6 @@ const DisplayError = ({ error }) => {
     return null;
   }
   console.log('errrr', error);
-
   return (
     <>
       <View style={styles.container}>
