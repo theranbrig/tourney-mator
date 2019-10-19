@@ -216,7 +216,12 @@ const TournamentInformationScreen = ({ history }) => {
                     placeholderTextColor='#fc3'
                   />
                 </Item>
-                <Button block style={styles.mainButton} onPress={() => createTournamentRequest()}>
+                <Button
+                  block
+                  style={styles.mainButton}
+                  onPress={() => createTournamentRequest()}
+                  disabled={error}
+                >
                   {requestLoading ? (
                     <Spinner />
                   ) : (
@@ -224,7 +229,37 @@ const TournamentInformationScreen = ({ history }) => {
                   )}
                 </Button>
               </Form>
-              {error && <Text>{error}</Text>}
+              {error && (
+                <View
+                  style={{
+                    backgroundColor: '#fc3',
+                    width: '90%',
+                    marginLeft: '5%',
+                    paddingTop: 5,
+                    paddingBottom: 5,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: '#7a0019',
+                      fontFamily: 'graduate',
+                      textAlign: 'center',
+                    }}
+                  >
+                    Foul!!!
+                  </Text>
+                  <Text
+                    style={{
+                      color: '#7a0019',
+                      fontFamily: 'graduate',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {error.replace('GraphQL error: ', '')}
+                  </Text>
+                  <Error error={error} />
+                </View>
+              )}
               {adminRole && (
                 <Button
                   block
@@ -236,7 +271,25 @@ const TournamentInformationScreen = ({ history }) => {
                   <Text style={styles.mainButtonText}>Remove Pool</Text>
                 </Button>
               )}
-              {message !== null && <Text>{message}</Text>}
+              {message !== null && (
+                <View
+                  style={{
+                    backgroundColor: '#fc3',
+                    width: '95%',
+                    marginLeft: '2.5%',
+                    borderColor: '#fff',
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: '#7a0019',
+                      fontFamily: 'graduate',
+                    }}
+                  >
+                    {message}
+                  </Text>
+                </View>
+              )}
             </>
           )}
         </ScrollView>
