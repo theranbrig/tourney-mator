@@ -98,7 +98,7 @@ const Mutations = {
       throw new Error(`No User Found.`);
     }
     if (user.id === ctx.request.userId) {
-      throw new Error(`Cannot request to self.`);
+      throw new Error(`Cannot send a request to yourself.`);
     }
     const currentMember = await ctx.db.query.tournamentMembers({
       where: { AND: [{ tournament: args.tournamentId }, { user }] },

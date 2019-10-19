@@ -61,16 +61,15 @@ const LoginScreen = ({ history }) => {
   const [password, setPassword] = useState(null);
   const [email, setEmail] = useState(null);
   const [username, setUsername] = useState(null);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [login, { data }] = useMutation(LOGIN_MUTATION, {
+  const [login, { data }, onCompleted, onError] = useMutation(LOGIN_MUTATION, {
     refetchQueries: ['CURRENT_USER_QUERY'],
     awaitRefetchQueries: true,
+    onError: error => setError(error.message),
+    onCompleted: data => history.push('/loading', { destination: '/home' }),
   });
   const { userRefetch, userError } = useContext(UserContext);
-
-  if (userError) {
-    console.log('Error', userError);
-  }
 
   return (
     <Layout>
@@ -78,7 +77,6 @@ const LoginScreen = ({ history }) => {
       <View style={styles.mainView}>
         <Form style={styles.form}>
           <H1 style={styles.title}>Tourney-mator</H1>
-
           <Item regular style={{ marginBottom: 10 }}>
             <Input
               placeholder='Email Address'
@@ -89,10 +87,12 @@ const LoginScreen = ({ history }) => {
               autoCapitalize='none'
               style={{ color: '#f3f3f3', fontFamily: 'graduate' }}
               placeholderTextColor='#fc3'
+              required
             />
           </Item>
           <Item regular>
             <Input
+              required
               placeholder='Password'
               style={{ color: '#f3f3f3', fontFamily: 'graduate' }}
               value={password}
@@ -112,7 +112,6 @@ const LoginScreen = ({ history }) => {
               await login({ variables: { email, password } });
               userRefetch();
               setLoading(false);
-              history.push('/loading', { destination: '/home' });
             }}
             disabled={loading}
           >
@@ -123,13 +122,13 @@ const LoginScreen = ({ history }) => {
             )}
           </Button>
         </Form>
-        {userError && <ErrorMessage error={userError} />}
         <View>
           <Button transparent onPress={() => history.push('/signup')}>
             <Text style={{ color: '#f3f3f3' }}>Not yet a member?</Text>
             <Text style={{ color: '#f3f3f3' }}>Go To Sign Up Screen</Text>
           </Button>
         </View>
+        {error && <ErrorMessage errorMessage={error} />}
       </View>
     </Layout>
   );

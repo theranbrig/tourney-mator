@@ -229,37 +229,7 @@ const TournamentInformationScreen = ({ history }) => {
                   )}
                 </Button>
               </Form>
-              {error && (
-                <View
-                  style={{
-                    backgroundColor: '#fc3',
-                    width: '90%',
-                    marginLeft: '5%',
-                    paddingTop: 5,
-                    paddingBottom: 5,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: '#7a0019',
-                      fontFamily: 'graduate',
-                      textAlign: 'center',
-                    }}
-                  >
-                    Foul!!!
-                  </Text>
-                  <Text
-                    style={{
-                      color: '#7a0019',
-                      fontFamily: 'graduate',
-                      textAlign: 'center',
-                    }}
-                  >
-                    {error.replace('GraphQL error: ', '')}
-                  </Text>
-                  <Error error={error} />
-                </View>
-              )}
+              {error && <Error errorMessage={error} />}
               {adminRole && (
                 <Button
                   block
