@@ -11,6 +11,9 @@ export const CURRENT_USER_QUERY = gql`
         id
         name
         startDate
+        tournamentMembers {
+          id
+        }
       }
       tournamentRequests {
         id

@@ -94,27 +94,29 @@ const Mutations = {
   },
   async createTournamentRequest(parent, args, ctx, info) {
     const user = await ctx.db.query.user({ where: { email: args.userEmail } });
+    console.log(user);
     if (!user) {
       throw new Error(`No User Found.`);
     }
     if (user.id === ctx.request.userId) {
       throw new Error(`Cannot send a request to yourself.`);
     }
-    const currentMember = await ctx.db.query.tournamentMembers({
-      where: { AND: [{ tournament: args.tournamentId }, { user }] },
-    });
-    console.log('CURRENT MEMBER', currentMember);
+    const currentMember = await ctx.db.query.tournamentMembers(
+      {
+        where: { AND: [{ tournament: { id: args.tournament } }, { user: { id: user.id } }] },
+      },
+      info
+    );
     if (currentMember.length) {
       throw new Error(`${user.username} is already a member.`);
     }
     const requestCheck = await ctx.db.query.tournamentRequests({
-      where: { AND: [{ tournament: args.tournamentId }, { user: user }] },
+      where: { AND: [{ tournament: args.tournamentId }, { user: { id: user.id } }] },
     });
     console.log('REQUEST CHECK', requestCheck);
     if (requestCheck.length) {
       throw new Error(`Request already sent.  Waiting for response from ${user.username}.`);
     }
-
     const tournamentRequest = await ctx.db.mutation.createTournamentRequest({
       data: {
         tournament: { connect: { id: args.tournament } },

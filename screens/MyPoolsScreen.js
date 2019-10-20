@@ -16,7 +16,7 @@ import {
 import Layout from '../src/utilities/Layout';
 import BottomFooter from '../src/components/Footer';
 import { UserContext } from '../src/utilities/UserContext';
-// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import SpecialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useMutation } from '@apollo/react-hooks';
 import { ACCEPT_REQUEST_MUTATION, DELETE_REQUEST_MUTATION } from '../src/utilities/Mutations';
 
@@ -155,27 +155,52 @@ const MyPoolsScreen = ({ history }) => {
             <></>
           )}
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Button title='Wait for Tourney' onPress={() => history.push('/waiting')}>
-              <Text>Wait</Text>
-            </Button>
-            <Button title='Live Tourney' onPress={() => history.push('/live')}>
-              <Text>Live</Text>
-            </Button>
-            <Button title='View Tourney' onPress={() => history.push('/tournament')}>
-              <Text>View</Text>
-            </Button>
             {user.tournaments && user.tournaments.length ? (
-              <>
+              <View style={{ width: '100%', marginLeft: 0 }}>
                 <Text>Tournaments</Text>
-                {user.tournaments.map(tournament => (
-                  <TouchableOpacity
-                    onPress={() => history.push('/tournament', { tournamentId: tournament.id })}
-                    key={tournament.id}
-                  >
-                    <Text>{tournament.name}</Text>
-                  </TouchableOpacity>
-                ))}
-              </>
+                <List
+                  style={{
+                    backgroundColor: '#fc3',
+                  }}
+                >
+                  {user.tournaments.map(tournament => (
+                    <ListItem
+                      style={{ borderBottomColor: '#7a0019', borderBottomWidth: 2, marginLeft: 0 }}
+                    >
+                      <TouchableOpacity
+                        onPress={() => history.push('/tournament', { tournamentId: tournament.id })}
+                        key={tournament.id}
+                      >
+                        <View style={{ flexDirection: 'row' }}>
+                          <SpecialIcon name='tournament' size={30} color='#7a0019' />
+                          <View>
+                            <Text
+                              style={{
+                                color: '#7a0019',
+                                fontFamily: 'graduate',
+                              }}
+                            >
+                              {tournament.name}
+                            </Text>
+                            <Text
+                              style={{
+                                color: '#7a0019',
+                                fontFamily: 'graduate',
+                              }}
+                            >
+                              {tournament.startDate}
+                            </Text>
+                          </View>
+                        </View>
+                        <View>
+                          <Text>{tournament.tournamentMembers.length}</Text>
+                          <Icon type='FontAwesome5' name='user' size={30} color='#7a0019' />
+                        </View>
+                      </TouchableOpacity>
+                    </ListItem>
+                  ))}
+                </List>
+              </View>
             ) : (
               <Text>No Pools Yet</Text>
             )}
