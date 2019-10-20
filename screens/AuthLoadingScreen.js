@@ -47,18 +47,20 @@ const AuthLoadingScreen = ({ history }) => {
   const { user, userLoading } = useContext(UserContext);
   if (userLoading) return <Text>Loading</Text>;
   if (user) {
-    history.push('/home');
+    history.push('/pools');
   }
   return (
     <Layout>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fc3' }}>
+      <View
+        style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fc3' }}
+      >
         <H1 style={{ fontFamily: 'graduate', color: '#7a0019' }}>Tourney-mator</H1>
         <View style={{ height: 350 }}>
           <SpinningImage
             speed={15000}
             height={200}
             width={300}
-            source="https://res.cloudinary.com/dq7uyauun/image/upload/v1567483827/BRACKETBALL_copy.png"
+            source='https://res.cloudinary.com/dq7uyauun/image/upload/v1567483827/BRACKETBALL_copy.png'
           />
         </View>
         {!user && (

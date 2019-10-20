@@ -230,7 +230,7 @@ const TournamentInformationScreen = ({ history }) => {
                 </Button>
               </Form>
               {error && <Error errorMessage={error} />}
-              {adminRole && (
+              {admin === user.id && (
                 <Button
                   block
                   style={styles.mainButton2}

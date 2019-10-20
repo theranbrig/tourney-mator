@@ -156,22 +156,37 @@ const MyPoolsScreen = ({ history }) => {
           )}
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             {user.tournaments && user.tournaments.length ? (
-              <View style={{ width: '100%', marginLeft: 0 }}>
+              <View style={{ width: '100%' }}>
                 <Text>Tournaments</Text>
                 <List
                   style={{
                     backgroundColor: '#fc3',
+                    borderTopWidth: 2,
+                    borderTopColor: '#fff',
                   }}
                 >
                   {user.tournaments.map(tournament => (
                     <ListItem
-                      style={{ borderBottomColor: '#7a0019', borderBottomWidth: 2, marginLeft: 0 }}
+                      style={{
+                        borderBottomColor: '#fff',
+                        borderBottomWidth: 2,
+                        marginLeft: 0,
+                        paddingLeft: 5,
+                        paddingRight: 5,
+                        width: '100%',
+                      }}
                     >
                       <TouchableOpacity
                         onPress={() => history.push('/tournament', { tournamentId: tournament.id })}
                         key={tournament.id}
+                        style={{ width: '100%' }}
                       >
-                        <View style={{ flexDirection: 'row' }}>
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                          }}
+                        >
                           <SpecialIcon name='tournament' size={30} color='#7a0019' />
                           <View>
                             <Text
@@ -191,10 +206,18 @@ const MyPoolsScreen = ({ history }) => {
                               {tournament.startDate}
                             </Text>
                           </View>
-                        </View>
-                        <View>
-                          <Text>{tournament.tournamentMembers.length}</Text>
-                          <Icon type='FontAwesome5' name='user' size={30} color='#7a0019' />
+                          <View style={{ flexDirection: 'row' }}>
+                            <Text
+                              style={{
+                                color: '#7a0019',
+                                fontFamily: 'graduate',
+                                fontSize: 25,
+                              }}
+                            >
+                              {tournament.tournamentMembers.length}
+                            </Text>
+                            <SpecialIcon name='account-group' size={30} color='#7a0019' />
+                          </View>
                         </View>
                       </TouchableOpacity>
                     </ListItem>
