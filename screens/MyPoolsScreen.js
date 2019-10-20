@@ -66,7 +66,9 @@ const MyPoolsScreen = ({ history }) => {
         }
       >
         <Layout title='Pools'>
-          <Header style={{ backgroundColor: '#fc3' }}>
+          <Header
+            style={{ backgroundColor: '#fc3', borderBottomWidth: 2, borderBottomColor: '#fff' }}
+          >
             <Left>
               <Icon
                 style={{ color: '#7a0019' }}

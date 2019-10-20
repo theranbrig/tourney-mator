@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     color: '#ffcc33',
     fontFamily: 'graduate',
     marginBottom: 5,
-    fontSize: 30,
+    fontSize: 25,
   },
   label: {
     color: '#ffcc33',
@@ -175,7 +175,14 @@ const TournamentInformationScreen = ({ history }) => {
                   </View>
                 </View>
               </View>
-              <List style={{ backgroundColor: '#fc3', width: '100%' }}>
+              <List
+                style={{
+                  backgroundColor: '#fc3',
+                  width: '100%',
+                  borderTopWidth: 2,
+                  borderTopColor: '#fff',
+                }}
+              >
                 {tournament.tournamentMembers.map((member, index) => (
                   <ListItem
                     style={{
@@ -184,6 +191,8 @@ const TournamentInformationScreen = ({ history }) => {
                       height: 50,
                       borderColor: '#7a0019',
                       marginLeft: 0,
+                      borderBottomWidth: 2,
+                      borderBottomColor: '#fff',
                     }}
                     key={member.user.id}
                   >
@@ -192,13 +201,15 @@ const TournamentInformationScreen = ({ history }) => {
                         {member.user.username}
                       </Text>
                     </Body>
-                    {member.user.id === admin && (
-                      <Right>
-                        <Button style={{ backgroundColor: '#fc3' }}>
+                    <Right>
+                      <Button style={{ backgroundColor: '#fc3' }}>
+                        {member.user.id === admin ? (
                           <Icon name='star' size={30} color='#7a0019' />
-                        </Button>
-                      </Right>
-                    )}
+                        ) : (
+                          <Icon name='account-outline' size={30} color='#7a0019' />
+                        )}
+                      </Button>
+                    </Right>
                   </ListItem>
                 ))}
               </List>
