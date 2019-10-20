@@ -56,115 +56,140 @@ const MyPoolsScreen = ({ history }) => {
 
   return (
     <>
+      <Header style={{ backgroundColor: '#fc3', borderBottomWidth: 2, borderBottomColor: '#fff' }}>
+        <Left>
+          <Icon
+            style={{ color: '#7a0019' }}
+            type='FontAwesome5'
+            name='chevron-left'
+            onPress={() => history.goBack()}
+          />
+        </Left>
+        <Body>
+          <Title style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 20 }}>MY POOLS</Title>
+          <Subtitle style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 15 }}>
+            {user.username}
+          </Subtitle>
+        </Body>
+        <Right>
+          <Button transparent>
+            <Icon
+              style={{ color: '#7a0019' }}
+              type='FontAwesome5'
+              name='plus-circle'
+              onPress={() => history.push('/create')}
+            />
+          </Button>
+        </Right>
+      </Header>
       <ScrollView
+        style={{ backgroundColor: '#7a0019' }}
+        contentContainerStyle={{
+          flex: 1,
+        }}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={() => onRefresh()}
             style={{ backgroundColor: '#fc3' }}
+            showsVerticalScrollIndicator={false}
           />
         }
       >
+        {user.tournamentRequests ? (
+          <List>
+            {user.tournamentRequests.map(request => (
+              <ListItem
+                style={{
+                  backgroundColor: '#fc3',
+                  width: '100%',
+                  height: 50,
+                  marginLeft: 0,
+                  borderBottomColor: '#fff',
+                  borderBottomWidth: 2,
+                }}
+                key={request.id}
+              >
+                <Body>
+                  <Text
+                    style={{
+                      color: '#7a0019',
+                      fontFamily: 'graduate',
+                    }}
+                  >
+                    {request.tournament.name}
+                  </Text>
+                </Body>
+                <Right style={{ flexDirection: 'row', marginRight: 10 }}>
+                  <Button
+                    onPress={() => {
+                      acceptRequest({
+                        variables: { id: request.id, tournamentId: request.tournament.id },
+                      });
+                    }}
+                    rounded
+                    bordered
+                    style={{
+                      margin: 5,
+                      borderColor: '#7a0019',
+                      borderWidth: 3,
+                      width: 40,
+                      height: 40,
+                      textAlign: 'center',
+                    }}
+                  >
+                    <SpecialIcon
+                      name='check-outline'
+                      style={{ fontSize: 27, color: '#7a0019', paddingLeft: 6 }}
+                    />
+                  </Button>
+                  <Button
+                    onPress={() => {
+                      deleteRequest({ variables: { id: request.id } });
+                    }}
+                    rounded
+                    bordered
+                    style={{
+                      margin: 5,
+                      borderColor: '#7a0019',
+                      borderWidth: 3,
+                      width: 40,
+                      height: 40,
+                      textAlign: 'center',
+                    }}
+                  >
+                    <SpecialIcon
+                      name='close-outline'
+                      style={{ fontSize: 27, color: '#7a0019', paddingLeft: 6 }}
+                    />
+                  </Button>
+                </Right>
+              </ListItem>
+            ))}
+          </List>
+        ) : (
+          <></>
+        )}
         <Layout title='Pools'>
-          <Header
-            style={{ backgroundColor: '#fc3', borderBottomWidth: 2, borderBottomColor: '#fff' }}
-          >
-            <Left>
-              <Icon
-                style={{ color: '#7a0019' }}
-                type='FontAwesome5'
-                name='chevron-left'
-                onPress={() => history.goBack()}
-              />
-            </Left>
-            <Body>
-              <Title style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 20 }}>
-                MY POOLS
-              </Title>
-              <Subtitle style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 15 }}>
-                {user.username}
-              </Subtitle>
-            </Body>
-            <Right>
-              <Button transparent>
-                <Icon
-                  style={{ color: '#7a0019' }}
-                  type='FontAwesome5'
-                  name='plus-circle'
-                  onPress={() => history.push('/create')}
-                />
-              </Button>
-            </Right>
-          </Header>
-          {user.tournamentRequests ? (
-            <List style={{ marginTop: 40, backgroundColor: '#fc3' }}>
-              {user.tournamentRequests.map(request => (
-                <ListItem
-                  style={{ backgroundColor: '#fc3', width: '100%', height: 50, marginLeft: 0 }}
-                  key={request.id}
-                >
-                  <Body>
-                    <Text>{request.tournament.name}</Text>
-                  </Body>
-                  <Right style={{ flexDirection: 'row', marginRight: 10 }}>
-                    <Button
-                      onPress={() => {
-                        acceptRequest({
-                          variables: { id: request.id, tournamentId: request.tournament.id },
-                        });
-                      }}
-                      rounded
-                      bordered
-                      style={{
-                        margin: 5,
-                        borderColor: '#7a0019',
-                        borderWidth: 3,
-                        width: 40,
-                        height: 40,
-                        textAlign: 'center',
-                      }}
-                    >
-                      <Icon
-                        name='check-outline'
-                        style={{ fontSize: 27, color: '#7a0019', paddingLeft: 6 }}
-                      />
-                    </Button>
-                    <Button
-                      onPress={() => {
-                        deleteRequest({ variables: { id: request.id } });
-                      }}
-                      rounded
-                      bordered
-                      style={{
-                        margin: 5,
-                        borderColor: '#7a0019',
-                        borderWidth: 3,
-                        width: 40,
-                        height: 40,
-                        textAlign: 'center',
-                      }}
-                    >
-                      <Icon
-                        name='close-outline'
-                        style={{ fontSize: 27, color: '#7a0019', paddingLeft: 6 }}
-                      />
-                    </Button>
-                  </Right>
-                </ListItem>
-              ))}
-            </List>
-          ) : (
-            <></>
-          )}
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ backgroundColor: '#7a0019' }}>
             {user.tournaments && user.tournaments.length ? (
-              <View style={{ width: '100%' }}>
-                <Text>Tournaments</Text>
+              <View style={{ width: '100%', paddingTop: 20 }}>
+                <Text
+                  style={{
+                    fontFamily: 'graduate',
+                    color: '#fc3',
+                    fontSize: 20,
+                    textAlign: 'center',
+                  }}
+                >
+                  Upcoming Pools
+                </Text>
                 <List
                   style={{
                     backgroundColor: '#fc3',
                     borderTopWidth: 2,
                     borderTopColor: '#fff',
+                    marginTop: 20,
                   }}
                 >
                   {user.tournaments.map(tournament => (
@@ -177,6 +202,7 @@ const MyPoolsScreen = ({ history }) => {
                         paddingRight: 5,
                         width: '100%',
                       }}
+                      key={tournament.id}
                     >
                       <TouchableOpacity
                         onPress={() => history.push('/tournament', { tournamentId: tournament.id })}
@@ -232,6 +258,7 @@ const MyPoolsScreen = ({ history }) => {
           </View>
         </Layout>
       </ScrollView>
+
       <BottomFooter history={history} />
     </>
   );

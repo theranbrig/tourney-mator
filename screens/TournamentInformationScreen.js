@@ -166,7 +166,7 @@ const TournamentInformationScreen = ({ history }) => {
         >
           {tournament && (
             <>
-              <View style={{ marginBottom: 10 }}>
+              <View style={{ marginBottom: 10, backgroundColor: '#7a0019' }}>
                 <View>
                   <Text style={styles.title}>{tournament.name}</Text>
                   <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
