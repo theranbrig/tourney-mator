@@ -92,6 +92,12 @@ const Mutations = {
     const removedTournament = await ctx.db.mutation.deleteTournament({ where: { id: args.id } });
     return { message: 'Pool Deleted' };
   },
+  async leaveTournament(parent, args, ctx, info) {
+    const removedTournamentMember = await ctx.db.mutation.deleteTournamentMember({
+      where: { id: args.id },
+    });
+    return { message: 'Sorry to see you go.' };
+  },
   async createTournamentRequest(parent, args, ctx, info) {
     const user = await ctx.db.query.user({ where: { email: args.userEmail } });
     console.log(user);

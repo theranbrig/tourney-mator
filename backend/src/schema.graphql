@@ -13,6 +13,7 @@ type Mutation {
   createTournamentRequest(tournament: ID!, userEmail: String!): TournamentRequest!
   acceptRequest(id: ID!, tournamentId: ID!): User!
   deleteRequest(id: ID!): SuccessMessage
+  leaveTournament(id: ID!): SuccessMessage
 }
 
 type Query {

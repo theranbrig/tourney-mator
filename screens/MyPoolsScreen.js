@@ -20,6 +20,7 @@ import SpecialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useMutation } from '@apollo/react-hooks';
 import { ACCEPT_REQUEST_MUTATION, DELETE_REQUEST_MUTATION } from '../src/utilities/Mutations';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import RequestList from '../src/components/PoolRequests';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
@@ -98,76 +99,7 @@ const MyPoolsScreen = ({ history }) => {
         }
       >
         {user.tournamentRequests ? (
-          <List>
-            {user.tournamentRequests.map(request => (
-              <ListItem
-                style={{
-                  backgroundColor: '#fc3',
-                  width: '100%',
-                  height: 50,
-                  marginLeft: 0,
-                  borderBottomColor: '#fff',
-                  borderBottomWidth: 2,
-                }}
-                key={request.id}
-              >
-                <Body>
-                  <Text
-                    style={{
-                      color: '#7a0019',
-                      fontFamily: 'graduate',
-                    }}
-                  >
-                    {request.tournament.name}
-                  </Text>
-                </Body>
-                <Right style={{ flexDirection: 'row', marginRight: 10 }}>
-                  <Button
-                    onPress={() => {
-                      acceptRequest({
-                        variables: { id: request.id, tournamentId: request.tournament.id },
-                      });
-                    }}
-                    rounded
-                    bordered
-                    style={{
-                      margin: 5,
-                      borderColor: '#7a0019',
-                      borderWidth: 3,
-                      width: 40,
-                      height: 40,
-                      textAlign: 'center',
-                    }}
-                  >
-                    <SpecialIcon
-                      name='check-outline'
-                      style={{ fontSize: 27, color: '#7a0019', paddingLeft: 6 }}
-                    />
-                  </Button>
-                  <Button
-                    onPress={() => {
-                      deleteRequest({ variables: { id: request.id } });
-                    }}
-                    rounded
-                    bordered
-                    style={{
-                      margin: 5,
-                      borderColor: '#7a0019',
-                      borderWidth: 3,
-                      width: 40,
-                      height: 40,
-                      textAlign: 'center',
-                    }}
-                  >
-                    <SpecialIcon
-                      name='close-outline'
-                      style={{ fontSize: 27, color: '#7a0019', paddingLeft: 6 }}
-                    />
-                  </Button>
-                </Right>
-              </ListItem>
-            ))}
-          </List>
+          <RequestList user={user} acceptRequest={acceptRequest} deleteRequest={deleteRequest} />
         ) : (
           <></>
         )}
@@ -279,47 +211,25 @@ const MyPoolsScreen = ({ history }) => {
                       );
                     }}
                     renderHiddenItem={(data, rowMap) => (
-                      <View
-                        style={{
-                          alignItems: 'center',
-                          backgroundColor: '#DDD',
-                          flex: 1,
-                          flexDirection: 'row',
-                          justifyContent: 'flex-end',
-                          paddingLeft: 15,
-                          backgroundColor: 'white',
-                          paddingRight: 15,
-                        }}
-                      >
-                        <SpecialIcon name='delete-circle-outline' size={30} color='#7a0019' />
-                      </View>
+                      <TouchableOpacity>
+                        <View
+                          style={{
+                            alignItems: 'center',
+                            backgroundColor: '#DDD',
+                            flex: 1,
+                            flexDirection: 'row',
+                            justifyContent: 'flex-end',
+                            paddingLeft: 15,
+                            backgroundColor: 'white',
+                            paddingRight: 15,
+                          }}
+                        >
+                          <SpecialIcon name='delete-circle-outline' size={30} color='#7a0019' />
+                        </View>
+                      </TouchableOpacity>
                     )}
                     rightOpenValue={-75}
                   />
-                </List>
-                <List
-                  style={{
-                    backgroundColor: '#fc3',
-                    borderTopWidth: 2,
-                    borderTopColor: '#fff',
-                    marginTop: 20,
-                  }}
-                >
-                  {user.tournaments.map(tournament => (
-                    <>
-                      <ListItem
-                        style={{
-                          borderBottomColor: '#fff',
-                          borderBottomWidth: 2,
-                          marginLeft: 0,
-                          paddingLeft: 5,
-                          paddingRight: 5,
-                          width: '100%',
-                        }}
-                        key={tournament.id}
-                      ></ListItem>
-                    </>
-                  ))}
                 </List>
               </View>
             ) : (
