@@ -19,6 +19,7 @@ import { UserContext } from '../src/utilities/UserContext';
 import SpecialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useMutation } from '@apollo/react-hooks';
 import { ACCEPT_REQUEST_MUTATION, DELETE_REQUEST_MUTATION } from '../src/utilities/Mutations';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
@@ -192,63 +193,132 @@ const MyPoolsScreen = ({ history }) => {
                     marginTop: 20,
                   }}
                 >
-                  {user.tournaments.map(tournament => (
-                    <ListItem
-                      style={{
-                        borderBottomColor: '#fff',
-                        borderBottomWidth: 2,
-                        marginLeft: 0,
-                        paddingLeft: 5,
-                        paddingRight: 5,
-                        width: '100%',
-                      }}
-                      key={tournament.id}
-                    >
-                      <TouchableOpacity
-                        onPress={() => history.push('/tournament', { tournamentId: tournament.id })}
-                        key={tournament.id}
-                        style={{ width: '100%' }}
-                      >
-                        <View
+                  <SwipeListView
+                    data={user.tournaments}
+                    disableRightSwipe
+                    renderItem={(data, rowMap) => {
+                      console.log(data);
+                      return (
+                        <TouchableOpacity
+                          onPress={() =>
+                            history.push('/tournament', { tournamentId: data.item.id })
+                          }
+                          key={data.item.id}
                           style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
+                            width: '100%',
+                            backgroundColor: '#fc3',
+                            borderBottomColor: '#fff',
+                            borderBottomWidth: 2,
+                            marginLeft: 0,
+                            paddingLeft: 5,
+                            paddingRight: 5,
+                            paddingTop: 10,
+                            width: '100%',
+                            height: 60,
                           }}
                         >
-                          <SpecialIcon name='tournament' size={30} color='#7a0019' />
-                          <View>
-                            <Text
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                            }}
+                          >
+                            <SpecialIcon
+                              name='tournament'
+                              size={30}
+                              color='#7a0019'
                               style={{
-                                color: '#7a0019',
-                                fontFamily: 'graduate',
+                                paddingLeft: 15,
+                              }}
+                            />
+                            <View
+                              style={{
+                                textAlign: 'center',
                               }}
                             >
-                              {tournament.name}
-                            </Text>
-                            <Text
-                              style={{
-                                color: '#7a0019',
-                                fontFamily: 'graduate',
-                              }}
-                            >
-                              {tournament.startDate}
-                            </Text>
+                              <Text
+                                style={{
+                                  color: '#7a0019',
+                                  fontFamily: 'graduate',
+                                  textAlign: 'center',
+                                }}
+                              >
+                                {data.item.name}
+                              </Text>
+                              <Text
+                                style={{
+                                  color: '#7a0019',
+                                  fontFamily: 'graduate',
+                                  textAlign: 'center',
+                                }}
+                              >
+                                {data.item.startDate}
+                              </Text>
+                            </View>
+                            <View style={{ flexDirection: 'row' }}>
+                              <Text
+                                style={{
+                                  color: '#7a0019',
+                                  fontFamily: 'graduate',
+                                  fontSize: 25,
+                                }}
+                              >
+                                {data.item.tournamentMembers.length}
+                              </Text>
+                              <SpecialIcon
+                                name='account-group'
+                                size={30}
+                                color='#7a0019'
+                                style={{
+                                  paddingRight: 15,
+                                }}
+                              />
+                            </View>
                           </View>
-                          <View style={{ flexDirection: 'row' }}>
-                            <Text
-                              style={{
-                                color: '#7a0019',
-                                fontFamily: 'graduate',
-                                fontSize: 25,
-                              }}
-                            >
-                              {tournament.tournamentMembers.length}
-                            </Text>
-                            <SpecialIcon name='account-group' size={30} color='#7a0019' />
-                          </View>
-                        </View>
-                      </TouchableOpacity>
-                    </ListItem>
+                        </TouchableOpacity>
+                      );
+                    }}
+                    renderHiddenItem={(data, rowMap) => (
+                      <View
+                        style={{
+                          alignItems: 'center',
+                          backgroundColor: '#DDD',
+                          flex: 1,
+                          flexDirection: 'row',
+                          justifyContent: 'flex-end',
+                          paddingLeft: 15,
+                          backgroundColor: 'white',
+                          paddingRight: 15,
+                        }}
+                      >
+                        <SpecialIcon name='delete-circle-outline' size={30} color='#7a0019' />
+                      </View>
+                    )}
+                    rightOpenValue={-75}
+                  />
+                </List>
+                <List
+                  style={{
+                    backgroundColor: '#fc3',
+                    borderTopWidth: 2,
+                    borderTopColor: '#fff',
+                    marginTop: 20,
+                  }}
+                >
+                  {user.tournaments.map(tournament => (
+                    <>
+                      <ListItem
+                        style={{
+                          borderBottomColor: '#fff',
+                          borderBottomWidth: 2,
+                          marginLeft: 0,
+                          paddingLeft: 5,
+                          paddingRight: 5,
+                          width: '100%',
+                        }}
+                        key={tournament.id}
+                      ></ListItem>
+                    </>
                   ))}
                 </List>
               </View>
