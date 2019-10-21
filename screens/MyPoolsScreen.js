@@ -211,21 +211,19 @@ const MyPoolsScreen = ({ history }) => {
                       );
                     }}
                     renderHiddenItem={(data, rowMap) => (
-                      <TouchableOpacity>
-                        <View
-                          style={{
-                            alignItems: 'center',
-                            backgroundColor: '#DDD',
-                            flex: 1,
-                            flexDirection: 'row',
-                            justifyContent: 'flex-end',
-                            paddingLeft: 15,
-                            backgroundColor: 'white',
-                            paddingRight: 15,
-                          }}
-                        >
-                          <SpecialIcon name='delete-circle-outline' size={30} color='#7a0019' />
-                        </View>
+                      <TouchableOpacity
+                        style={{
+                          alignItems: 'center',
+                          backgroundColor: '#DDD',
+                          flex: 1,
+                          flexDirection: 'row',
+                          justifyContent: 'flex-end',
+                          paddingLeft: 15,
+                          backgroundColor: 'white',
+                          paddingRight: 15,
+                        }}
+                      >
+                        <SpecialIcon name='delete-circle-outline' size={30} color='#7a0019' />
                       </TouchableOpacity>
                     )}
                     rightOpenValue={-75}
