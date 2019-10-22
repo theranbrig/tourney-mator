@@ -73,7 +73,7 @@ const CreateTournamentScreen = ({ history }) => {
     onCompleted: data => {
       history.push('/tournament', { tournamentId: data.createTournament.id });
     },
-    refetchQueries: []
+    refetchQueries: [],
   });
 
   return (
@@ -82,7 +82,17 @@ const CreateTournamentScreen = ({ history }) => {
       <View style={styles.mainView}>
         <H1 style={styles.title}>Create a Pool</H1>
         <Form style={styles.form}>
-          <Item regular style={{ marginBottom: 10 }}>
+          <Item
+            regular
+            style={{
+              marginBottom: 10,
+              borderColor: '#fc3',
+              borderTopWidth: 2,
+              borderBottomWidth: 2,
+              borderRightWidth: 2,
+              borderLeftWidth: 2,
+            }}
+          >
             <Input
               placeholder='Enter Pool Name'
               autoCapitalize='none'
@@ -92,7 +102,17 @@ const CreateTournamentScreen = ({ history }) => {
               placeholderTextColor='#fc3'
             />
           </Item>
-          <Item regular style={{ marginBottom: 10 }}>
+          <Item
+            regular
+            style={{
+              marginBottom: 10,
+              borderColor: '#fc3',
+              borderTopWidth: 2,
+              borderBottomWidth: 2,
+              borderRightWidth: 2,
+              borderLeftWidth: 2,
+            }}
+          >
             <Input
               placeholder='Enter Pool Password'
               autoCapitalize='none'
@@ -112,32 +132,51 @@ const CreateTournamentScreen = ({ history }) => {
             placeholder='Choose One'
             placeholderStyle={{ color: '#fc3', fontFamily: 'graduate' }}
             textStyle={{ color: '#fff', fontFamily: 'graduate' }}
+            style={{
+              marginBottom: 10,
+              borderColor: '#fc3',
+              borderTopWidth: 2,
+              borderBottomWidth: 2,
+              borderRightWidth: 2,
+              borderLeftWidth: 2,
+            }}
           >
             <Picker.Item label='Random' value='RANDOM' />
             <Picker.Item label='Draft' value='DRAFT' />
             <Picker.Item label='Seed' value='SEED' />
           </Picker>
           <Label style={styles.label}>Draft Date</Label>
-          <DatePicker
-            defaultDate={new Date()}
-            minimumDate={new Date(2018, 1, 1)}
-            maximumDate={new Date(2022, 12, 31)}
-            locale='en'
-            timeZoneOffsetInMinutes={undefined}
-            modalTransparent={false}
-            animationType='fade'
-            androidMode='default'
-            placeHolderText='Select Date'
-            disabled={false}
-            animationType='slide'
-            textStyle={{ color: '#fff', fontFamily: 'graduate' }}
-            placeHolderTextStyle={{ color: '#fc3', fontFamily: 'graduate' }}
-            placeholderTextColor='#fc3'
-            onDateChange={startDate => {
-              console.log(startDate.toString().substr(4, 11));
-              setStartDate(startDate.toString().substr(4, 11));
+          <View
+            style={{
+              marginBottom: 10,
+              borderColor: '#fc3',
+              borderTopWidth: 2,
+              borderBottomWidth: 2,
+              borderRightWidth: 2,
+              borderLeftWidth: 2,
             }}
-          />
+          >
+            <DatePicker
+              defaultDate={new Date()}
+              minimumDate={new Date(2018, 1, 1)}
+              maximumDate={new Date(2022, 12, 31)}
+              locale='en'
+              timeZoneOffsetInMinutes={undefined}
+              modalTransparent={false}
+              animationType='fade'
+              androidMode='default'
+              placeHolderText='Select Date'
+              disabled={false}
+              animationType='slide'
+              textStyle={{ color: '#fff', fontFamily: 'graduate' }}
+              placeHolderTextStyle={{ color: '#fc3', fontFamily: 'graduate' }}
+              placeholderTextColor='#fc3'
+              onDateChange={startDate => {
+                console.log(startDate.toString().substr(4, 11));
+                setStartDate(startDate.toString().substr(4, 11));
+              }}
+            />
+          </View>
           <Button
             block
             style={styles.mainButton}

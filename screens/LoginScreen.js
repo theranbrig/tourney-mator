@@ -77,7 +77,17 @@ const LoginScreen = ({ history }) => {
       <View style={styles.mainView}>
         <Form style={styles.form}>
           <H1 style={styles.title}>Tourney-mator</H1>
-          <Item regular style={{ marginBottom: 10 }}>
+          <Item
+            regular
+            style={{
+              marginBottom: 10,
+              borderColor: '#fc3',
+              borderTopWidth: 2,
+              borderBottomWidth: 2,
+              borderRightWidth: 2,
+              borderLeftWidth: 2,
+            }}
+          >
             <Input
               placeholder='Email Address'
               keyboardType='email-address'
@@ -90,7 +100,17 @@ const LoginScreen = ({ history }) => {
               required
             />
           </Item>
-          <Item regular>
+          <Item
+            regular
+            style={{
+              marginBottom: 10,
+              borderColor: '#fc3',
+              borderTopWidth: 2,
+              borderBottomWidth: 2,
+              borderRightWidth: 2,
+              borderLeftWidth: 2,
+            }}
+          >
             <Input
               required
               placeholder='Password'

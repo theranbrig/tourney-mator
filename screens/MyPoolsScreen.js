@@ -25,10 +25,13 @@ import {
 } from '../src/utilities/Mutations';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import RequestList from '../src/components/PoolRequests';
+import Collapsible from 'react-native-collapsible';
+import JoinPool from '../src/components/JoinPool';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
   const [refreshing, setRefreshing] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const [acceptRequest, onAcceptCompleted: onCompleted, acceptData: data] = useMutation(
     ACCEPT_REQUEST_MUTATION,
@@ -125,7 +128,7 @@ const MyPoolsScreen = ({ history }) => {
                 >
                   Upcoming Pools
                 </Text>
-                <List
+                <View
                   style={{
                     backgroundColor: '#fc3',
                     borderTopWidth: 2,
@@ -137,7 +140,6 @@ const MyPoolsScreen = ({ history }) => {
                     data={user.tournaments}
                     disableRightSwipe
                     renderItem={(data, rowMap) => {
-                      console.log(data);
                       return (
                         <TouchableOpacity
                           onPress={() =>
@@ -220,6 +222,7 @@ const MyPoolsScreen = ({ history }) => {
                     }}
                     renderHiddenItem={(data, rowMap) => (
                       <TouchableOpacity
+                        key={data.item.id}
                         onPress={() => {
                           leaveTournament({
                             variables: {
@@ -243,13 +246,19 @@ const MyPoolsScreen = ({ history }) => {
                     )}
                     rightOpenValue={-75}
                   />
-                </List>
+                </View>
               </View>
             ) : (
               <Text>No Pools Yet</Text>
             )}
           </View>
         </Layout>
+        <Button onPress={() => setIsCollapsed(!isCollapsed)}>
+          <Text>Collapse</Text>
+        </Button>
+        <Collapsible collapsed={isCollapsed}>
+          <JoinPool />
+        </Collapsible>
       </ScrollView>
 
       <BottomFooter history={history} />
