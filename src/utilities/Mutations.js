@@ -69,3 +69,11 @@ export const DELETE_REQUEST_MUTATION = gql`
     }
   }
 `;
+
+export const LEAVE_TOURNAMENT_MUTATION = gql`
+  mutation LeaveTournament($id: ID!) {
+    leaveTournament(id: $id) {
+      message
+    }
+  }
+`;

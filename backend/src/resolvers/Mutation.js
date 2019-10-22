@@ -93,10 +93,27 @@ const Mutations = {
     return { message: 'Pool Deleted' };
   },
   async leaveTournament(parent, args, ctx, info) {
-    const removedTournamentMember = await ctx.db.mutation.deleteTournamentMember({
-      where: { id: args.id },
+    const tourneyMembers = await ctx.db.query.tournamentMembers({
+      where: { AND: [{ tournament: { id: args.id } }, { user: { id: ctx.request.userId } }] },
     });
-    return { message: 'Sorry to see you go.' };
+    if (tourneyMembers.length > 1) {
+      throw new Error('Oops.  Something went wrong. Check with an Admin.');
+    }
+    if (tourneyMembers.length === 0) {
+      throw new Error('No tournament matching that found.');
+    }
+    const tournaments = await ctx.db.query.tournaments({
+      where: { members_some: { id: ctx.request.userId } },
+    });
+    const updatedTournament = await ctx.db.mutation.updateTournament({
+      where: { id: tournaments[0].id },
+      data: { members: { disconnect: { id: ctx.request.userId } } },
+    });
+    const deletedTourneyMember = await ctx.db.mutation.deleteTournamentMember({
+      where: { id: tourneyMembers[0].id },
+    });
+    console.log('DELETED', deletedTourneyMember);
+    return { message: 'Removed from Tournament' };
   },
   async createTournamentRequest(parent, args, ctx, info) {
     const user = await ctx.db.query.user({ where: { email: args.userEmail } });

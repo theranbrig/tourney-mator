@@ -18,7 +18,11 @@ import BottomFooter from '../src/components/Footer';
 import { UserContext } from '../src/utilities/UserContext';
 import SpecialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useMutation } from '@apollo/react-hooks';
-import { ACCEPT_REQUEST_MUTATION, DELETE_REQUEST_MUTATION } from '../src/utilities/Mutations';
+import {
+  ACCEPT_REQUEST_MUTATION,
+  DELETE_REQUEST_MUTATION,
+  LEAVE_TOURNAMENT_MUTATION,
+} from '../src/utilities/Mutations';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import RequestList from '../src/components/PoolRequests';
 
@@ -45,6 +49,10 @@ const MyPoolsScreen = ({ history }) => {
     }
   );
 
+  const [leaveTournament, onLeaveTournamentCompleted: onCompleted] = useMutation(
+    LEAVE_TOURNAMENT_MUTATION
+  );
+
   const onRefresh = () => {
     setRefreshing(true);
     userRefetch().then(() => {
@@ -54,7 +62,7 @@ const MyPoolsScreen = ({ history }) => {
 
   useEffect(() => {
     userRefetch();
-  }, [onDeleteCompleted, onAcceptCompleted]);
+  }, [onDeleteCompleted, onAcceptCompleted, onLeaveTournamentCompleted]);
 
   return (
     <>
@@ -212,6 +220,13 @@ const MyPoolsScreen = ({ history }) => {
                     }}
                     renderHiddenItem={(data, rowMap) => (
                       <TouchableOpacity
+                        onPress={() => {
+                          leaveTournament({
+                            variables: {
+                              id: data.item.id,
+                            },
+                          });
+                        }}
                         style={{
                           alignItems: 'center',
                           backgroundColor: '#DDD',
