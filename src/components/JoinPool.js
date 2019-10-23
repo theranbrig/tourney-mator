@@ -18,23 +18,25 @@ import { StyleSheet, StatusBar } from 'react-native';
 const styles = StyleSheet.create({
   mainButton: {
     marginTop: 10,
-    borderColor: '#fc3',
-    backgroundColor: '#7a0019',
+    borderColor: '#7a0019',
+    backgroundColor: '#fc3',
     borderWidth: 2,
     width: '100%',
     borderRadius: 0,
   },
   mainButtonText: {
     fontSize: 20,
-    color: '#fc3',
+    color: '#7a0019',
     fontFamily: 'graduate',
   },
   form: {
-    width: '90%',
-    backgroundColor: '#f3f3f3',
+    width: '100%',
+    backgroundColor: '#fff',
+    marginBottom: 20,
+    padding: 10,
   },
   contentArea: {
-    backgroundColor: '#f3f3f3',
+    backgroundColor: '#fff',
   },
   title: {
     textAlign: 'center',
@@ -43,18 +45,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 20,
   },
-  mainView: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f3f3f3',
-  },
 });
 
 const JoinPool = ({ history }) => {
   const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
-  const [username, setUsername] = useState(null);
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   // const [login, { data }, onCompleted, onError] = useMutation(LOGIN_MUTATION, {
@@ -66,7 +62,7 @@ const JoinPool = ({ history }) => {
   // const { userRefetch, userError } = useContext(UserContext);
 
   return (
-    <View style={styles.mainView}>
+    <Form>
       <Form style={styles.form}>
         <H1 style={styles.title}>Enter Pool Information</H1>
         <Item
@@ -83,13 +79,13 @@ const JoinPool = ({ history }) => {
           <Input
             placeholder='Pool Name'
             value={name}
-            onChangeText={name => setEmail(name)}
+            onChangeText={name => setName(name)}
             autoCapitalize='none'
             style={{
-              color: '#f3f3f3',
+              color: '#7a0019',
               fontFamily: 'graduate',
             }}
-            placeholderTextColor='#fc3'
+            placeholderTextColor='#7a0019'
             required
           />
         </Item>
@@ -107,13 +103,13 @@ const JoinPool = ({ history }) => {
           <Input
             required
             placeholder='Password'
-            style={{ color: '#f3f3f3', fontFamily: 'graduate' }}
+            style={{ color: '#7a0019', fontFamily: 'graduate' }}
             value={password}
             onChangeText={password => setPassword(password)}
             secureTextEntry
             textContentType='password'
             autoCapitalize='none'
-            placeholderTextColor='#fc3'
+            placeholderTextColor='#7a0019'
           />
         </Item>
         <Button
@@ -135,14 +131,8 @@ const JoinPool = ({ history }) => {
           )}
         </Button>
       </Form>
-      <View>
-        <Button transparent onPress={() => history.push('/signup')}>
-          <Text style={{ color: '#f3f3f3' }}>Not yet a member?</Text>
-          <Text style={{ color: '#f3f3f3' }}>Go To Sign Up Screen</Text>
-        </Button>
-      </View>
       {error && <ErrorMessage errorMessage={error} error={error.message} />}
-    </View>
+    </Form>
   );
 };
 export default JoinPool;

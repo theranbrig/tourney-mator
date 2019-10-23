@@ -31,7 +31,7 @@ import JoinPool from '../src/components/JoinPool';
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
   const [refreshing, setRefreshing] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const [acceptRequest, onAcceptCompleted: onCompleted, acceptData: data] = useMutation(
     ACCEPT_REQUEST_MUTATION,
@@ -95,6 +95,7 @@ const MyPoolsScreen = ({ history }) => {
           </Button>
         </Right>
       </Header>
+
       <ScrollView
         style={{ backgroundColor: '#7a0019' }}
         contentContainerStyle={{
@@ -253,13 +254,23 @@ const MyPoolsScreen = ({ history }) => {
             )}
           </View>
         </Layout>
-        <Button onPress={() => setIsCollapsed(!isCollapsed)}>
-          <Text>Collapse</Text>
-        </Button>
-        <Collapsible collapsed={isCollapsed}>
+      </ScrollView>
+      <View>
+        <View>
+          <Text>JOIN A POOL</Text>
+          <Button onPress={() => setIsCollapsed(!isCollapsed)}>
+            {isCollapsed ? (
+              <SpecialIcon name='chevron-down' size={30} color='#7a0019' />
+            ) : (
+              <SpecialIcon name='chevron-up' size={30} color='#7a0019' />
+            )}
+          </Button>
+          <Text>ENTER A POOL NAME AND PASSWORD</Text>
+        </View>
+        <Collapsible collapsed={isCollapsed} duration={600} easing={'elastic'}>
           <JoinPool />
         </Collapsible>
-      </ScrollView>
+      </View>
 
       <BottomFooter history={history} />
     </>
