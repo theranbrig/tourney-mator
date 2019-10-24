@@ -267,9 +267,8 @@ const MyPoolsScreen = ({ history }) => {
           </Button>
           <Text>ENTER A POOL NAME AND PASSWORD</Text>
         </View>
-        <Collapsible collapsed={isCollapsed} duration={600} easing={'elastic'}>
-          <JoinPool />
-        </Collapsible>
+
+        <JoinPool />
       </View>
 
       <BottomFooter history={history} />
