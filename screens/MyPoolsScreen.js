@@ -264,13 +264,15 @@ const MyPoolsScreen = ({ history }) => {
             justifyContent: 'space-between',
             alignItems: 'center',
             backgroundColor: '#fc3',
+            borderBottomColor: '#7a0019',
+            borderBottomWidth: 2,
           }}
         >
           <Text
             style={{
               color: '#7a0019',
               fontFamily: 'graduate',
-
+              fontSize: 16,
             }}
           >
             Join A Pool
