@@ -77,3 +77,13 @@ export const LEAVE_TOURNAMENT_MUTATION = gql`
     }
   }
 `;
+
+export const JOIN_TOURNAMENT_MUTATION = gql`
+  mutation JoinTournament($name: String, $password: String) {
+    joinTournament(name: $name, password: $password) {
+      id
+      name
+      password
+    }
+  }
+`;

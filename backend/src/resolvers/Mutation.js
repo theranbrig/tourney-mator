@@ -115,6 +115,51 @@ const Mutations = {
     console.log('DELETED', deletedTourneyMember);
     return { message: 'Removed from Tournament' };
   },
+  async joinTournament(parent, args, ctx, info) {
+    const tournament = await ctx.db.query.tournaments({
+      where: { AND: [{ name: args.name }, { password: args.password }] },
+    });
+    if (!tournament.length) {
+      throw new Error('Tournament with that name and password does exist.  Check again.');
+    }
+    const memberCheck = await ctx.db.query.tournamentMembers({
+      where: {
+        AND: [{ tournament: { id: tournament[0].id } }, { user: { id: ctx.request.userId } }],
+      },
+    });
+    if (memberCheck.length) {
+      throw new Error('You are already a member.');
+    }
+    console.log(memberCheck);
+    const tournamentMember = await ctx.db.mutation.createTournamentMember({
+      data: {
+        user: { connect: { id: ctx.request.userId } },
+        tournament: { connect: { id: tournament[0].id } },
+        role: 'USER',
+      },
+    });
+    console.log('MEMBER', tournamentMember);
+    const updatedTournament = await ctx.db.mutation.updateTournament({
+      where: { id: tournament[0].id },
+      data: {
+        tournamentMembers: {
+          connect: { id: tournamentMember.id },
+        },
+      },
+    });
+    console.log('UPDATEDT', updatedTournament);
+    const user = await ctx.db.mutation.updateUser({
+      where: { id: ctx.request.userId },
+      data: {
+        tournamentMembers: {
+          connect: { id: tournamentMember.id },
+          tournaments: { connect: { id: updatedTournament.id } },
+        },
+      },
+    });
+    console.log('USER', user);
+    return updatedTournament;
+  },
   async createTournamentRequest(parent, args, ctx, info) {
     const user = await ctx.db.query.user({ where: { email: args.userEmail } });
     console.log(user);

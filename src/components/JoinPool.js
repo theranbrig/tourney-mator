@@ -47,20 +47,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const JoinPool = ({ history }) => {
+const JoinPool = props => {
   const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  // const [login, { data }, onCompleted, onError] = useMutation(LOGIN_MUTATION, {
-  //   refetchQueries: ['CURRENT_USER_QUERY'],
-  //   awaitRefetchQueries: true,
-  //   onError: error => setError(error.message),
-  //   onCompleted: data => history.push('/loading', { destination: '/home' }),
-  // });
-  // const { userRefetch, userError } = useContext(UserContext);
 
+  console.log(props);
   return (
     <Form>
       <Form style={styles.form}>
@@ -118,8 +112,10 @@ const JoinPool = ({ history }) => {
           type='submit'
           onPress={async () => {
             setLoading(true);
-            await login({ variables: { email, password } });
+            await joinTournament({ variables: { name, password } });
             userRefetch();
+            setName(null);
+            setPassword(null);
             setLoading(false);
           }}
           disabled={loading}
@@ -131,7 +127,7 @@ const JoinPool = ({ history }) => {
           )}
         </Button>
       </Form>
-      {error && <ErrorMessage errorMessage={error} error={error.message} />}
+      {error && <ErrorMessage errorMessage={error} error={props.joinError} />}
     </Form>
   );
 };

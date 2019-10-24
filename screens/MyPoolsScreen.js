@@ -22,6 +22,7 @@ import {
   ACCEPT_REQUEST_MUTATION,
   DELETE_REQUEST_MUTATION,
   LEAVE_TOURNAMENT_MUTATION,
+  JOIN_TOURNAMENT_MUTATION,
 } from '../src/utilities/Mutations';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import RequestList from '../src/components/PoolRequests';
@@ -32,6 +33,7 @@ const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
   const [refreshing, setRefreshing] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
+  const [error, setError] = useState(null);
 
   const [acceptRequest, onAcceptCompleted: onCompleted, acceptData: data] = useMutation(
     ACCEPT_REQUEST_MUTATION,
@@ -46,7 +48,6 @@ const MyPoolsScreen = ({ history }) => {
     DELETE_REQUEST_MUTATION,
     {
       onDeleteCompleted: async data => {
-        console.log(deleteData);
         await userRefetch();
       },
     }
@@ -54,6 +55,15 @@ const MyPoolsScreen = ({ history }) => {
 
   const [leaveTournament, onLeaveTournamentCompleted: onCompleted] = useMutation(
     LEAVE_TOURNAMENT_MUTATION
+  );
+
+  const [joinTournament, onJoinTournamentCompleted: onCompleted, onError] = useMutation(
+    JOIN_TOURNAMENT_MUTATION,
+    {
+      onError: error => {
+        setError(error.message);
+      },
+    }
   );
 
   const onRefresh = () => {
@@ -65,7 +75,7 @@ const MyPoolsScreen = ({ history }) => {
 
   useEffect(() => {
     userRefetch();
-  }, [onDeleteCompleted, onAcceptCompleted, onLeaveTournamentCompleted]);
+  }, [onDeleteCompleted, onAcceptCompleted, onLeaveTournamentCompleted, onJoinTournamentCompleted]);
 
   return (
     <>
@@ -286,9 +296,14 @@ const MyPoolsScreen = ({ history }) => {
       </TouchableOpacity>
       <View>
         <View style={{ height: 1, width: '100%' }} />
-        {isCollapsed && (
+        {!isCollapsed && (
           <View style={{ padding: 16 }}>
-            <JoinPool />
+            <JoinPool
+              joinTournament={joinTournament}
+              joinError={error}
+              userRefetch={userRefetch}
+              onError={onError}
+            />
           </View>
         )}
       </View>
