@@ -255,20 +255,40 @@ const MyPoolsScreen = ({ history }) => {
           </View>
         </Layout>
       </ScrollView>
-      <View>
-        <View>
-          <Text>JOIN A POOL</Text>
-          <Button onPress={() => setIsCollapsed(!isCollapsed)}>
-            {isCollapsed ? (
-              <SpecialIcon name='chevron-down' size={30} color='#7a0019' />
-            ) : (
-              <SpecialIcon name='chevron-up' size={30} color='#7a0019' />
-            )}
-          </Button>
-          <Text>ENTER A POOL NAME AND PASSWORD</Text>
-        </View>
+      <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}>
+        <View
+          style={{
+            flexDirection: 'row',
+            padding: 10,
+            textAlign: 'center',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: '#fc3',
+          }}
+        >
+          <Text
+            style={{
+              color: '#7a0019',
+              fontFamily: 'graduate',
 
-        <JoinPool />
+            }}
+          >
+            Join A Pool
+          </Text>
+          <SpecialIcon
+            name={isCollapsed ? 'chevron-down' : 'chevron-up'}
+            size={30}
+            color='#7a0019'
+          />
+        </View>
+      </TouchableOpacity>
+      <View>
+        <View style={{ height: 1, width: '100%' }} />
+        {isCollapsed && (
+          <View style={{ padding: 16 }}>
+            <JoinPool />
+          </View>
+        )}
       </View>
 
       <BottomFooter history={history} />
