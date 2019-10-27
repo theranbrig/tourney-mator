@@ -98,7 +98,7 @@ const TournamentInformationScreen = ({ history }) => {
   const [email, setEmail] = useState(null);
   const [adminRole, setAdminRole] = useState(null);
   const [admin, setAdmin] = useState('');
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState('Hello');
   const [error, setError] = useState(null);
 
   const { loading, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
@@ -120,22 +120,17 @@ const TournamentInformationScreen = ({ history }) => {
     onError,
   ] = useMutation(CREATE_TOURNAMENT_REQUEST_MUTATION, {
     variables: { tournament: history.location.state.tournamentId, userEmail: email },
-    requestOnCompleted: async data => {
-      console.log('REQUEST DATA', data);
-      setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`);
-    },
     onError: async error => setError(error.message),
   });
 
   const { tournament } = data;
 
   useEffect(() => {
-    console.log(tournament);
     if (tournament) {
       const adminRole = tournament.tournamentMembers.filter(member => member.role === 'ADMIN');
       setAdmin(adminRole[0].user.id);
     }
-    console.log('Error', error);
+    console.log('EFFECT');
   }, [data, requestOnCompleted, onError]);
 
   if (loading)
@@ -230,7 +225,10 @@ const TournamentInformationScreen = ({ history }) => {
                 <Button
                   block
                   style={styles.mainButton}
-                  onPress={() => createTournamentRequest()}
+                  onPress={() => {
+                    createTournamentRequest();
+                    setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`);
+                  }}
                   disabled={error}
                 >
                   {requestLoading ? (
@@ -259,6 +257,9 @@ const TournamentInformationScreen = ({ history }) => {
                     width: '95%',
                     marginLeft: '2.5%',
                     borderColor: '#fff',
+                    borderWidth: 2,
+                    padding: 10,
+                    textAlign: 'center',
                   }}
                 >
                   <Text
