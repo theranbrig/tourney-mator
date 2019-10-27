@@ -26,7 +26,6 @@ import {
 } from '../src/utilities/Mutations';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import RequestList from '../src/components/PoolRequests';
-import Collapsible from 'react-native-collapsible';
 import JoinPool from '../src/components/JoinPool';
 
 const MyPoolsScreen = ({ history }) => {
@@ -127,7 +126,7 @@ const MyPoolsScreen = ({ history }) => {
         )}
         <Layout title='Pools'>
           <View style={{ backgroundColor: '#7a0019' }}>
-            {user.tournaments && user.tournaments.length ? (
+            {user.tournamentMembers && user.tournamentMembers.length ? (
               <View style={{ width: '100%', paddingTop: 20 }}>
                 <Text
                   style={{
@@ -148,15 +147,16 @@ const MyPoolsScreen = ({ history }) => {
                   }}
                 >
                   <SwipeListView
-                    data={user.tournaments}
+                    data={user.tournamentMembers}
                     disableRightSwipe
+                    keyExtractor={item => item.tournament.id}
                     renderItem={(data, rowMap) => {
                       return (
                         <TouchableOpacity
                           onPress={() =>
-                            history.push('/tournament', { tournamentId: data.item.id })
+                            history.push('/tournament', { tournamentId: data.item.tournament.id })
                           }
-                          key={data.item.id}
+                          key={data.item.tournament.id}
                           style={{
                             width: '100%',
                             backgroundColor: '#fc3',
@@ -196,7 +196,7 @@ const MyPoolsScreen = ({ history }) => {
                                   textAlign: 'center',
                                 }}
                               >
-                                {data.item.name}
+                                {data.item.tournament.name}
                               </Text>
                               <Text
                                 style={{
@@ -205,7 +205,7 @@ const MyPoolsScreen = ({ history }) => {
                                   textAlign: 'center',
                                 }}
                               >
-                                {data.item.startDate}
+                                {data.item.tournament.startDate}
                               </Text>
                             </View>
                             <View style={{ flexDirection: 'row' }}>
@@ -216,7 +216,7 @@ const MyPoolsScreen = ({ history }) => {
                                   fontSize: 25,
                                 }}
                               >
-                                {data.item.tournamentMembers.length}
+                                {data.item.tournament.tournamentMembers.length}
                               </Text>
                               <SpecialIcon
                                 name='account-group'
@@ -233,11 +233,10 @@ const MyPoolsScreen = ({ history }) => {
                     }}
                     renderHiddenItem={(data, rowMap) => (
                       <TouchableOpacity
-                        key={data.item.id}
                         onPress={() => {
                           leaveTournament({
                             variables: {
-                              id: data.item.id,
+                              id: data.item.tournament.id,
                             },
                           });
                         }}
@@ -260,7 +259,16 @@ const MyPoolsScreen = ({ history }) => {
                 </View>
               </View>
             ) : (
-              <Text>No Pools Yet</Text>
+              <Text
+                style={{
+                  color: '#7a0019',
+                  fontFamily: 'graduate',
+                  fontSize: 20,
+                  textAlign: 'center',
+                }}
+              >
+                No Pools Yet
+              </Text>
             )}
           </View>
         </Layout>
@@ -307,7 +315,6 @@ const MyPoolsScreen = ({ history }) => {
           </View>
         )}
       </View>
-
       <BottomFooter history={history} />
     </>
   );

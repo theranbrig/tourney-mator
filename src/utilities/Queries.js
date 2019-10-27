@@ -22,6 +22,19 @@ export const CURRENT_USER_QUERY = gql`
           name
         }
       }
+      tournamentMembers {
+        id
+        tournament {
+          id
+          name
+          startDate
+          tournamentMembers {
+            id
+          }
+        }
+        points
+        role
+      }
     }
   }
 `;

@@ -112,8 +112,8 @@ const JoinPool = props => {
           type='submit'
           onPress={async () => {
             setLoading(true);
-            await joinTournament({ variables: { name, password } });
-            userRefetch();
+            await props.joinTournament({ variables: { name, password } });
+            props.userRefetch();
             setName(null);
             setPassword(null);
             setLoading(false);
