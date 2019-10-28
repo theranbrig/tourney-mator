@@ -12,7 +12,6 @@ type User {
   resetTokenExpiry: Float
   token: String
   permissions: [Permission] @scalarList(strategy: RELATION)
-  tournaments: [Tournament] @scalarList(strategy: RELATION)
   friends: [User] @scalarList(strategy: RELATION)
   tournamentMembers: [TournamentMember] @scalarList(strategy: RELATION)
   tournamentRequests: [TournamentRequest] @scalarList(strategy: RELATION)
@@ -27,6 +26,7 @@ type Tournament {
   type: String
   startDate: String
   tournamentMembers: [TournamentMember] @scalarList(strategy: RELATION)
+  maxMembers: Float
 }
 
 type TournamentMember {
