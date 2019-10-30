@@ -16,6 +16,7 @@ import {
 import Layout from '../src/utilities/Layout';
 import BottomFooter from '../src/components/Footer';
 import { UserContext } from '../src/utilities/UserContext';
+import { FirebaseContext } from '../src/utilities/Firebase';
 import SpecialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useMutation } from '@apollo/react-hooks';
 import {
@@ -30,6 +31,7 @@ import JoinPool from '../src/components/JoinPool';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
+  const { hello } = useContext(FirebaseContext);
   const [refreshing, setRefreshing] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [error, setError] = useState(null);
@@ -104,7 +106,6 @@ const MyPoolsScreen = ({ history }) => {
           </Button>
         </Right>
       </Header>
-
       <ScrollView
         style={{ backgroundColor: '#7a0019' }}
         contentContainerStyle={{
@@ -126,6 +127,7 @@ const MyPoolsScreen = ({ history }) => {
         )}
         <Layout title='Pools'>
           <View style={{ backgroundColor: '#7a0019' }}>
+            <Text>{hello}</Text>
             {user.tournamentMembers && user.tournamentMembers.length ? (
               <View style={{ width: '100%', paddingTop: 20 }}>
                 <Text

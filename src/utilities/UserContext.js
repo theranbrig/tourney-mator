@@ -30,4 +30,4 @@ UserProvider.propTypes = {
 };
 
 export default UserProvider;
-export { CURRENT_USER_QUERY };
+

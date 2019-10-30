@@ -7,14 +7,6 @@ export const CURRENT_USER_QUERY = gql`
       email
       username
       token
-      tournaments {
-        id
-        name
-        startDate
-        tournamentMembers {
-          id
-        }
-      }
       tournamentRequests {
         id
         tournament {

@@ -1,3 +1,6 @@
+import React from 'react';
+import gql from 'graphql-tag';
+import PropTypes from 'prop-types';
 import * as firebase from 'firebase';
 
 // Initialize Firebase
@@ -13,21 +16,25 @@ const firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.analytics();
 
-// Firebase test.
-function storeHighScore(userId, score) {
-  firebase
-    .database()
-    .ref('users/' + userId)
-    .set({
-      highscore: score,
-    });
-}
+export const FirebaseContext = React.createContext();
 
-setupHighscoreListener(userId) {
-  firebase.database().ref('users/' + userId).on('value', (snapshot) => {
-    const highscore = snapshot.val().highscore;
-    console.log("New high score: " + highscore);
-  });
-}
+const FirebaseProvider = ({ children }) => {
+  const hello = 'hello';
+  return (
+    <FirebaseContext.Provider
+      value={{
+        firebase,
+        hello
+      }}
+    >
+      {children}
+    </FirebaseContext.Provider>
+  );
+};
+
+FirebaseProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default FirebaseProvider;
