@@ -275,6 +275,11 @@ const MyPoolsScreen = ({ history }) => {
           </View>
         </Layout>
       </ScrollView>
+      <TouchableOpacity>
+        <View>
+          <SpecialIcon name='plus' size={30} color='#fc3' />
+        </View>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}>
         <View
           style={{
