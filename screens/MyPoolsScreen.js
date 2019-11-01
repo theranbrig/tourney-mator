@@ -31,7 +31,7 @@ import JoinPool from '../src/components/JoinPool';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
-  const { hello } = useContext(FirebaseContext);
+  const { hello, firebase, addToFirebase } = useContext(FirebaseContext);
   const [refreshing, setRefreshing] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [error, setError] = useState(null);
@@ -275,11 +275,11 @@ const MyPoolsScreen = ({ history }) => {
           </View>
         </Layout>
       </ScrollView>
-      <TouchableOpacity>
-        <View>
+      <View>
+        <Button onPress={() => addToFirebase('Theran')}>
           <SpecialIcon name='plus' size={30} color='#fc3' />
-        </View>
-      </TouchableOpacity>
+        </Button>
+      </View>
       <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}>
         <View
           style={{
