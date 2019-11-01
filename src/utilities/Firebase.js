@@ -15,6 +15,12 @@ const firebaseConfig = {
   measurementId: 'G-XC986894ET',
 };
 // Initialize Firebase
+<<<<<<< HEAD
+=======
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+
+>>>>>>> 8595b77c5f833ed89d49fa1297785528525b6f1d
 firebase.initializeApp(firebaseConfig);
 
 export const FirebaseContext = React.createContext();
