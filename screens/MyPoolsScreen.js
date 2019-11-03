@@ -31,10 +31,11 @@ import JoinPool from '../src/components/JoinPool';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
-  const { hello, firebase, addToFirebase } = useContext(FirebaseContext);
+  const { hello, firebase, addToFirebase, dbh, firebaseValue } = useContext(FirebaseContext);
   const [refreshing, setRefreshing] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [error, setError] = useState(null);
+  const [docSnap, setDocSnap] = useState(null);
 
   const [acceptRequest, onAcceptCompleted: onCompleted, acceptData: data] = useMutation(
     ACCEPT_REQUEST_MUTATION,
@@ -76,7 +77,15 @@ const MyPoolsScreen = ({ history }) => {
 
   useEffect(() => {
     userRefetch();
-  }, [onDeleteCompleted, onAcceptCompleted, onLeaveTournamentCompleted, onJoinTournamentCompleted]);
+    firebaseValue && console.log(firebaseValue.docs[0].data().specialAttack);
+  }, [
+    onDeleteCompleted,
+    onAcceptCompleted,
+    onLeaveTournamentCompleted,
+    onJoinTournamentCompleted,
+    docSnap,
+    firebaseValue,
+  ]);
 
   return (
     <>
@@ -127,7 +136,6 @@ const MyPoolsScreen = ({ history }) => {
         )}
         <Layout title='Pools'>
           <View style={{ backgroundColor: '#7a0019' }}>
-            <Text>{hello}</Text>
             {user.tournamentMembers && user.tournamentMembers.length ? (
               <View style={{ width: '100%', paddingTop: 20 }}>
                 <Text
@@ -276,7 +284,20 @@ const MyPoolsScreen = ({ history }) => {
         </Layout>
       </ScrollView>
       <View>
-        <Button onPress={() => addToFirebase('Theran')}>
+        {/* {firebaseValue && (
+          <View>
+            {firbaseValue.docs.map(item => (
+              <Text>{item.anme}</Text>
+            ))}
+          </View>
+        )} */}
+      </View>
+      <View>
+        <Button
+          onPress={() => {
+            addToFirebase('Theran');
+          }}
+        >
           <SpecialIcon name='plus' size={30} color='#fc3' />
         </Button>
       </View>

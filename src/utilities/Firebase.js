@@ -2,6 +2,8 @@ import React from 'react';
 import gql from 'graphql-tag';
 import PropTypes from 'prop-types';
 import * as firebase from 'firebase';
+import '@firebase/firestore';
+import { useCollection } from 'react-firebase-hooks/firestore';
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -19,22 +21,36 @@ firebase.initializeApp(firebaseConfig);
 
 export const FirebaseContext = React.createContext();
 
-const FirebaseProvider = ({ children }) => {
-  const hello = 'hello';
+const dbh = firebase.firestore();
 
+const FirebaseProvider = ({ children }) => {
   const addToFirebase = name => {
-    firebase
-      .database()
-      .ref('users')
-      .set({ username: name });
+    dbh
+      .collection('characters')
+      .doc('mario')
+      .set({
+        employment: 'plumber',
+        outfitColor: 'red',
+        specialAttack: 'fireball',
+      });
   };
+
+  const [firebaseValue: value, firebaseLoading: loading, firebaseError: error] = useCollection(
+    firebase.firestore().collection('characters'),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
   return (
     <FirebaseContext.Provider
       value={{
         firebase,
-        hello,
         addToFirebase,
+        dbh,
+        firebaseValue,
+        firebaseLoading,
+        firebaseError,
       }}
     >
       {children}
