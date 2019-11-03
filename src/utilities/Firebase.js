@@ -24,14 +24,14 @@ export const FirebaseContext = React.createContext();
 const dbh = firebase.firestore();
 
 const FirebaseProvider = ({ children }) => {
-  const addToFirebase = name => {
+  const addToFirebase = (name, employment, outfit, attack) => {
     dbh
       .collection('characters')
-      .doc('mario')
+      .doc(name)
       .set({
-        employment: 'plumber',
-        outfitColor: 'red',
-        specialAttack: 'fireball',
+        employment: employment,
+        outfitColor: outfit,
+        specialAttack: attack,
       });
   };
 

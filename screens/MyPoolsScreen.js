@@ -77,7 +77,7 @@ const MyPoolsScreen = ({ history }) => {
 
   useEffect(() => {
     userRefetch();
-    firebaseValue && console.log(firebaseValue.docs[0].data().specialAttack);
+    firebaseValue && console.log(firebaseValue.docs.map(doc => doc.data()));
   }, [
     onDeleteCompleted,
     onAcceptCompleted,
@@ -295,7 +295,7 @@ const MyPoolsScreen = ({ history }) => {
       <View>
         <Button
           onPress={() => {
-            addToFirebase('Theran');
+            addToFirebase('Luigi', 'Plumber', 'Green', 'Racoon');
           }}
         >
           <SpecialIcon name='plus' size={30} color='#fc3' />
