@@ -79,7 +79,7 @@ const MyPoolsScreen = ({ history }) => {
 
   useEffect(() => {
     userRefetch();
-    firebaseValue && console.log(firebaseValue.docs.map(doc => doc.data()));
+    firebaseValue && setDocSnap(firebaseValue.docs);
   }, [
     onDeleteCompleted,
     onAcceptCompleted,
@@ -131,18 +131,18 @@ const MyPoolsScreen = ({ history }) => {
         </Layout>
       </ScrollView>
       <View>
-        {/* {firebaseValue && (
+        {firebaseValue && docSnap && (
           <View>
-            {firbaseValue.docs.map(item => (
-              <Text>{item.anme}</Text>
+            {docSnap.map(doc => (
+              <Text>{doc.data().specialAttack}</Text>
             ))}
           </View>
-        )} */}
+        )}
       </View>
       <View>
         <Button
           onPress={() => {
-            addToFirebase('Luigi', 'Plumber', 'Green', 'Racoon');
+            addToFirebase('Toad', 'Litle Guy', 'Spots', 'Mushroom');
           }}
         >
           <SpecialIcon name='plus' size={30} color='#fc3' />
