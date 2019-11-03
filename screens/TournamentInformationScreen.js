@@ -22,7 +22,7 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import SpinningImage from 'react-native-spinning-image';
 import Layout from '../src/utilities/Layout';
-import Header from '../src/components/Header';
+import BackButtonHeader from '../src/components/BackButtonHeader';
 import { UserContext } from '../src/utilities/UserContext';
 import {
   REMOVE_POOL_MUTATION,
@@ -152,7 +152,7 @@ const TournamentInformationScreen = ({ history }) => {
 
   return (
     <Layout title='Pools' style={{ backgroundColor: '#7a0019' }}>
-      <Header history={history} title='Pool Info' />
+      <BackButtonHeader history={history} title='Pool Info' />
       <View style={styles.mainView}>
         <ScrollView
           bounces

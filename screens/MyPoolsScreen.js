@@ -28,6 +28,7 @@ import {
 import { SwipeListView } from 'react-native-swipe-list-view';
 import RequestList from '../src/components/PoolRequests';
 import JoinPool from '../src/components/JoinPool';
+import PoolsHeader from '../src/components/PoolsHeader';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
@@ -89,32 +90,7 @@ const MyPoolsScreen = ({ history }) => {
 
   return (
     <>
-      <Header style={{ backgroundColor: '#fc3', borderBottomWidth: 2, borderBottomColor: '#fff' }}>
-        <Left>
-          <Icon
-            style={{ color: '#7a0019' }}
-            type='FontAwesome5'
-            name='chevron-left'
-            onPress={() => history.goBack()}
-          />
-        </Left>
-        <Body>
-          <Title style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 20 }}>MY POOLS</Title>
-          <Subtitle style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 15 }}>
-            {user.username}
-          </Subtitle>
-        </Body>
-        <Right>
-          <Button transparent>
-            <Icon
-              style={{ color: '#7a0019' }}
-              type='FontAwesome5'
-              name='plus-circle'
-              onPress={() => history.push('/create')}
-            />
-          </Button>
-        </Right>
-      </Header>
+      <PoolsHeader history={history} user={user} />
       <ScrollView
         style={{ backgroundColor: '#7a0019' }}
         contentContainerStyle={{

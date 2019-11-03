@@ -18,7 +18,7 @@ import { useMutation } from '@apollo/react-hooks';
 import Layout from '../src/utilities/Layout';
 import { UserContext } from '../src/utilities/UserContext';
 import { CREATE_POOL_MUTATION } from '../src/utilities/Mutations';
-import Header from '../src/components/Header';
+import BackButtonHeader from '../src/components/BackButtonHeader';
 
 const styles = StyleSheet.create({
   mainButton: {
@@ -78,7 +78,7 @@ const CreateTournamentScreen = ({ history }) => {
 
   return (
     <Layout title='Pools'>
-      <Header history={history} title='Create Pool' />
+      <BackButtonHeader history={history} title='Create Pool' />
       <View style={styles.mainView}>
         <H1 style={styles.title}>Create a Pool</H1>
         <Form style={styles.form}>
