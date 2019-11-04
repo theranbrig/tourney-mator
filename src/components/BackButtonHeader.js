@@ -1,7 +1,7 @@
 import React from 'react';
 import { Header, Button, Left, Body, Right, Icon, Text, Title } from 'native-base';
 
-const BackButtonHeader = props => (
+const BackButtonHeader = (props) => (
   <Header style={{ backgroundColor: '#fc3' }}>
     <Left>
       <Button style={{ backgroundColor: '#fc3' }} onPress={() => props.history.goBack()}>

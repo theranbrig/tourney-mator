@@ -24,19 +24,20 @@ export const FirebaseContext = React.createContext();
 const dbh = firebase.firestore();
 
 const FirebaseProvider = ({ children }) => {
-  const addToFirebase = (name, employment, outfit, attack) => {
+  const liveUserData = userId => {
     dbh
-      .collection('characters')
-      .doc(name)
+      .collection('users')
+      .doc(userId)
       .set({
-        employment: employment,
-        outfitColor: outfit,
-        specialAttack: attack,
+        waitingTournament: '',
+        liveTournament: '',
+        currentPick: null,
+        myPicks: [],
       });
   };
 
   const [firebaseValue: value, firebaseLoading: loading, firebaseError: error] = useCollection(
-    firebase.firestore().collection('characters'),
+    firebase.firestore().collection('users'),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
@@ -46,8 +47,6 @@ const FirebaseProvider = ({ children }) => {
     <FirebaseContext.Provider
       value={{
         firebase,
-        addToFirebase,
-        dbh,
         firebaseValue,
         firebaseLoading,
         firebaseError,

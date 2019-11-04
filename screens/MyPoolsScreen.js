@@ -33,7 +33,7 @@ import PoolsList from '../src/components/PoolsList';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
-  const { hello, firebase, addToFirebase, dbh, firebaseValue } = useContext(FirebaseContext);
+  const { firebase, liveUserData, firebaseValue } = useContext(FirebaseContext);
   const [refreshing, setRefreshing] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [error, setError] = useState(null);
@@ -114,7 +114,7 @@ const MyPoolsScreen = ({ history }) => {
         <Layout title='Pools'>
           <View style={{ backgroundColor: '#7a0019' }}>
             {user.tournamentMembers && user.tournamentMembers.length ? (
-              <PoolsList user={user} />
+              <PoolsList user={user} history={history} />
             ) : (
               <Text
                 style={{
@@ -138,15 +138,6 @@ const MyPoolsScreen = ({ history }) => {
             ))}
           </View>
         )}
-      </View>
-      <View>
-        <Button
-          onPress={() => {
-            addToFirebase('Toad', 'Litle Guy', 'Spots', 'Mushroom');
-          }}
-        >
-          <SpecialIcon name='plus' size={30} color='#fc3' />
-        </Button>
       </View>
       <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}>
         <View

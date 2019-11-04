@@ -16,7 +16,7 @@ import {
 import SpecialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
-const PoolsList = ({ user }) => {
+const PoolsList = ({ user, history }) => {
   return (
     <View style={{ width: '100%', paddingTop: 20 }}>
       <Text

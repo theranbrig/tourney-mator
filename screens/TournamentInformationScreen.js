@@ -98,7 +98,7 @@ const TournamentInformationScreen = ({ history }) => {
   const [email, setEmail] = useState(null);
   const [adminRole, setAdminRole] = useState(null);
   const [admin, setAdmin] = useState('');
-  const [message, setMessage] = useState('Hello');
+  const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
 
   const { loading, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
@@ -239,6 +239,29 @@ const TournamentInformationScreen = ({ history }) => {
                 </Button>
               </Form>
               {error && <Error errorMessage={error} />}
+              {message !== '' && (
+                <View
+                  style={{
+                    backgroundColor: '#fc3',
+                    width: '90%',
+                    marginLeft: '5%',
+                    borderColor: '#fff',
+                    borderWidth: 2,
+                    padding: 10,
+                    marginTop: 20,
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: '#7a0019',
+                      fontFamily: 'graduate',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {message}
+                  </Text>
+                </View>
+              )}
               {admin === user.id && (
                 <Button
                   block
@@ -249,28 +272,6 @@ const TournamentInformationScreen = ({ history }) => {
                 >
                   <Text style={styles.mainButtonText}>Remove Pool</Text>
                 </Button>
-              )}
-              {message !== null && (
-                <View
-                  style={{
-                    backgroundColor: '#fc3',
-                    width: '95%',
-                    marginLeft: '2.5%',
-                    borderColor: '#fff',
-                    borderWidth: 2,
-                    padding: 10,
-                    textAlign: 'center',
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: '#7a0019',
-                      fontFamily: 'graduate',
-                    }}
-                  >
-                    {message}
-                  </Text>
-                </View>
               )}
             </>
           )}
