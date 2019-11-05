@@ -114,7 +114,7 @@ const MyPoolsScreen = ({ history }) => {
         <Layout title='Pools'>
           <View style={{ backgroundColor: '#7a0019' }}>
             {user.tournamentMembers && user.tournamentMembers.length ? (
-              <PoolsList user={user} history={history} />
+              <PoolsList user={user} history={history} leaveTournament={leaveTournament} />
             ) : (
               <Text
                 style={{

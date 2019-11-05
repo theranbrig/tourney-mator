@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Alert } from 'react-native';
 import {
   Button,
   Text,
@@ -16,7 +16,24 @@ import {
 import SpecialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
-const PoolsList = ({ user, history }) => {
+const PoolsList = ({ user, history, leaveTournament }) => {
+  const removeTournamentAlert = tournamentId => {
+    Alert.alert('Remove Pool?', 'Are you sure you want to remove yourself from this pool?', [
+      { text: 'NO', onPress: () => console.warn('Thanks for staying'), style: 'cancel' },
+      {
+        text: 'YES',
+        onPress: () => {
+          leaveTournament({
+            variables: {
+              id: tournamentId,
+            },
+          });
+          console.warn('Sorry to see you go.');
+        },
+      },
+    ]);
+  };
+
   return (
     <View style={{ width: '100%', paddingTop: 20 }}>
       <Text
@@ -125,11 +142,7 @@ const PoolsList = ({ user, history }) => {
           renderHiddenItem={(data, rowMap) => (
             <TouchableOpacity
               onPress={() => {
-                leaveTournament({
-                  variables: {
-                    id: data.item.tournament.id,
-                  },
-                });
+                removeTournamentAlert(data.item.tournament.id);
               }}
               style={{
                 alignItems: 'center',

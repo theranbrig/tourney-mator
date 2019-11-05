@@ -17,7 +17,7 @@ import {
   Spinner,
 } from 'native-base';
 import { NavigationEvents } from 'react-navigation';
-import { StyleSheet, Image, ScrollView } from 'react-native';
+import { StyleSheet, Image, ScrollView, Alert } from 'react-native';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import SpinningImage from 'react-native-spinning-image';
@@ -132,6 +132,7 @@ const TournamentInformationScreen = ({ history }) => {
     }
     console.log('EFFECT');
   }, [data, requestOnCompleted, onError]);
+
 
   if (loading)
     return (
