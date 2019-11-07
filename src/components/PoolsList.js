@@ -22,8 +22,8 @@ const PoolsList = ({ user, history, leaveTournament }) => {
       { text: 'NO', onPress: () => console.warn('Thanks for staying'), style: 'cancel' },
       {
         text: 'YES',
-        onPress: () => {
-          leaveTournament({
+        onPress: async () => {
+          await leaveTournament({
             variables: {
               id: tournamentId,
             },

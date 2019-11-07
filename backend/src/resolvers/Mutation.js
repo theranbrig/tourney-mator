@@ -60,9 +60,6 @@ const Mutations = {
         data: {
           ...args,
           startDate: args.startDate,
-          members: {
-            connect: { id: ctx.request.userId },
-          },
         },
       },
       info
@@ -89,6 +86,10 @@ const Mutations = {
     return tournament;
   },
   async removeTournament(parent, args, ctx, info) {
+    const tourneyMembers = await ctx.db.mutation.deleteManyTournamentMembers({
+      where: { tournament: { id: args.id } },
+    });
+
     const removedTournament = await ctx.db.mutation.deleteTournament({ where: { id: args.id } });
     return { message: 'Pool Deleted' };
   },
@@ -153,7 +154,6 @@ const Mutations = {
       data: {
         tournamentMembers: {
           connect: { id: tournamentMember.id },
-          tournaments: { connect: { id: updatedTournament.id } },
         },
       },
     });
@@ -217,7 +217,6 @@ const Mutations = {
       where: { id: ctx.request.userId },
       data: {
         tournamentMembers: { connect: { id: tournamentMember.id } },
-        tournaments: { connect: { id: args.tournamentId } },
       },
     });
     const deletedRequest = await ctx.db.mutation.deleteTournamentRequest({
