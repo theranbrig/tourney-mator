@@ -104,7 +104,7 @@ const Mutations = {
       throw new Error('No tournament matching that found.');
     }
     const tournaments = await ctx.db.query.tournaments({
-      where: { members_some: { id: ctx.request.userId } },
+      where: { members_some: { id: tourneyMembers[0].id } },
     });
     const updatedTournament = await ctx.db.mutation.updateTournament({
       where: { id: tournaments[0].id },
@@ -131,7 +131,7 @@ const Mutations = {
     if (memberCheck.length) {
       throw new Error('You are already a member.');
     }
-    console.log(memberCheck);
+
     const tournamentMember = await ctx.db.mutation.createTournamentMember({
       data: {
         user: { connect: { id: ctx.request.userId } },

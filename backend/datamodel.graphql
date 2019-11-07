@@ -20,7 +20,6 @@ type User {
 type Tournament {
   id: ID! @id @unique
   name: String! @unique
-  members: [User] @scalarList(strategy: RELATION)
   password: String!
   teams: [Team]
   type: String

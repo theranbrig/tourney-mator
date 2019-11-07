@@ -142,6 +142,7 @@ const PoolsList = ({ user, history, leaveTournament }) => {
           renderHiddenItem={(data, rowMap) => (
             <TouchableOpacity
               onPress={() => {
+                console.log(data.item.tournament.id);
                 removeTournamentAlert(data.item.tournament.id);
               }}
               style={{
