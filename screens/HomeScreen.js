@@ -11,6 +11,13 @@ const HomeScreen = ({ history }) => {
   if (!user) {
     history.push('/');
   }
+  useEffect(() => {
+    fetch(
+      'http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard'
+    )
+      .then(res => res.json())
+      .then(data => console.log(data));
+  }, []);
   return (
     <>
       <Layout>
