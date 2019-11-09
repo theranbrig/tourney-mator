@@ -47,7 +47,7 @@ const AuthLoadingScreen = ({ history }) => {
   const { user, userLoading } = useContext(UserContext);
   if (userLoading) return <Text>Loading</Text>;
   if (user) {
-    history.push('/pools');
+    history.push('/home');
   }
   return (
     <Layout>
