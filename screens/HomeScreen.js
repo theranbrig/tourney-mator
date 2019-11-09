@@ -8,16 +8,31 @@ import BottomFooter from '../src/components/Footer';
 
 const HomeScreen = ({ history }) => {
   const { user } = useContext(UserContext);
-  if (!user) {
-    history.push('/');
-  }
+  const [scheduleData, setScheduleData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  // if (!user) {
+  //   history.push('/');
+  // }
+
   useEffect(() => {
+    setLoading(true);
     fetch(
       'http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard'
     )
       .then(res => res.json())
-      .then(data => console.log(data));
+      .then(data => {
+        setScheduleData(data);
+        console.log(data);
+        setScheduleData(data);
+        setLoading(false);
+      });
   }, []);
+
+  if (loading) {
+    return <Text>Loading</Text>;
+  }
+
   return (
     <>
       <Layout>
