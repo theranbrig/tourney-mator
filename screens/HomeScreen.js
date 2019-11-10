@@ -1,6 +1,14 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useContext, useState, useEffect } from 'react';
-import { Image, Platform, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  RefreshControl,
+} from 'react-native';
 import { Content, Container, Footer, FooterTab, Button, Text, List, ListItem } from 'native-base';
 import { UserContext } from '../src/utilities/UserContext';
 import Layout from '../src/utilities/Layout';
@@ -12,10 +20,12 @@ const HomeScreen = ({ history }) => {
   const { user } = useContext(UserContext);
   const [scheduleData, setScheduleData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
-  // if (!user) {
-  //   history.push('/');
-  // }
+  if (!user) {
+    history.push('/');
+  }
+
   const styles = StyleSheet.create({
     mainButton: {
       marginTop: 10,
@@ -90,6 +100,12 @@ const HomeScreen = ({ history }) => {
       });
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getScores();
+    setRefreshing(false);
+  };
+
   useEffect(() => {
     setLoading(true);
     fetch(
@@ -124,31 +140,37 @@ const HomeScreen = ({ history }) => {
 
   return (
     <>
-      <Layout>
-        {!user ? (
-          <Text>No User Found</Text>
-        ) : (
-          <>
-            <Text>Hello {user.username}</Text>
-          </>
-        )}
-        {scheduleData && (
-          <>
-            <BackButtonHeader history={history} title={"HOME"} />
-            <ScrollView>
+      <BackButtonHeader history={history} title={'HOME'} />
+      {scheduleData && (
+        <>
+          <ScrollView
+            style={{ backgroundColor: '#7a0019' }}
+            contentContainerStyle={{
+              flex: 1,
+            }}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={() => onRefresh()}
+                style={{ backgroundColor: '#fc3' }}
+                showsVerticalScrollIndicator={false}
+              />
+            }
+          >
+            <Layout>
               <Text>{scheduleData.leagues[0].midsizeName}</Text>
               <List style={{ marginLeft: 0 }}>
                 {scheduleData.events.map(event => (
-                  <ListItem key={event.id} style={{ marginLeft: 0, backgroundColor: '#fff' }}>
+                  <ListItem
+                    key={event.id}
+                    style={{ marginLeft: 0, backgroundColor: '#fff', height: 70 }}
+                  >
                     <View style={{ flex: 1, flexDirection: 'column' }}>
-                      <View>
-                        <Text>{event.shortName}</Text>
-                      </View>
-                      <View>
+                      <View style={{ flex: 1, flexDirection: 'column' }}>
                         <View
                           style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}
                         >
-                          <View style={{ flex: 1, flexDirection: 'row' }}>
+                          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                             <Image
                               style={{ width: 40, height: 40 }}
                               source={{ uri: event.competitions[0].competitors[1].team.logo }}
@@ -187,18 +209,18 @@ const HomeScreen = ({ history }) => {
 
                           <Text>{event.competitions[0].competitors[0].score}</Text>
                         </View>
-                        <View style={{ justifyContent: 'end', flex: 1, flexDirection: 'start' }}>
-                          <Text style={{ textAlign: 'right' }}>{event.status.type.detail}</Text>
+                        <View>
+                          <Text style={{ alignSelf: 'flex-end' }}>{event.status.type.detail}</Text>
                         </View>
                       </View>
                     </View>
                   </ListItem>
                 ))}
               </List>
-            </ScrollView>
-          </>
-        )}
-      </Layout>
+            </Layout>
+          </ScrollView>
+        </>
+      )}
       <BottomFooter history={history} />
     </>
   );
