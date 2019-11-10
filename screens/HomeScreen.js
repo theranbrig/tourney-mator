@@ -109,12 +109,12 @@ const HomeScreen = ({ history }) => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      'http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?limit=900'
+      'http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=20190408'
     )
       .then(res => res.json())
       .then(data => {
         setScheduleData(data);
-        console.log(data.events[0].competitions[0].competitors[1].curatedRank.current);
+        console.log(data);
         setScheduleData(data);
         setLoading(false);
       });
@@ -124,7 +124,7 @@ const HomeScreen = ({ history }) => {
     return (
       <Layout title='Pools'>
         <View style={styles.mainView}>
-          <Text style={styles.title}>Loading Pool Information...</Text>
+          <Text style={styles.title}>Loading Scores...</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <View style={{ height: 350 }}>
               <Image
@@ -158,12 +158,29 @@ const HomeScreen = ({ history }) => {
             }
           >
             <Layout>
-              <Text>{scheduleData.leagues[0].midsizeName}</Text>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: '#fc3',
+                  fontFamily: 'graduate',
+                  fontSize: 20,
+                  padding: 20,
+                }}
+              >
+                Today's {scheduleData.leagues[0].name} Scores
+              </Text>
               <List style={{ marginLeft: 0 }}>
                 {scheduleData.events.map(event => (
                   <ListItem
                     key={event.id}
-                    style={{ marginLeft: 0, backgroundColor: '#fff', height: 70 }}
+                    style={{
+                      marginLeft: 0,
+                      backgroundColor: '#ffffff',
+                      height: 120,
+                      paddingLeft: 10,
+                      opacity: 0.9,
+                      borderColor: '#7a0019',
+                    }}
                   >
                     <View style={{ flex: 1, flexDirection: 'column' }}>
                       <View style={{ flex: 1, flexDirection: 'column' }}>
@@ -172,28 +189,38 @@ const HomeScreen = ({ history }) => {
                         >
                           <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                             <Image
-                              style={{ width: 40, height: 40 }}
+                              style={{ width: 30, height: 30, marginRight: 10 }}
                               source={{ uri: event.competitions[0].competitors[1].team.logo }}
                             />
                             {event.competitions[0].competitors[1].curatedRank.current < 26 && (
                               <Text>
-                                {event.competitions[0].competitors[1].curatedRank.current}
+                                ({event.competitions[0].competitors[1].curatedRank.current})
                               </Text>
                             )}
-                            <Text>
+                            <Text
+                              style={
+                                event.competitions[0].competitors[1].winner && { color: '#7a0019' }
+                              }
+                            >
                               {event.competitions[0].competitors[1].team.shortDisplayName} (
                               {event.competitions[0].competitors[1].records[0].summary})
                             </Text>
                           </View>
 
-                          <Text>{event.competitions[0].competitors[1].score}</Text>
+                          <Text
+                            style={
+                              event.competitions[0].competitors[1].winner && { color: '#7a0019' }
+                            }
+                          >
+                            {event.competitions[0].competitors[1].score}
+                          </Text>
                         </View>
                         <View
                           style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}
                         >
                           <View style={{ flex: 1, flexDirection: 'row' }}>
                             <Image
-                              style={{ width: 40, height: 40 }}
+                              style={{ width: 30, height: 30, marginRight: 10 }}
                               source={{ uri: event.competitions[0].competitors[0].team.logo }}
                             />
                             {event.competitions[0].competitors[0].curatedRank.current < 26 && (
@@ -201,13 +228,23 @@ const HomeScreen = ({ history }) => {
                                 ({event.competitions[0].competitors[0].curatedRank.current})
                               </Text>
                             )}
-                            <Text>
+                            <Text
+                              style={
+                                event.competitions[0].competitors[0].winner && { color: '#7a0019' }
+                              }
+                            >
                               {event.competitions[0].competitors[0].team.shortDisplayName} (
                               {event.competitions[0].competitors[0].records[0].summary})
                             </Text>
                           </View>
 
-                          <Text>{event.competitions[0].competitors[0].score}</Text>
+                          <Text
+                            style={
+                              event.competitions[0].competitors[0].winner && { color: '#7a0019' }
+                            }
+                          >
+                            {event.competitions[0].competitors[0].score}
+                          </Text>
                         </View>
                         <View>
                           <Text style={{ alignSelf: 'flex-end' }}>{event.status.type.detail}</Text>
