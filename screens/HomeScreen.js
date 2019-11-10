@@ -1,10 +1,12 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useContext, useState, useEffect } from 'react';
 import { Image, Platform, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Content, Container, Footer, FooterTab, Button, Text } from 'native-base';
+import { Content, Container, Footer, FooterTab, Button, Text, List, ListItem } from 'native-base';
 import { UserContext } from '../src/utilities/UserContext';
 import Layout from '../src/utilities/Layout';
 import BottomFooter from '../src/components/Footer';
+
+import BackButtonHeader from '../src/components/BackButtonHeader';
 
 const HomeScreen = ({ history }) => {
   const { user } = useContext(UserContext);
@@ -75,15 +77,28 @@ const HomeScreen = ({ history }) => {
     },
   });
 
-  useEffect(() => {
-    setLoading(true);
+  const getScores = params => {
     fetch(
-      'http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard'
+      'http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?limit=900'
     )
       .then(res => res.json())
       .then(data => {
         setScheduleData(data);
         console.log(data.events[0].competitions[0].competitors[0].team.shortDisplayName);
+        setScheduleData(data);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(
+      'http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?limit=900'
+    )
+      .then(res => res.json())
+      .then(data => {
+        setScheduleData(data);
+        console.log(data.events[0].competitions[0].competitors[1].curatedRank.current);
         setScheduleData(data);
         setLoading(false);
       });
@@ -118,29 +133,70 @@ const HomeScreen = ({ history }) => {
           </>
         )}
         {scheduleData && (
-          <ScrollView>
-            <Text>Daily Game Schedule</Text>
-            {scheduleData.events.map(event => (
-              <View key={event.id}>
-                <Text>{event.shortName}</Text>
-                <Text>{event.competitions[0].competitors[1].team.shortDisplayName}</Text>
-                <Image
-                  style={{ width: 40, height: 40 }}
-                  source={{ uri: event.competitions[0].competitors[1].team.logo }}
-                />
-                <Text>{event.competitions[0].competitors[1].records[0].summary}</Text>
-                <Text>{event.competitions[0].competitors[1].score}</Text>
-                <Text>{event.competitions[0].competitors[0].team.shortDisplayName}</Text>
-                <Image
-                  style={{ width: 40, height: 40 }}
-                  source={{ uri: event.competitions[0].competitors[0].team.logo }}
-                  />
-                  <Text>{event.competitions[0].competitors[0].records[0].summary}</Text>
-                <Text>{event.competitions[0].competitors[0].score}</Text>
-                <Text>{event.status.type.detail}</Text>
-              </View>
-            ))}
-          </ScrollView>
+          <>
+            <BackButtonHeader history={history} title={"HOME"} />
+            <ScrollView>
+              <Text>{scheduleData.leagues[0].midsizeName}</Text>
+              <List style={{ marginLeft: 0 }}>
+                {scheduleData.events.map(event => (
+                  <ListItem key={event.id} style={{ marginLeft: 0, backgroundColor: '#fff' }}>
+                    <View style={{ flex: 1, flexDirection: 'column' }}>
+                      <View>
+                        <Text>{event.shortName}</Text>
+                      </View>
+                      <View>
+                        <View
+                          style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}
+                        >
+                          <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <Image
+                              style={{ width: 40, height: 40 }}
+                              source={{ uri: event.competitions[0].competitors[1].team.logo }}
+                            />
+                            {event.competitions[0].competitors[1].curatedRank.current < 26 && (
+                              <Text>
+                                {event.competitions[0].competitors[1].curatedRank.current}
+                              </Text>
+                            )}
+                            <Text>
+                              {event.competitions[0].competitors[1].team.shortDisplayName} (
+                              {event.competitions[0].competitors[1].records[0].summary})
+                            </Text>
+                          </View>
+
+                          <Text>{event.competitions[0].competitors[1].score}</Text>
+                        </View>
+                        <View
+                          style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}
+                        >
+                          <View style={{ flex: 1, flexDirection: 'row' }}>
+                            <Image
+                              style={{ width: 40, height: 40 }}
+                              source={{ uri: event.competitions[0].competitors[0].team.logo }}
+                            />
+                            {event.competitions[0].competitors[0].curatedRank.current < 26 && (
+                              <Text>
+                                ({event.competitions[0].competitors[0].curatedRank.current})
+                              </Text>
+                            )}
+                            <Text>
+                              {event.competitions[0].competitors[0].team.shortDisplayName} (
+                              {event.competitions[0].competitors[0].records[0].summary})
+                            </Text>
+                          </View>
+
+                          <Text>{event.competitions[0].competitors[0].score}</Text>
+                        </View>
+                        <View style={{ justifyContent: 'end', flex: 1, flexDirection: 'start' }}>
+                          <Text style={{ textAlign: 'right' }}>{event.status.type.detail}</Text>
+                        </View>
+                      </View>
+                    </View>
+                  </ListItem>
+                ))}
+              </List>
+            </ScrollView>
+          </>
         )}
       </Layout>
       <BottomFooter history={history} />
