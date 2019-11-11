@@ -109,7 +109,7 @@ const HomeScreen = ({ history }) => {
   useEffect(() => {
     setLoading(true);
     fetch(
-      'http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?dates=20190408'
+      'http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard'
     )
       .then(res => res.json())
       .then(data => {
