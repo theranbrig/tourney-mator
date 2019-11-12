@@ -31,6 +31,10 @@ import {
 import { TOURNAMENT_INFORMATION_QUERY } from '../src/utilities/Queries';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Error from '../src/components/ErrorMessage';
+import * as firebase from "firebase";
+import "@firebase/firestore";
+import { useCollection } from "react-firebase-hooks/firestore";
+
 
 const styles = StyleSheet.create({
   mainButton: {
