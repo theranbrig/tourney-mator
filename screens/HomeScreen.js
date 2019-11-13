@@ -194,7 +194,7 @@ const HomeScreen = ({ history }) => {
                             />
                             {event.competitions[0].competitors[1].curatedRank.current < 26 && (
                               <Text>
-                                ({event.competitions[0].competitors[1].curatedRank.current})
+                                ({event.competitions[0].competitors[1].curatedRank.current}){' '}
                               </Text>
                             )}
                             <Text
@@ -225,7 +225,7 @@ const HomeScreen = ({ history }) => {
                             />
                             {event.competitions[0].competitors[0].curatedRank.current < 26 && (
                               <Text>
-                                ({event.competitions[0].competitors[0].curatedRank.current})
+                                ({event.competitions[0].competitors[0].curatedRank.current}){' '}
                               </Text>
                             )}
                             <Text

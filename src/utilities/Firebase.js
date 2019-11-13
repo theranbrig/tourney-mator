@@ -36,6 +36,18 @@ const FirebaseProvider = ({ children }) => {
       });
   };
 
+  const liveTournamentData = tournamentId => {
+    dbh
+      .collection('tournaments')
+      .doc(tournamentId)
+      .set({
+        isLive: False,
+        isWaiting: True,
+        currentPick: null,
+        order: [],
+      });
+  };
+
   const [firebaseValue: value, firebaseLoading: loading, firebaseError: error] = useCollection(
     firebase.firestore().collection('users'),
     {
