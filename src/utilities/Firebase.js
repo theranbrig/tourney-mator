@@ -36,13 +36,13 @@ const FirebaseProvider = ({ children }) => {
       });
   };
 
-  const setTournamentData = userId => {
+  const setTournamentData = tournamentId => {
     dbh
-      .collection('users')
-      .doc(userId)
+      .collection('tournaments')
+      .doc(tournamentId)
       .set({
-        isLive: False,
-        isWaiting: False,
+        isLive: false,
+        isWaiting: true,
         currentPick: 0,
         pickOrder: [],
       });

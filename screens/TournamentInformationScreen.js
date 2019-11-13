@@ -31,6 +31,7 @@ import {
 import { TOURNAMENT_INFORMATION_QUERY } from '../src/utilities/Queries';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Error from '../src/components/ErrorMessage';
+import { FirebaseContext } from '../src/utilities/Firebase';
 
 const styles = StyleSheet.create({
   mainButton: {
@@ -100,6 +101,9 @@ const TournamentInformationScreen = ({ history }) => {
   const [admin, setAdmin] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
+  const { firebase, setLiveUserData, firebaseValue, setTournamentData } = useContext(
+    FirebaseContext
+  );
 
   const { loading, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
@@ -132,7 +136,6 @@ const TournamentInformationScreen = ({ history }) => {
     }
     console.log('EFFECT');
   }, [data, requestOnCompleted, onError]);
-
 
   if (loading)
     return (
@@ -209,7 +212,18 @@ const TournamentInformationScreen = ({ history }) => {
                   </ListItem>
                 ))}
               </List>
-
+              {admin === user.id && (
+                <Button
+                  block
+                  style={styles.mainButton2}
+                  onPress={() => {
+                    setTournamentData(tournament.id);
+                    setMessage("Taking you to the big show...")
+                  }}
+                >
+                  <Text style={styles.mainButtonText}>Begin Pool Now</Text>
+                </Button>
+              )}
               <Form style={styles.form}>
                 <Item regular style={{ marginBottom: 10 }}>
                   <Input
