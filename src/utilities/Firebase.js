@@ -24,6 +24,7 @@ export const FirebaseContext = React.createContext();
 const dbh = firebase.firestore();
 
 const FirebaseProvider = ({ children }) => {
+
   const setLiveUserData = userId => {
     dbh
       .collection('users')
@@ -48,20 +49,21 @@ const FirebaseProvider = ({ children }) => {
       });
   };
 
-  const [firebaseValue: value, firebaseLoading: loading, firebaseError: error] = useCollection(
+  const [userFirebaseData: value, userFirebaseLoading: loading, userFirebaseError: error] = useCollection(
     firebase.firestore().collection('users'),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
   );
 
+
   return (
     <FirebaseContext.Provider
       value={{
         firebase,
-        firebaseValue,
-        firebaseLoading,
-        firebaseError,
+        userFirebaseData,
+        userFirebaseError,
+        userFirebaseLoading,
         setTournamentData,
         setLiveUserData
       }}

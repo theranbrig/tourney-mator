@@ -218,7 +218,8 @@ const TournamentInformationScreen = ({ history }) => {
                   style={styles.mainButton2}
                   onPress={() => {
                     setTournamentData(tournament.id);
-                    setMessage("Taking you to the big show...")
+                    setMessage('Taking you to the big show...');
+                    history.push('/waiting', { tournamentId: tournament.id });
                   }}
                 >
                   <Text style={styles.mainButtonText}>Begin Pool Now</Text>
