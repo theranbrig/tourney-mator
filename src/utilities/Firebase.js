@@ -53,7 +53,7 @@ const FirebaseProvider = ({ children }) => {
     userFirebaseData: value,
     userFirebaseLoading: loading,
     userFirebaseError: error,
-  ] = useCollection(dbh.collection('users'), {
+  ] = useCollection(firebase.firestore().collection('users'), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
 
