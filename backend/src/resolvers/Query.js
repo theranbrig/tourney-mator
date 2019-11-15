@@ -7,13 +7,14 @@ const Query = {
     }
     const user = await ctx.db.query.user(
       {
-        where: { id: ctx.request.userId }
+        where: { id: ctx.request.userId },
       },
       info
     );
     return user;
   },
-  tournament: forwardTo('db')
+  user: forwardTo('db'),
+  tournament: forwardTo('db'),
 };
 
 module.exports = Query;

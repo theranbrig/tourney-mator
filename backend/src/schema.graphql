@@ -21,4 +21,5 @@ type Query {
   hi: String
   me: User
   tournament(where: TournamentWhereInput): Tournament
+  user(where: UserWhereInput): User
 }
