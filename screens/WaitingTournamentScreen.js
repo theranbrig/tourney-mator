@@ -5,7 +5,7 @@ import BackButtonHeader from '../src/components/BackButtonHeader';
 import { FirebaseContext } from '../src/utilities/Firebase';
 import '@firebase/firestore';
 import { useQuery, useMutation } from '@apollo/react-hooks';
-import { useDocumentData } from 'react-firebase-hooks/firestore';
+import { useDocument } from 'react-firebase-hooks/firestore';
 import { TOURNAMENT_INFORMATION_QUERY } from '../src/utilities/Queries';
 
 const WaitingTournamentScreen = ({ history }) => {
@@ -23,7 +23,7 @@ const WaitingTournamentScreen = ({ history }) => {
     liveTournamentFirebaseValue: value,
     liveTournamentFirebaseLoading: loading,
     liveTournamentFirebaseError: error,
-  ] = useDocumentData(
+  ] = useDocument(
     firebase
       .firestore()
       .collection('tournaments')
@@ -35,17 +35,19 @@ const WaitingTournamentScreen = ({ history }) => {
 
   useEffect(() => {
     if (liveTournamentFirebaseValue) {
-      setDocSnap(liveTournamentFirebaseValue.docs);
-      console.log(liveTournamentFirebaseValue.docs);
+      console.log(JSON.stringify(liveTournamentFirebaseValue.data()));
+      setDocSnap(JSON.stringify(liveTournamentFirebaseValue.data()));
+
     }
-    console.log(liveTournamentFirebaseValue);
-  }, [docSnap, liveTournamentFirebaseValue, data]);
+  }, [liveTournamentFirebaseValue, data]);
 
   return (
     <Layout title='Pools'>
       <BackButtonHeader history={history} title='Ready' />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Waiting for Tournaments</Text>
+        <Text>Waiting For Tournament Members</Text>
+
+        {/* {docSnap.currentMembers && docSnap.currentMembers.map(member => <Text>{member}</Text>)} */}
       </View>
     </Layout>
   );

@@ -101,7 +101,7 @@ const TournamentInformationScreen = ({ history }) => {
   const [admin, setAdmin] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
-  const { firebase, setLiveUserData, firebaseValue, setTournamentData } = useContext(
+  const { firebase, setLiveUserData, firebaseValue, createTournamentData } = useContext(
     FirebaseContext
   );
 
@@ -217,7 +217,7 @@ const TournamentInformationScreen = ({ history }) => {
                   block
                   style={styles.mainButton2}
                   onPress={() => {
-                    setTournamentData(tournament.id);
+                    createTournamentData(tournament.id, user.id);
                     setMessage('Taking you to the big show...');
                     history.push('/waiting', { tournamentId: tournament.id });
                   }}
