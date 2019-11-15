@@ -35,9 +35,8 @@ const WaitingTournamentScreen = ({ history }) => {
 
   useEffect(() => {
     if (liveTournamentFirebaseValue) {
-      console.log(JSON.stringify(liveTournamentFirebaseValue.data()));
-      setDocSnap(JSON.stringify(liveTournamentFirebaseValue.data()));
-
+      setDocSnap(liveTournamentFirebaseValue.data());
+      console.log(docSnap);
     }
   }, [liveTournamentFirebaseValue, data]);
 
@@ -47,7 +46,9 @@ const WaitingTournamentScreen = ({ history }) => {
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Waiting For Tournament Members</Text>
 
-        {/* {docSnap.currentMembers && docSnap.currentMembers.map(member => <Text>{member}</Text>)} */}
+        {docSnap &&
+          docSnap.currentMembers &&
+          docSnap.currentMembers.map(member => <Text>{member} Hello</Text>)}
       </View>
     </Layout>
   );
