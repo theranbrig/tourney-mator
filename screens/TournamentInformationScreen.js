@@ -211,20 +211,21 @@ const TournamentInformationScreen = ({ history }) => {
                     </Right>
                   </ListItem>
                 ))}
+                {admin === user.id && (
+                  <Button
+                    block
+                    style={styles.mainButton2}
+                    onPress={() => {
+                      // TODO: Member Id should be mapped to TournamentMemberID
+                      createTournamentData(tournament.id, user.id);
+                      setMessage('Taking you to the big show...');
+                      history.push('/waiting', { tournamentId: tournament.id });
+                    }}
+                  >
+                    <Text style={styles.mainButtonText}>Begin Pool Now</Text>
+                  </Button>
+                )}
               </List>
-              {admin === user.id && (
-                <Button
-                  block
-                  style={styles.mainButton2}
-                  onPress={() => {
-                    createTournamentData(tournament.id, user.id);
-                    setMessage('Taking you to the big show...');
-                    history.push('/waiting', { tournamentId: tournament.id });
-                  }}
-                >
-                  <Text style={styles.mainButtonText}>Begin Pool Now</Text>
-                </Button>
-              )}
               <Form style={styles.form}>
                 <Item regular style={{ marginBottom: 10 }}>
                   <Input
