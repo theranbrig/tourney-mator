@@ -50,11 +50,14 @@ export const TOURNAMENT_INFORMATION_QUERY = gql`
   }
 `;
 
-export const USER_QUERY = gql`
-  query USER_QUERY($id: ID!) {
-    user(where: { id: $id }) {
+export const TOURNAMENT_MEMBER_QUERY = gql`
+  query TOURNAMENT_MEMBER_QUERY($id: ID!) {
+    tournamentMember(where: { id: $id }) {
       id
-      username
+      user {
+        id
+        username
+      }
     }
   }
 `;

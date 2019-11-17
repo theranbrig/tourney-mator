@@ -7,6 +7,7 @@ import '@firebase/firestore';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useDocument } from 'react-firebase-hooks/firestore';
 import { TOURNAMENT_INFORMATION_QUERY } from '../src/utilities/Queries';
+import MemberItem from '../src/components/MemberItem';
 
 const WaitingTournamentScreen = ({ history }) => {
   const [docSnap, setDocSnap] = useState(null);
@@ -41,14 +42,14 @@ const WaitingTournamentScreen = ({ history }) => {
   }, [liveTournamentFirebaseValue, data]);
 
   return (
-    <Layout title='Pools'>
-      <BackButtonHeader history={history} title='Ready' />
+    <Layout title="Pools">
+      <BackButtonHeader history={history} title="Ready" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Waiting For Tournament Members</Text>
 
         {docSnap &&
-          docSnap.currentMembers &&
-          docSnap.currentMembers.map(member => <Text>{member} Hello</Text>)}
+          docSnap.currentMembers.length &&
+          docSnap.currentMembers.map(member => <MemberItem memberId={member} />)}
       </View>
     </Layout>
   );
