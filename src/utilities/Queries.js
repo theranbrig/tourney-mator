@@ -39,6 +39,7 @@ export const TOURNAMENT_INFORMATION_QUERY = gql`
       name
       startDate
       tournamentMembers {
+        id
         user {
           id
           username
