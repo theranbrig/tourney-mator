@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Text } from 'react-native';
+import { List } from 'native-base';
 import Layout from '../src/utilities/Layout';
 import BackButtonHeader from '../src/components/BackButtonHeader';
 import { FirebaseContext } from '../src/utilities/Firebase';
@@ -46,10 +47,11 @@ const WaitingTournamentScreen = ({ history }) => {
       <BackButtonHeader history={history} title="Ready" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Waiting For Tournament Members</Text>
-
-        {docSnap &&
-          docSnap.currentMembers.length &&
-          docSnap.currentMembers.map(member => <MemberItem memberId={member} />)}
+        <List>
+          {docSnap &&
+            docSnap.currentMembers.length &&
+            docSnap.currentMembers.map(member => <MemberItem memberId={member} />)}
+        </List>
       </View>
     </Layout>
   );
