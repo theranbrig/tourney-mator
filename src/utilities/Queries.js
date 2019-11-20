@@ -46,6 +46,7 @@ export const TOURNAMENT_INFORMATION_QUERY = gql`
         }
         role
       }
+      maxMembers
     }
   }
 `;

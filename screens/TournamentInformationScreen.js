@@ -32,6 +32,7 @@ import { TOURNAMENT_INFORMATION_QUERY } from '../src/utilities/Queries';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Error from '../src/components/ErrorMessage';
 import { FirebaseContext } from '../src/utilities/Firebase';
+import { useDocument } from 'react-firebase-hooks/firestore';
 
 const styles = StyleSheet.create({
   mainButton: {
@@ -97,11 +98,13 @@ const styles = StyleSheet.create({
 const TournamentInformationScreen = ({ history }) => {
   const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
   const [currentMember, setCurrentMember] = useState(null);
+  const [tournamentInfo, setTournamentInfo] = useState(null);
   const [email, setEmail] = useState(null);
   const [adminRole, setAdminRole] = useState(null);
   const [admin, setAdmin] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
+
   const { firebase, setLiveUserData, firebaseValue, createTournamentData } = useContext(
     FirebaseContext
   );
@@ -117,6 +120,20 @@ const TournamentInformationScreen = ({ history }) => {
       history.push('/pools');
     },
   });
+
+  const [
+    liveTournamentFirebaseValue: value,
+    liveTournamentFirebaseLoading: loading,
+    liveTournamentFirebaseError: error,
+  ] = useDocument(
+    firebase
+      .firestore()
+      .collection('tournaments')
+      .doc(history.location.state.tournamentId),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
   const [
     createTournamentRequest,
@@ -140,12 +157,14 @@ const TournamentInformationScreen = ({ history }) => {
       );
       console.log('Current', currentTournamentMember);
       setCurrentMember(currentTournamentMember[0].id);
+      setTournamentInfo(liveTournamentFirebaseValue.data());
+      console.log(tournamentInfo);
     }
-  }, [data, requestOnCompleted, onError]);
+  }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue]);
 
   if (loading)
     return (
-      <Layout title='Pools'>
+      <Layout title="Pools">
         <View style={styles.mainView}>
           <Text style={styles.title}>Loading Pool Information...</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
@@ -161,14 +180,13 @@ const TournamentInformationScreen = ({ history }) => {
     );
 
   return (
-    <Layout title='Pools' style={{ backgroundColor: '#7a0019' }}>
-      <BackButtonHeader history={history} title='Pool Info' />
+    <Layout title="Pools" style={{ backgroundColor: '#7a0019' }}>
+      <BackButtonHeader history={history} title="Pool Info" />
       <View style={styles.mainView}>
         <ScrollView
           bounces
-          endFillColor='#7a0019'
-          style={{ width: '100%', marginTop: 20, marginBottom: 20, backgroundColor: '#7a0019' }}
-        >
+          endFillColor="#7a0019"
+          style={{ width: '100%', marginTop: 20, marginBottom: 20, backgroundColor: '#7a0019' }}>
           {tournament && (
             <>
               <View style={{ marginBottom: 10, backgroundColor: '#7a0019' }}>
@@ -186,8 +204,7 @@ const TournamentInformationScreen = ({ history }) => {
                   width: '100%',
                   borderTopWidth: 2,
                   borderTopColor: '#fff',
-                }}
-              >
+                }}>
                 {tournament.tournamentMembers.map((member, index) => (
                   <ListItem
                     style={{
@@ -199,8 +216,7 @@ const TournamentInformationScreen = ({ history }) => {
                       borderBottomWidth: 2,
                       borderBottomColor: '#fff',
                     }}
-                    key={member.user.id}
-                  >
+                    key={member.user.id}>
                     <Body>
                       <Text style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 20 }}>
                         {member.user.username}
@@ -209,9 +225,9 @@ const TournamentInformationScreen = ({ history }) => {
                     <Right>
                       <Button style={{ backgroundColor: '#fc3' }}>
                         {member.user.id === admin ? (
-                          <Icon name='star' size={30} color='#7a0019' />
+                          <Icon name="star" size={30} color="#7a0019" />
                         ) : (
-                          <Icon name='account-outline' size={30} color='#7a0019' />
+                          <Icon name="account-outline" size={30} color="#7a0019" />
                         )}
                       </Button>
                     </Right>
@@ -224,26 +240,25 @@ const TournamentInformationScreen = ({ history }) => {
                   style={styles.mainButton2}
                   onPress={() => {
                     // TODO: Member Id should be mapped to TournamentMemberID
-                    createTournamentData(tournament.id, currentMember
-                      );
+                    createTournamentData(tournament.id, currentMember);
                     setMessage('Taking you to the big show...');
                     history.push('/waiting', { tournamentId: tournament.id });
-                  }}
-                >
+                  }}>
                   <Text style={styles.mainButtonText}>Begin Pool Now</Text>
                 </Button>
               )}
+
               <Form style={styles.form}>
                 <Item regular style={{ marginBottom: 10 }}>
                   <Input
-                    placeholder='Email Address'
-                    keyboardType='email-address'
+                    placeholder="Email Address"
+                    keyboardType="email-address"
                     value={email}
                     onChangeText={email => setEmail(email)}
-                    textContentType='emailAddress'
-                    autoCapitalize='none'
+                    textContentType="emailAddress"
+                    autoCapitalize="none"
                     style={{ color: '#f3f3f3', fontFamily: 'graduate' }}
-                    placeholderTextColor='#fc3'
+                    placeholderTextColor="#fc3"
                   />
                 </Item>
                 <Button
@@ -253,8 +268,7 @@ const TournamentInformationScreen = ({ history }) => {
                     createTournamentRequest();
                     setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`);
                   }}
-                  disabled={error}
-                >
+                  disabled={error}>
                   {requestLoading ? (
                     <Spinner />
                   ) : (
@@ -273,15 +287,13 @@ const TournamentInformationScreen = ({ history }) => {
                     borderWidth: 2,
                     padding: 10,
                     marginTop: 20,
-                  }}
-                >
+                  }}>
                   <Text
                     style={{
                       color: '#7a0019',
                       fontFamily: 'graduate',
                       textAlign: 'center',
-                    }}
-                  >
+                    }}>
                     {message}
                   </Text>
                 </View>
@@ -292,8 +304,7 @@ const TournamentInformationScreen = ({ history }) => {
                   style={styles.mainButton2}
                   onPress={() => {
                     removeTournament();
-                  }}
-                >
+                  }}>
                   <Text style={styles.mainButtonText}>Remove Pool</Text>
                 </Button>
               )}
