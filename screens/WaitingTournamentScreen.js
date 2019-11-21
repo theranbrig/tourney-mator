@@ -56,7 +56,7 @@ const WaitingTournamentScreen = ({ history }) => {
             source="https://res.cloudinary.com/dq7uyauun/image/upload/v1568344579/BRACKETBALL_opposite_2.png"
           />
         </View>
-        {docSnap && docSnap.currentMembers.length ? (
+        {docSnap && docSnap.currentMembers.length && (
           <>
             <Text
               style={{
@@ -79,12 +79,13 @@ const WaitingTournamentScreen = ({ history }) => {
                 <MemberItem key={member} memberId={member} />
               ))}
               {docSnap &&
+                docSnap.currentMembers.length &&
+                docSnap.currentMembers.map(member => <MemberItem key={member} memberId={member} />)}
+              {docSnap &&
                 docSnap.currentMembers.length === tournament.maxMember &&
                 docSnap.currentMembers.map(member => <MemberItem key={member} memberId={member} />)}
             </List>
           </>
-        ) : (
-          <Text>Hi</Text>
         )}
       </View>
     </Layout>
