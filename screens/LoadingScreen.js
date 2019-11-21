@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Text, View, H1 } from 'native-base';
 import SpinningImage from 'react-native-spinning-image';
 import { StatusBar, StyleSheet } from 'react-native';
@@ -47,13 +47,17 @@ const LoadingScreen = ({ history }) => {
   const { user, userLoading } = useContext(UserContext);
   console.log(history.location.state.destination);
 
-  if (user) {
-    history.push(history.location.state.destination);
-  }
+  useEffect(() => {
+    if (user) {
+      history.push(history.location.state.destination);
+    }
+  }, [user]);
 
   return (
     <Layout>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fc3' }}>
+      <View
+        style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fc3' }}
+      >
         <H1 style={{ fontFamily: 'graduate', color: '#7a0019' }}>Tourney-mator</H1>
         <View style={{ height: 350 }}>
           <SpinningImage

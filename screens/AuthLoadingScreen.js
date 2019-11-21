@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Text, View, H1 } from 'native-base';
 import SpinningImage from 'react-native-spinning-image';
 import { StatusBar, StyleSheet } from 'react-native';
@@ -45,10 +45,13 @@ const styles = StyleSheet.create({
 
 const AuthLoadingScreen = ({ history }) => {
   const { user, userLoading } = useContext(UserContext);
-  if (userLoading) return <Text>Loading</Text>;
-  if (user) {
-    history.push('/pools');
-  }
+
+  useEffect(() => {
+    if (user) {
+      history.push('/pools');
+    }
+  }, [user]);
+
   return (
     <Layout>
       <View
@@ -60,7 +63,7 @@ const AuthLoadingScreen = ({ history }) => {
             speed={15000}
             height={200}
             width={300}
-            source='https://res.cloudinary.com/dq7uyauun/image/upload/v1567483827/BRACKETBALL_copy.png'
+            source="https://res.cloudinary.com/dq7uyauun/image/upload/v1567483827/BRACKETBALL_copy.png"
           />
         </View>
         {!user && (
