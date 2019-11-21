@@ -89,7 +89,7 @@ const WaitingTournamentScreen = ({ history }) => {
                   width: '90%',
                   borderRadius: 0,
                   marginLeft: '5%',
-                  marginTop: 50,
+                  marginTop: 40,
                 }}>
                 <Text style={{ fontSize: 20, color: '#7a0019', fontFamily: 'graduate' }}>
                   Begin Pool Now
