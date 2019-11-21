@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { View, Text } from 'react-native';
-import { List } from 'native-base';
+import { List, Button } from 'native-base';
 import Layout from '../src/utilities/Layout';
 import BackButtonHeader from '../src/components/BackButtonHeader';
 import { FirebaseContext } from '../src/utilities/Firebase';
@@ -78,13 +78,24 @@ const WaitingTournamentScreen = ({ history }) => {
               {docSnap.currentMembers.map(member => (
                 <MemberItem key={member} memberId={member} />
               ))}
-              {docSnap &&
-                docSnap.currentMembers.length &&
-                docSnap.currentMembers.map(member => <MemberItem key={member} memberId={member} />)}
-              {docSnap &&
-                docSnap.currentMembers.length === tournament.maxMember &&
-                docSnap.currentMembers.map(member => <MemberItem key={member} memberId={member} />)}
             </List>
+            {docSnap && docSnap.currentMembers.length !== tournament.maxMember && (
+              <Button
+                block
+                style={{
+                  borderColor: '#fc3',
+                  backgroundColor: '#f3f3f3',
+                  borderWidth: 2,
+                  width: '90%',
+                  borderRadius: 0,
+                  marginLeft: '5%',
+                  marginTop: 50,
+                }}>
+                <Text style={{ fontSize: 20, color: '#7a0019', fontFamily: 'graduate' }}>
+                  Begin Pool Now
+                </Text>
+              </Button>
+            )}
           </>
         )}
       </View>

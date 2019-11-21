@@ -8,7 +8,7 @@ type Mutation {
   signup(username: String!, email: String!, password: String!): User!
   login(email: String!, password: String!): User!
   signout: SuccessMessage
-  createTournament(name: String!, password: String!, type: String, startDate: String): Tournament!
+  createTournament(name: String!, password: String!, type: String, startDate: String, maxMembers: Float): Tournament!
   removeTournament(id: ID!): SuccessMessage
   createTournamentRequest(tournament: ID!, userEmail: String!): TournamentRequest!
   acceptRequest(id: ID!, tournamentId: ID!): User!

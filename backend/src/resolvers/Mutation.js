@@ -55,6 +55,9 @@ const Mutations = {
     return { message: 'Goodbye!' };
   },
   async createTournament(parent, args, ctx, info) {
+    if (args.maxMembers < 2) {
+      throw new Error('Max Members must be more than 2.');
+    }
     const tournament = await ctx.db.mutation.createTournament(
       {
         data: {
