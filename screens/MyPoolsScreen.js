@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
+import { View, TouchableOpacity, ScrollView, RefreshControl, Alert } from 'react-native';
 import {
   Button,
   Text,
@@ -38,6 +38,23 @@ const MyPoolsScreen = ({ history }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [error, setError] = useState(null);
   const [docSnap, setDocSnap] = useState(null);
+
+  const removeTournamentAlert = tournamentId => {
+    Alert.alert('Remove Pool?', 'Are you sure you want to remove this pool?', [
+      { text: 'NO', onPress: () => console.warn('Thanks for staying'), style: 'cancel' },
+      {
+        text: 'YES',
+        onPress: async () => {
+          await leaveTournament({
+            variables: {
+              id: tournamentId,
+            },
+          });
+          console.warn('Sorry to see you go.');
+        },
+      },
+    ]);
+  };
 
   const [acceptRequest, onAcceptCompleted: onCompleted, acceptData: data] = useMutation(
     ACCEPT_REQUEST_MUTATION,
@@ -111,7 +128,7 @@ const MyPoolsScreen = ({ history }) => {
         ) : (
           <></>
         )}
-        <Layout title='Pools'>
+        <Layout title="Pools">
           <View style={{ backgroundColor: '#7a0019' }}>
             {user.tournamentMembers && user.tournamentMembers.length ? (
               <PoolsList user={user} history={history} leaveTournament={leaveTournament} />
@@ -164,7 +181,7 @@ const MyPoolsScreen = ({ history }) => {
           <SpecialIcon
             name={isCollapsed ? 'chevron-up' : 'chevron-down'}
             size={30}
-            color='#7a0019'
+            color="#7a0019"
           />
         </View>
       </TouchableOpacity>

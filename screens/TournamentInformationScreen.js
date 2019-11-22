@@ -121,6 +121,19 @@ const TournamentInformationScreen = ({ history }) => {
     },
   });
 
+  const removeTournamentAlert = tournamentId => {
+    Alert.alert('Remove Pool?', 'Are you sure you want to remove this pool?', [
+      { text: 'NO', onPress: () => console.warn('Thanks for staying'), style: 'cancel' },
+      {
+        text: 'YES',
+        onPress: async () => {
+          await removeTournament();
+          console.warn('Sorry to see you go.');
+        },
+      },
+    ]);
+  };
+
   const [
     liveTournamentFirebaseValue: value,
     liveTournamentFirebaseLoading: loading,
@@ -151,14 +164,11 @@ const TournamentInformationScreen = ({ history }) => {
     if (tournament) {
       const adminRole = tournament.tournamentMembers.filter(member => member.role === 'ADMIN');
       setAdmin(adminRole[0].user.id);
-      console.log(tournament.tournamentMembers);
       const currentTournamentMember = tournament.tournamentMembers.filter(
         member => (member.user.id = user.id)
       );
-      console.log('Current', currentTournamentMember);
       setCurrentMember(currentTournamentMember[0].id);
       setTournamentInfo(liveTournamentFirebaseValue.data());
-      console.log(tournamentInfo);
     }
   }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue]);
 
@@ -186,7 +196,8 @@ const TournamentInformationScreen = ({ history }) => {
         <ScrollView
           bounces
           endFillColor="#7a0019"
-          style={{ width: '100%', marginTop: 20, marginBottom: 20, backgroundColor: '#7a0019' }}>
+          style={{ width: '100%', marginTop: 20, marginBottom: 20, backgroundColor: '#7a0019' }}
+        >
           {tournament && (
             <>
               <View style={{ marginBottom: 10, backgroundColor: '#7a0019' }}>
@@ -204,7 +215,8 @@ const TournamentInformationScreen = ({ history }) => {
                   width: '100%',
                   borderTopWidth: 2,
                   borderTopColor: '#fff',
-                }}>
+                }}
+              >
                 {tournament.tournamentMembers.map((member, index) => (
                   <ListItem
                     style={{
@@ -216,7 +228,8 @@ const TournamentInformationScreen = ({ history }) => {
                       borderBottomWidth: 2,
                       borderBottomColor: '#fff',
                     }}
-                    key={member.user.id}>
+                    key={member.user.id}
+                  >
                     <Body>
                       <Text style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 20 }}>
                         {member.user.username}
@@ -239,11 +252,11 @@ const TournamentInformationScreen = ({ history }) => {
                   block
                   style={styles.mainButton2}
                   onPress={() => {
-                    // TODO: Member Id should be mapped to TournamentMemberID
                     createTournamentData(tournament.id, currentMember);
                     setMessage('Taking you to the big show...');
                     history.push('/waiting', { tournamentId: tournament.id });
-                  }}>
+                  }}
+                >
                   <Text style={styles.mainButtonText}>Begin Pool Now</Text>
                 </Button>
               )}
@@ -268,7 +281,8 @@ const TournamentInformationScreen = ({ history }) => {
                     createTournamentRequest();
                     setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`);
                   }}
-                  disabled={error}>
+                  disabled={error}
+                >
                   {requestLoading ? (
                     <Spinner />
                   ) : (
@@ -287,13 +301,15 @@ const TournamentInformationScreen = ({ history }) => {
                     borderWidth: 2,
                     padding: 10,
                     marginTop: 20,
-                  }}>
+                  }}
+                >
                   <Text
                     style={{
                       color: '#7a0019',
                       fontFamily: 'graduate',
                       textAlign: 'center',
-                    }}>
+                    }}
+                  >
                     {message}
                   </Text>
                 </View>
@@ -303,8 +319,9 @@ const TournamentInformationScreen = ({ history }) => {
                   block
                   style={styles.mainButton2}
                   onPress={() => {
-                    removeTournament();
-                  }}>
+                    removeTournamentAlert();
+                  }}
+                >
                   <Text style={styles.mainButtonText}>Remove Pool</Text>
                 </Button>
               )}
