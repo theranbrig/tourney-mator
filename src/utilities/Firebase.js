@@ -51,6 +51,13 @@ const FirebaseProvider = ({ children }) => {
       });
   };
 
+  const startTournament = tournamentId => {
+    dbh
+      .collection('tournaments')
+      .doc(tournamentId)
+      .update({ isLive: true });
+  };
+
   // Watches all users
   const [
     userFirebaseData: value,
@@ -68,6 +75,7 @@ const FirebaseProvider = ({ children }) => {
         userFirebaseError,
         userFirebaseLoading,
         createTournamentData,
+        startTournament,
         setLiveUserData,
       }}
     >

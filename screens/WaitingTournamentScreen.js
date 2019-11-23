@@ -21,7 +21,7 @@ const WaitingTournamentScreen = ({ history }) => {
 
   const { tournament } = data;
 
-  const { firebase } = useContext(FirebaseContext);
+  const { firebase, startTournament } = useContext(FirebaseContext);
 
   const [
     liveTournamentFirebaseValue: value,
@@ -65,7 +65,8 @@ const WaitingTournamentScreen = ({ history }) => {
                 fontFamily: 'graduate',
                 marginBottom: 5,
                 fontSize: 25,
-              }}>
+              }}
+            >
               Waiting For Tournament Members
             </Text>
             <List
@@ -74,13 +75,18 @@ const WaitingTournamentScreen = ({ history }) => {
                 width: '100%',
                 borderTopWidth: 2,
                 borderTopColor: '#fff',
-              }}>
+              }}
+            >
               {docSnap.currentMembers.map(member => (
                 <MemberItem key={member} memberId={member} />
               ))}
             </List>
             {docSnap && docSnap.currentMembers.length !== tournament.maxMember && (
               <Button
+                onPress={() => {
+                  startTournament(history.location.state.tournamentId);
+                  history.push('/live', { tournamentId: tournament.id });
+                }}
                 block
                 style={{
                   borderColor: '#fc3',
@@ -90,9 +96,10 @@ const WaitingTournamentScreen = ({ history }) => {
                   borderRadius: 0,
                   marginLeft: '5%',
                   marginTop: 40,
-                }}>
+                }}
+              >
                 <Text style={{ fontSize: 20, color: '#7a0019', fontFamily: 'graduate' }}>
-                  Begin Pool Now
+                  Start Picking Now
                 </Text>
               </Button>
             )}
