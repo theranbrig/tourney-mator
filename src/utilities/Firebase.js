@@ -24,6 +24,7 @@ export const FirebaseContext = React.createContext();
 const dbh = firebase.firestore();
 
 const FirebaseProvider = ({ children }) => {
+  // Sets basic tournament information for a user.  Reusable when joining a new tournament.  Set to defaults.
   const setLiveUserData = userId => {
     dbh
       .collection('users')
@@ -31,12 +32,13 @@ const FirebaseProvider = ({ children }) => {
       .set({
         waitingTournament: '',
         liveTournament: '',
-        currentPick: null,
+        currentPick: false,
         myPicks: [],
       });
   };
 
-  const createTournamentData = (tournamentId, userId) => {
+  // Called to open waiting room for tournament
+  const createTournamentData = (tournamentId, memberId) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
@@ -45,10 +47,11 @@ const FirebaseProvider = ({ children }) => {
         isWaiting: true,
         currentPick: 0,
         pickOrder: [],
-        currentMembers: [userId],
+        currentMembers: [memberId],
       });
   };
 
+  // Watches all users
   const [
     userFirebaseData: value,
     userFirebaseLoading: loading,
