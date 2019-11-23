@@ -14,7 +14,7 @@ const ProfileScreen = ({ history }) => {
           <Text>Users Screen</Text>
           <Button title="Go to Home" onPress={() => history.push('/home')} />
           <Button title="Go back" onPress={() => history.push('/loading')} />
-          <LogoutButton navigate={() => history.push('/')} />
+          <LogoutButton navigate={() => history.push('/login')} />
           <Text>{user.email}</Text>
           <Text>{user.username}</Text>
         </View>

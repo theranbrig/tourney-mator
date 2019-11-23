@@ -122,7 +122,7 @@ const HomeScreen = ({ history }) => {
 
   if (loading) {
     return (
-      <Layout title='Pools'>
+      <Layout title="Pools">
         <View style={styles.mainView}>
           <Text style={styles.title}>Loading Scores...</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
@@ -180,6 +180,11 @@ const HomeScreen = ({ history }) => {
                       paddingLeft: 10,
                       opacity: 0.9,
                       borderColor: '#7a0019',
+                      width: '90%',
+                      marginBottom: 10,
+                      marginLeft: '5%',
+                      borderWidth: 3,
+                      borderColor: '#fc3',
                     }}
                   >
                     <View style={{ flex: 1, flexDirection: 'column' }}>
