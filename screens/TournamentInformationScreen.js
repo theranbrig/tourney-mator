@@ -34,69 +34,7 @@ import Error from '../src/components/ErrorMessage';
 import { FirebaseContext } from '../src/utilities/Firebase';
 import { useDocument } from 'react-firebase-hooks/firestore';
 
-const styles = StyleSheet.create({
-  mainButton: {
-    marginTop: 10,
-    borderColor: '#f3f3f3',
-    backgroundColor: '#ffcc33',
-    borderWidth: 2,
-    width: '100%',
-    borderRadius: 0,
-  },
-  mainButtonText: {
-    fontSize: 20,
-    color: '#7a0019',
-    fontFamily: 'graduate',
-  },
-  form: {
-    width: '90%',
-    backgroundColor: '#7a0019',
-    marginBottom: 10,
-    marginTop: 50,
-    marginLeft: '5%',
-    justifyContent: 'center',
-  },
-  contentArea: {
-    backgroundColor: '#7a0019',
-  },
-  title: {
-    textAlign: 'center',
-    color: '#ffcc33',
-    fontFamily: 'graduate',
-    marginBottom: 5,
-    fontSize: 25,
-  },
-  label: {
-    color: '#ffcc33',
-    fontFamily: 'graduate',
-  },
-  mainView: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#7a0019',
-    marginBottom: 50,
-  },
-  mainButton2: {
-    marginTop: 10,
-    borderColor: '#fc3',
-    backgroundColor: '#f3f3f3',
-    borderWidth: 2,
-    width: '90%',
-    borderRadius: 0,
-    marginLeft: '5%',
-    marginTop: 50,
-  },
-  subTitle: {
-    textAlign: 'center',
-    color: '#f3f3f3',
-    fontFamily: 'graduate',
-    fontSize: 20,
-  },
-});
-
 const TournamentInformationScreen = ({ history }) => {
-  const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
   const [currentMember, setCurrentMember] = useState(null);
   const [tournamentInfo, setTournamentInfo] = useState(null);
   const [email, setEmail] = useState(null);
@@ -105,12 +43,24 @@ const TournamentInformationScreen = ({ history }) => {
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
 
-  const { firebase, setLiveUserData, firebaseValue, createTournamentData } = useContext(
-    FirebaseContext
-  );
+  const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
+
+  // GraphQL Functions
 
   const { loading, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: history.location.state.tournamentId },
+  });
+
+  const { tournament } = data;
+
+  const [
+    createTournamentRequest,
+    requestOnCompleted: onCompleted,
+    requestLoading: loading,
+    onError,
+  ] = useMutation(CREATE_TOURNAMENT_REQUEST_MUTATION, {
+    variables: { tournament: history.location.state.tournamentId, userEmail: email },
+    onError: async error => setError(error.message),
   });
 
   const [removeTournament, onCompleted] = useMutation(REMOVE_POOL_MUTATION, {
@@ -134,6 +84,12 @@ const TournamentInformationScreen = ({ history }) => {
     ]);
   };
 
+  // Firebase watch for tournament information
+
+  const { firebase, setLiveUserData, firebaseValue, createTournamentData } = useContext(
+    FirebaseContext
+  );
+
   const [
     liveTournamentFirebaseValue: value,
     liveTournamentFirebaseLoading: loading,
@@ -147,18 +103,6 @@ const TournamentInformationScreen = ({ history }) => {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
   );
-
-  const [
-    createTournamentRequest,
-    requestOnCompleted: onCompleted,
-    requestLoading: loading,
-    onError,
-  ] = useMutation(CREATE_TOURNAMENT_REQUEST_MUTATION, {
-    variables: { tournament: history.location.state.tournamentId, userEmail: email },
-    onError: async error => setError(error.message),
-  });
-
-  const { tournament } = data;
 
   useEffect(() => {
     if (tournament) {
@@ -332,5 +276,66 @@ const TournamentInformationScreen = ({ history }) => {
     </Layout>
   );
 };
+
+const styles = StyleSheet.create({
+  mainButton: {
+    marginTop: 10,
+    borderColor: '#f3f3f3',
+    backgroundColor: '#ffcc33',
+    borderWidth: 2,
+    width: '100%',
+    borderRadius: 0,
+  },
+  mainButtonText: {
+    fontSize: 20,
+    color: '#7a0019',
+    fontFamily: 'graduate',
+  },
+  form: {
+    width: '90%',
+    backgroundColor: '#7a0019',
+    marginBottom: 10,
+    marginTop: 50,
+    marginLeft: '5%',
+    justifyContent: 'center',
+  },
+  contentArea: {
+    backgroundColor: '#7a0019',
+  },
+  title: {
+    textAlign: 'center',
+    color: '#ffcc33',
+    fontFamily: 'graduate',
+    marginBottom: 5,
+    fontSize: 25,
+  },
+  label: {
+    color: '#ffcc33',
+    fontFamily: 'graduate',
+  },
+  mainView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#7a0019',
+    marginBottom: 50,
+  },
+  mainButton2: {
+    marginTop: 10,
+    borderColor: '#fc3',
+    backgroundColor: '#f3f3f3',
+    borderWidth: 2,
+    width: '90%',
+    borderRadius: 0,
+    marginLeft: '5%',
+    marginTop: 50,
+  },
+  subTitle: {
+    textAlign: 'center',
+    color: '#f3f3f3',
+    fontFamily: 'graduate',
+    fontSize: 20,
+  },
+});
 
 export default TournamentInformationScreen;
