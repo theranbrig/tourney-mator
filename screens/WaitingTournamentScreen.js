@@ -67,7 +67,7 @@ const WaitingTournamentScreen = ({ history }) => {
                 fontSize: 25,
               }}
             >
-              Waiting For Tournament Members
+              Waiting For All Tournament Members
             </Text>
             <List
               style={{
