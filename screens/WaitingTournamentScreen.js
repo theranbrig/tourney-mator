@@ -10,6 +10,7 @@ import { useDocument } from 'react-firebase-hooks/firestore';
 import { TOURNAMENT_INFORMATION_QUERY } from '../src/utilities/Queries';
 import MemberItem from '../src/components/MemberItem';
 import SpinningImage from 'react-native-spinning-image';
+import GoldSpinner from '../src/components/SpinnerGold';
 
 const WaitingTournamentScreen = ({ history }) => {
   const [docSnap, setDocSnap] = useState(null);
@@ -48,14 +49,7 @@ const WaitingTournamentScreen = ({ history }) => {
     <Layout title="Pools">
       <BackButtonHeader history={history} title="Ready" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <View style={{ height: 350 }}>
-          <SpinningImage
-            speed={15000}
-            height={200}
-            width={300}
-            source="https://res.cloudinary.com/dq7uyauun/image/upload/v1568344579/BRACKETBALL_opposite_2.png"
-          />
-        </View>
+        <GoldSpinner />
         {docSnap && docSnap.currentMembers.length && (
           <>
             <Text
@@ -65,8 +59,7 @@ const WaitingTournamentScreen = ({ history }) => {
                 fontFamily: 'graduate',
                 marginBottom: 5,
                 fontSize: 25,
-              }}
-            >
+              }}>
               Waiting For All Tournament Members
             </Text>
             <List
@@ -75,8 +68,7 @@ const WaitingTournamentScreen = ({ history }) => {
                 width: '100%',
                 borderTopWidth: 2,
                 borderTopColor: '#fff',
-              }}
-            >
+              }}>
               {docSnap.currentMembers.map(member => (
                 <MemberItem key={member} memberId={member} />
               ))}
@@ -96,8 +88,7 @@ const WaitingTournamentScreen = ({ history }) => {
                   borderRadius: 0,
                   marginLeft: '5%',
                   marginTop: 40,
-                }}
-              >
+                }}>
                 <Text style={{ fontSize: 20, color: '#7a0019', fontFamily: 'graduate' }}>
                   Start Picking Now
                 </Text>

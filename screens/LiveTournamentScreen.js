@@ -35,7 +35,7 @@ const LiveTournamentScreen = ({ history }) => {
     <Layout title="Pools">
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Live Tournament</Text>
-        <SelectOrder />
+        <SelectOrder tournamentInfo={docSnap} tournamentId={history.location.state.tournamentId} />
       </View>
     </Layout>
   );

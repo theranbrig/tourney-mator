@@ -33,6 +33,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Error from '../src/components/ErrorMessage';
 import { FirebaseContext } from '../src/utilities/Firebase';
 import { useDocument } from 'react-firebase-hooks/firestore';
+import GoldSpinner from '../src/components/SpinnerGold';
 
 const TournamentInformationScreen = ({ history }) => {
   const [currentMember, setCurrentMember] = useState(null);
@@ -122,12 +123,7 @@ const TournamentInformationScreen = ({ history }) => {
         <View style={styles.mainView}>
           <Text style={styles.title}>Loading Pool Information...</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-            <View style={{ height: 350 }}>
-              <Image
-                style={{ width: 300, height: 250 }}
-                source={require('../assets/images/goldBasketball.png')}
-              />
-            </View>
+            <GoldSpinner />
           </View>
         </View>
       </Layout>
@@ -140,8 +136,7 @@ const TournamentInformationScreen = ({ history }) => {
         <ScrollView
           bounces
           endFillColor="#7a0019"
-          style={{ width: '100%', marginTop: 20, marginBottom: 20, backgroundColor: '#7a0019' }}
-        >
+          style={{ width: '100%', marginTop: 20, marginBottom: 20, backgroundColor: '#7a0019' }}>
           {tournament && (
             <>
               <View style={{ marginBottom: 10, backgroundColor: '#7a0019' }}>
@@ -159,8 +154,7 @@ const TournamentInformationScreen = ({ history }) => {
                   width: '100%',
                   borderTopWidth: 2,
                   borderTopColor: '#fff',
-                }}
-              >
+                }}>
                 {tournament.tournamentMembers.map((member, index) => (
                   <ListItem
                     style={{
@@ -172,8 +166,7 @@ const TournamentInformationScreen = ({ history }) => {
                       borderBottomWidth: 2,
                       borderBottomColor: '#fff',
                     }}
-                    key={member.user.id}
-                  >
+                    key={member.user.id}>
                     <Body>
                       <Text style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 20 }}>
                         {member.user.username}
@@ -199,8 +192,7 @@ const TournamentInformationScreen = ({ history }) => {
                     createTournamentData(tournament.id, currentMember);
                     setMessage('Taking you to the big show...');
                     history.push('/waiting', { tournamentId: tournament.id });
-                  }}
-                >
+                  }}>
                   <Text style={styles.mainButtonText}>Begin Pool Now</Text>
                 </Button>
               )}
@@ -225,8 +217,7 @@ const TournamentInformationScreen = ({ history }) => {
                     createTournamentRequest();
                     setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`);
                   }}
-                  disabled={error}
-                >
+                  disabled={error}>
                   {requestLoading ? (
                     <Spinner />
                   ) : (
@@ -245,15 +236,13 @@ const TournamentInformationScreen = ({ history }) => {
                     borderWidth: 2,
                     padding: 10,
                     marginTop: 20,
-                  }}
-                >
+                  }}>
                   <Text
                     style={{
                       color: '#7a0019',
                       fontFamily: 'graduate',
                       textAlign: 'center',
-                    }}
-                  >
+                    }}>
                     {message}
                   </Text>
                 </View>
@@ -264,8 +253,7 @@ const TournamentInformationScreen = ({ history }) => {
                   style={styles.mainButton2}
                   onPress={() => {
                     removeTournamentAlert();
-                  }}
-                >
+                  }}>
                   <Text style={styles.mainButtonText}>Remove Pool</Text>
                 </Button>
               )}
