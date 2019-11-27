@@ -19,16 +19,16 @@ const SelectOrder = ({ tournamentInfo, tournamentId }) => {
   useEffect(() => {
     if (tournament && pickOrder && tournamentInfo) {
       if (pickOrder.length < tournament.maxMembers) {
-        const pick =
-          tournamentInfo.currentMembers[
-            Math.floor(Math.random() * tournamentInfo.currentMembers.length)
-          ];
-        console.log(pick);
+        setTimeout(() => {
+          const pick =
+            tournamentInfo.currentMembers[
+              Math.floor(Math.random() * tournamentInfo.currentMembers.length)
+            ];
+          console.log(pick);
+          console.log('Hello');
+        }, 5000);
       }
     }
-    setTimeout(() => {
-      console.log('Hello');
-    }, 5000);
   }, [pickOrder, tournamentInfo, data]);
 
   if (loading) return <GoldSpinner />;
