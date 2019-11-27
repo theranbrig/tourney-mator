@@ -10,8 +10,6 @@ const SelectOrder = ({ tournamentInfo, tournamentId }) => {
 
   const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
 
-  // GraphQL Functions
-
   const { loading, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: tournamentId },
   });
@@ -19,10 +17,14 @@ const SelectOrder = ({ tournamentInfo, tournamentId }) => {
   const { tournament } = data;
 
   useEffect(() => {
-    if (data) {
-      console.log('data', data);
-      console.log('picks', pickOrder);
-      console.log('info', tournamentInfo);
+    if (tournament && pickOrder && tournamentInfo) {
+      if (pickOrder.length < tournament.maxMembers) {
+        const pick =
+          tournamentInfo.currentMembers[
+            Math.floor(Math.random() * tournamentInfo.currentMembers.length)
+          ];
+        console.log(pick);
+      }
     }
     setTimeout(() => {
       console.log('Hello');
@@ -30,7 +32,7 @@ const SelectOrder = ({ tournamentInfo, tournamentId }) => {
   }, [pickOrder, tournamentInfo, data]);
 
   if (loading) return <GoldSpinner />;
-  
+
   return <Text>Hello</Text>;
 };
 
