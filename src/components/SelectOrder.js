@@ -5,7 +5,7 @@ import { TOURNAMENT_INFORMATION_QUERY } from '../utilities/Queries';
 import { useQuery } from '@apollo/react-hooks';
 import GoldSpinner from './SpinnerGold';
 
-const SelectOrder = ({ tournamentInfo, tournamentId }) => {
+const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
   const [pickOrder, setPickOrder] = useState([]);
 
   const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
@@ -18,15 +18,17 @@ const SelectOrder = ({ tournamentInfo, tournamentId }) => {
 
   useEffect(() => {
     if (tournament && pickOrder && tournamentInfo) {
-      if (pickOrder.length < tournament.maxMembers) {
-        setTimeout(() => {
-          const pick =
-            tournamentInfo.currentMembers[
-              Math.floor(Math.random() * tournamentInfo.currentMembers.length)
-            ];
-          console.log(pick);
-          console.log('Hello');
-        }, 5000);
+      if (user.tournamentMembers.some(member => (member.id = admin))) {
+        if (pickOrder.length < tournament.maxMembers) {
+          setTimeout(() => {
+            const pick =
+              tournamentInfo.currentMembers[
+                Math.floor(Math.random() * tournamentInfo.currentMembers.length)
+              ];
+            console.log(pick);
+            console.log('Hello');
+          }, 5000);
+        }
       }
     }
   }, [pickOrder, tournamentInfo, data]);

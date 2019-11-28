@@ -4,9 +4,11 @@ import Layout from '../src/utilities/Layout';
 import SelectOrder from '../src/components/SelectOrder';
 import { FirebaseContext } from '../src/utilities/Firebase';
 import { useDocument } from 'react-firebase-hooks/firestore';
+import { UserContext } from '../src/utilities/UserContext';
 
 const LiveTournamentScreen = ({ history }) => {
   const [docSnap, setDocSnap] = useState(null);
+  const { tournamentId, admin } = history.location.state;
 
   const { firebase, startTournament } = useContext(FirebaseContext);
 
@@ -35,7 +37,7 @@ const LiveTournamentScreen = ({ history }) => {
     <Layout title="Pools">
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Live Tournament</Text>
-        <SelectOrder tournamentInfo={docSnap} tournamentId={history.location.state.tournamentId} />
+        <SelectOrder tournamentInfo={docSnap} tournamentId={tournamentId} admin={admin} />
       </View>
     </Layout>
   );

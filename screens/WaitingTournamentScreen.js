@@ -13,14 +13,18 @@ import SpinningImage from 'react-native-spinning-image';
 import GoldSpinner from '../src/components/SpinnerGold';
 
 const WaitingTournamentScreen = ({ history }) => {
+  const { tournamentId, admin } = history.location.state;
   const [docSnap, setDocSnap] = useState(null);
   const [listLoading, setListLoading] = useState(false);
 
-  const { loading, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
-    variables: { id: history.location.state.tournamentId },
-  });
+  const { loading: tournamentLoading, data: tournamentData } = useQuery(
+    TOURNAMENT_INFORMATION_QUERY,
+    {
+      variables: { id: tournamentId },
+    }
+  );
 
-  const { tournament } = data;
+  const { tournament } = tournamentData;
 
   const { firebase, startTournament } = useContext(FirebaseContext);
 
@@ -32,7 +36,7 @@ const WaitingTournamentScreen = ({ history }) => {
     firebase
       .firestore()
       .collection('tournaments')
-      .doc(history.location.state.tournamentId),
+      .doc(tournamentId),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
@@ -43,7 +47,7 @@ const WaitingTournamentScreen = ({ history }) => {
       setDocSnap(liveTournamentFirebaseValue.data());
       console.log(docSnap);
     }
-  }, [liveTournamentFirebaseValue, data]);
+  }, [liveTournamentFirebaseValue, tournamentData]);
 
   return (
     <Layout title="Pools">
@@ -76,8 +80,8 @@ const WaitingTournamentScreen = ({ history }) => {
             {docSnap && docSnap.currentMembers.length !== tournament.maxMember && (
               <Button
                 onPress={() => {
-                  startTournament(history.location.state.tournamentId);
-                  history.push('/live', { tournamentId: tournament.id });
+                  startTournament(tournamentId);
+                  history.push('/live', { tournamentId: tournamentId, admin: admin });
                 }}
                 block
                 style={{
