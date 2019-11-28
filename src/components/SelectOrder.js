@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, Button } from 'native-base';
+import { Text, Button, View, List, ListItem } from 'native-base';
 import { UserContext } from '../utilities/UserContext';
 import { TOURNAMENT_INFORMATION_QUERY } from '../utilities/Queries';
 import { useQuery } from '@apollo/react-hooks';
@@ -25,26 +25,29 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
               tournamentInfo.currentMembers[
                 Math.floor(Math.random() * tournamentInfo.currentMembers.length)
               ];
-            console.log(pick);
-            console.log('Hello');
             // TODO: Set user to pick in Firebase
+            setPickOrder([...pickOrder, pick]);
           }, 5000);
         }
       }
     }
   };
   useEffect(() => {
-    if (tournamentInfo) {
-      setPickOrder(tournamentInfo.pickOrder);
-    }
+    console.log('hello');
+    console.log(pickOrder);
   }, [pickOrder, tournamentInfo, data]);
 
   if (loading) return <GoldSpinner />;
 
   return (
-    <Button onPress={() => selectMember()}>
-      <Text>Hello</Text>
-    </Button>
+    <View>
+      {pickOrder.map(pick => (
+        <Text>{pick}</Text>
+      ))}
+      <Button onPress={() => selectMember()}>
+        <Text>Hello</Text>
+      </Button>
+    </View>
   );
 };
 
