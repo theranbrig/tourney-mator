@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text } from 'native-base';
+import { Text, Button } from 'native-base';
 import { UserContext } from '../utilities/UserContext';
 import { TOURNAMENT_INFORMATION_QUERY } from '../utilities/Queries';
 import { useQuery } from '@apollo/react-hooks';
@@ -16,7 +16,7 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
 
   const { tournament } = data;
 
-  useEffect(() => {
+  const selectMember = () => {
     if (tournament && pickOrder && tournamentInfo) {
       if (user.tournamentMembers.some(member => (member.id = admin))) {
         if (pickOrder.length < tournament.maxMembers) {
@@ -27,15 +27,25 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
               ];
             console.log(pick);
             console.log('Hello');
+            // TODO: Set user to pick in Firebase
           }, 5000);
         }
       }
+    }
+  };
+  useEffect(() => {
+    if (tournamentInfo) {
+      setPickOrder(tournamentInfo.pickOrder);
     }
   }, [pickOrder, tournamentInfo, data]);
 
   if (loading) return <GoldSpinner />;
 
-  return <Text>Hello</Text>;
+  return (
+    <Button onPress={() => selectMember()}>
+      <Text>Hello</Text>
+    </Button>
+  );
 };
 
 export default SelectOrder;
