@@ -36,7 +36,7 @@ const FirebaseProvider = ({ children }) => {
         myPicks: [],
       });
   };
-
+  // TODO: All firebase should originate from here.
   // Called to open waiting room for tournament
   const createTournamentData = (tournamentId, memberId) => {
     dbh
