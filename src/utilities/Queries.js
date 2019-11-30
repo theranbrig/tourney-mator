@@ -22,6 +22,9 @@ export const CURRENT_USER_QUERY = gql`
           startDate
           tournamentMembers {
             id
+            user {
+              id
+            }
           }
         }
         points

@@ -39,6 +39,7 @@ const MyPoolsScreen = ({ history }) => {
   const [error, setError] = useState(null);
   const [docSnap, setDocSnap] = useState(null);
 
+  console.log(user);
   const removeTournamentAlert = tournamentId => {
     Alert.alert('Remove Pool?', 'Are you sure you want to remove this pool?', [
       { text: 'NO', onPress: () => console.warn('Thanks for staying'), style: 'cancel' },
@@ -121,8 +122,7 @@ const MyPoolsScreen = ({ history }) => {
             style={{ backgroundColor: '#fc3' }}
             showsVerticalScrollIndicator={false}
           />
-        }
-      >
+        }>
         {user.tournamentRequests ? (
           <RequestList user={user} acceptRequest={acceptRequest} deleteRequest={deleteRequest} />
         ) : (
@@ -139,23 +139,14 @@ const MyPoolsScreen = ({ history }) => {
                   fontFamily: 'graduate',
                   fontSize: 20,
                   textAlign: 'center',
-                }}
-              >
+                }}>
                 No Pools Yet
               </Text>
             )}
           </View>
         </Layout>
       </ScrollView>
-      <View>
-        {firebaseValue && docSnap && (
-          <View>
-            {docSnap.map(doc => (
-              <Text>{doc.data().specialAttack}</Text>
-            ))}
-          </View>
-        )}
-      </View>
+
       <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}>
         <View
           style={{
@@ -167,15 +158,13 @@ const MyPoolsScreen = ({ history }) => {
             backgroundColor: '#fc3',
             borderBottomColor: '#7a0019',
             borderBottomWidth: 2,
-          }}
-        >
+          }}>
           <Text
             style={{
               color: '#7a0019',
               fontFamily: 'graduate',
               fontSize: 16,
-            }}
-          >
+            }}>
             Join A Pool
           </Text>
           <SpecialIcon
