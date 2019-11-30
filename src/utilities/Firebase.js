@@ -55,7 +55,9 @@ const FirebaseProvider = ({ children }) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
-      .set({ currentMembers: [memberId] }, { merge: true });
+      .update({
+        currentMembers: firebase.firestore.FieldValue.arrayUnion(memberId),
+      });
   };
 
   const startTournament = tournamentId => {

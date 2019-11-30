@@ -134,7 +134,6 @@ const Mutations = {
     if (memberCheck.length) {
       throw new Error('You are already a member.');
     }
-
     const tournamentMember = await ctx.db.mutation.createTournamentMember({
       data: {
         user: { connect: { id: ctx.request.userId } },

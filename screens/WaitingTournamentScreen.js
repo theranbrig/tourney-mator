@@ -45,7 +45,7 @@ const WaitingTournamentScreen = ({ history }) => {
   useEffect(() => {
     if (liveTournamentFirebaseValue) {
       setDocSnap(liveTournamentFirebaseValue.data());
-      console.log(docSnap);
+      
     }
   }, [liveTournamentFirebaseValue, tournamentData]);
 

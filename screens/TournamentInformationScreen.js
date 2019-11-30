@@ -121,6 +121,7 @@ const TournamentInformationScreen = ({ history }) => {
       );
       setCurrentMember(currentTournamentMember[0].id);
       setTournamentInfo(liveTournamentFirebaseValue.data());
+      console.log(tournament);
     }
   }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue]);
 

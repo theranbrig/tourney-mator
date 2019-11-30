@@ -35,8 +35,12 @@ export const TOURNAMENT_INFORMATION_QUERY = gql`
   query TOURNAMENT_INFORMATION_QUERY($id: ID!) {
     tournament(where: { id: $id }) {
       id
-      type
       name
+      password
+      teams {
+        id
+      }
+      type
       startDate
       tournamentMembers {
         id
