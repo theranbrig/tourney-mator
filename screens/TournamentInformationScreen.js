@@ -36,10 +36,11 @@ import { useDocument } from 'react-firebase-hooks/firestore';
 import GoldSpinner from '../src/components/SpinnerGold';
 
 const TournamentInformationScreen = ({ history }) => {
-  const [currentMember, setCurrentMember] = useState(null);
-  const [tournamentInfo, setTournamentInfo] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [adminRole, setAdminRole] = useState(null);
+  const { tournamentId } = history.location.state;
+  const [currentMember, setCurrentMember] = useState('');
+  const [tournamentInfo, setTournamentInfo] = useState({});
+  const [email, setEmail] = useState('');
+  const [adminRole, setAdminRole] = useState('');
   const [admin, setAdmin] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
@@ -49,7 +50,7 @@ const TournamentInformationScreen = ({ history }) => {
   // GraphQL Functions
 
   const { loading, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
-    variables: { id: history.location.state.tournamentId },
+    variables: { id: tournamentId },
   });
 
   const { tournament } = data;
@@ -60,12 +61,14 @@ const TournamentInformationScreen = ({ history }) => {
     requestLoading: loading,
     onError,
   ] = useMutation(CREATE_TOURNAMENT_REQUEST_MUTATION, {
-    variables: { tournament: history.location.state.tournamentId, userEmail: email },
+    variables: { tournament: tournamentId, userEmail: email },
     onError: async error => setError(error.message),
+    onCompleted: async data =>
+      setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`),
   });
 
   const [removeTournament, onCompleted] = useMutation(REMOVE_POOL_MUTATION, {
-    variables: { id: history.location.state.tournamentId },
+    variables: { id: tournamentId },
     onCompleted: async data => {
       await userRefetch();
       history.push('/pools');
@@ -87,9 +90,13 @@ const TournamentInformationScreen = ({ history }) => {
 
   // Firebase watch for tournament information
 
-  const { firebase, setLiveUserData, firebaseValue, createTournamentData } = useContext(
-    FirebaseContext
-  );
+  const {
+    firebase,
+    setLiveUserData,
+    firebaseValue,
+    createTournamentData,
+    joinLiveTournament,
+  } = useContext(FirebaseContext);
 
   const [
     liveTournamentFirebaseValue: value,
@@ -99,7 +106,7 @@ const TournamentInformationScreen = ({ history }) => {
     firebase
       .firestore()
       .collection('tournaments')
-      .doc(history.location.state.tournamentId),
+      .doc(tournamentId),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
@@ -196,6 +203,39 @@ const TournamentInformationScreen = ({ history }) => {
                   <Text style={styles.mainButtonText}>Begin Pool Now</Text>
                 </Button>
               )}
+              {tournamentInfo && tournamentInfo.isWaiting && user.id !== admin && (
+                <>
+                  <View
+                    style={{
+                      backgroundColor: '#fc3',
+                      width: '90%',
+                      marginLeft: '5%',
+                      borderColor: '#fff',
+                      borderWidth: 2,
+                      padding: 10,
+                      marginTop: 20,
+                    }}>
+                    <Text
+                      style={{
+                        color: '#7a0019',
+                        fontFamily: 'graduate',
+                        textAlign: 'center',
+                      }}>
+                      POOL IS LIVE NOW!
+                    </Text>
+                  </View>
+                  <Button
+                    block
+                    style={styles.mainButton2}
+                    onPress={() => {
+                      joinLiveTournament(tournament.id, currentMember);
+                      setMessage('Taking you to the big show...');
+                      history.push('/waiting', { tournamentId: tournament.id, admin: admin });
+                    }}>
+                    <Text style={styles.mainButtonText}>Join Pool</Text>
+                  </Button>
+                </>
+              )}
 
               <Form style={styles.form}>
                 <Item regular style={{ marginBottom: 10 }}>
@@ -215,9 +255,8 @@ const TournamentInformationScreen = ({ history }) => {
                   style={styles.mainButton}
                   onPress={() => {
                     createTournamentRequest();
-                    setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`);
                   }}
-                  disabled={error}>
+                  disabled={error || email.length < 5}>
                   {requestLoading ? (
                     <Spinner />
                   ) : (

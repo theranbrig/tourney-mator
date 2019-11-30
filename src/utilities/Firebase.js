@@ -51,6 +51,13 @@ const FirebaseProvider = ({ children }) => {
       });
   };
 
+  const joinLiveTournament = (tournamentId, memberId) => {
+    dbh
+      .collection('tournaments')
+      .doc(tournamentId)
+      .set({ currentMembers: [memberId] }, { merge: true });
+  };
+
   const startTournament = tournamentId => {
     dbh
       .collection('tournaments')
@@ -77,8 +84,8 @@ const FirebaseProvider = ({ children }) => {
         createTournamentData,
         startTournament,
         setLiveUserData,
-      }}
-    >
+        joinLiveTournament,
+      }}>
       {children}
     </FirebaseContext.Provider>
   );
