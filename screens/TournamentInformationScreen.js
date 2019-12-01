@@ -116,16 +116,13 @@ const TournamentInformationScreen = ({ history }) => {
     if (tournament) {
       const adminRole = tournament.tournamentMembers.filter(member => member.role === 'ADMIN');
       setAdmin(adminRole[0].user.id);
-      // TODO: NEEDS CURRENT TOURNAMENT MEMBER ID
-      // const currentTournamentMember = tournament.tournamentMembers.filter(
-      //   member => (member.user.id = user.id)
-      // );
-      // console.log(currentTournamentMember);
-      // setCurrentMember(currentTournamentMember[0].id);
+      const currentMembers = tournament.tournamentMembers.filter(
+        member => member.user.id === user.id
+      );
+      setCurrentMember(currentMembers[0].id);
       setTournamentInfo(liveTournamentFirebaseValue.data());
-      // console.log('tournament', tournament);
     }
-  }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue]);
+  }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue, currentMember]);
 
   if (loading)
     return (
