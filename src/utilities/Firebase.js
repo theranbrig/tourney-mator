@@ -60,6 +60,17 @@ const FirebaseProvider = ({ children }) => {
       });
   };
 
+  const setFirebasePickOrder = (tournamentId, memberId) => {
+    dbh
+      .collection('tournaments')
+      .doc(tournamentId)
+      .update({ pickOrder: firebase.firestore.FieldValue.arrayUnion(memberId) });
+    dbh
+      .collection('tournaments')
+      .doc(tournamentId)
+      .update({ currentMembers: firebase.firestore.FieldValue.arrayRemove(memberId) });
+  };
+
   const startTournament = tournamentId => {
     dbh
       .collection('tournaments')
@@ -87,6 +98,7 @@ const FirebaseProvider = ({ children }) => {
         startTournament,
         setLiveUserData,
         joinLiveTournament,
+        setFirebasePickOrder,
       }}>
       {children}
     </FirebaseContext.Provider>

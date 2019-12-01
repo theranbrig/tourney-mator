@@ -4,11 +4,13 @@ import { UserContext } from '../utilities/UserContext';
 import { TOURNAMENT_INFORMATION_QUERY } from '../utilities/Queries';
 import { useQuery } from '@apollo/react-hooks';
 import GoldSpinner from './SpinnerGold';
+import { FirebaseContext } from '../utilities/Firebase';
 
 const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
   const [pickOrder, setPickOrder] = useState([]);
 
   const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
+  const { setFirebasePickOrder } = useContext(FirebaseContext);
 
   const { loading, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: tournamentId },
@@ -20,22 +22,24 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
     if (tournament && pickOrder && tournamentInfo) {
       if (user.tournamentMembers.some(member => (member.id = admin))) {
         if (pickOrder.length < tournament.maxMembers) {
-          setTimeout(() => {
-            const pick =
-              tournamentInfo.currentMembers[
-                Math.floor(Math.random() * tournamentInfo.currentMembers.length)
-              ];
-            // TODO: Set user to pick in Firebase
-            setPickOrder([...pickOrder, pick]);
-          }, 5000);
+          const pick =
+            tournamentInfo.currentMembers[
+              Math.floor(Math.random() * tournamentInfo.currentMembers.length)
+            ];
+          // TODO: Set user to pick in Firebase
+          setPickOrder([...pickOrder, pick]);
+          setFirebasePickOrder(tournamentId, pick);
         }
       }
     }
   };
+
   useEffect(() => {
-    console.log('hello');
-    console.log(pickOrder);
-  }, [pickOrder, tournamentInfo, data]);
+    if (tournament) {
+      console.log(tournament);
+      console.log(tournamentInfo);
+    }
+  }, [tournamentInfo]);
 
   if (loading) return <GoldSpinner />;
 
