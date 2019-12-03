@@ -6,6 +6,10 @@ type AggregateTournament {
   count: Int!
 }
 
+type AggregatetournamentGroup {
+  count: Int!
+}
+
 type AggregateTournamentMember {
   count: Int!
 }
@@ -52,6 +56,12 @@ type Mutation {
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createtournamentGroup(data: tournamentGroupCreateInput!): tournamentGroup!
+  updatetournamentGroup(data: tournamentGroupUpdateInput!, where: tournamentGroupWhereUniqueInput!): tournamentGroup
+  updateManytournamentGroups(data: tournamentGroupUpdateInput!, where: tournamentGroupWhereInput): BatchPayload!
+  upserttournamentGroup(where: tournamentGroupWhereUniqueInput!, create: tournamentGroupCreateInput!, update: tournamentGroupUpdateInput!): tournamentGroup!
+  deletetournamentGroup(where: tournamentGroupWhereUniqueInput!): tournamentGroup
+  deleteManytournamentGroups(where: tournamentGroupWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -91,6 +101,9 @@ type Query {
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  tournamentGroup(where: tournamentGroupWhereUniqueInput!): tournamentGroup
+  tournamentGroups(where: tournamentGroupWhereInput, orderBy: tournamentGroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [tournamentGroup]!
+  tournamentGroupsConnection(where: tournamentGroupWhereInput, orderBy: tournamentGroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): tournamentGroupConnection!
   node(id: ID!): Node
 }
 
@@ -100,6 +113,7 @@ type Subscription {
   tournamentMember(where: TournamentMemberSubscriptionWhereInput): TournamentMemberSubscriptionPayload
   tournamentRequest(where: TournamentRequestSubscriptionWhereInput): TournamentRequestSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  tournamentGroup(where: tournamentGroupSubscriptionWhereInput): tournamentGroupSubscriptionPayload
 }
 
 type Team {
@@ -107,9 +121,10 @@ type Team {
   name: String!
   record: String
   seed: Float!
-  region: String!
+  region: String
   wins: Float
   bonusPoints: Float
+  season: String
 }
 
 type TeamConnection {
@@ -122,9 +137,10 @@ input TeamCreateInput {
   name: String!
   record: String
   seed: Float!
-  region: String!
+  region: String
   wins: Float
   bonusPoints: Float
+  season: String
 }
 
 input TeamCreateManyInput {
@@ -151,6 +167,8 @@ enum TeamOrderByInput {
   wins_DESC
   bonusPoints_ASC
   bonusPoints_DESC
+  season_ASC
+  season_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -162,9 +180,10 @@ type TeamPreviousValues {
   name: String!
   record: String
   seed: Float!
-  region: String!
+  region: String
   wins: Float
   bonusPoints: Float
+  season: String
 }
 
 type TeamSubscriptionPayload {
@@ -192,6 +211,7 @@ input TeamUpdateInput {
   region: String
   wins: Float
   bonusPoints: Float
+  season: String
 }
 
 input TeamUpdateManyInput {
@@ -279,6 +299,20 @@ input TeamWhereInput {
   bonusPoints_lte: Float
   bonusPoints_gt: Float
   bonusPoints_gte: Float
+  season: String
+  season_not: String
+  season_in: [String!]
+  season_not_in: [String!]
+  season_lt: String
+  season_lte: String
+  season_gt: String
+  season_gte: String
+  season_contains: String
+  season_not_contains: String
+  season_starts_with: String
+  season_not_starts_with: String
+  season_ends_with: String
+  season_not_ends_with: String
   AND: [TeamWhereInput!]
   OR: [TeamWhereInput!]
   NOT: [TeamWhereInput!]
@@ -333,6 +367,88 @@ input TournamentCreateWithoutTournamentMembersInput {
 type TournamentEdge {
   node: Tournament!
   cursor: String!
+}
+
+type tournamentGroup {
+  id: ID!
+  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
+}
+
+type tournamentGroupConnection {
+  pageInfo: PageInfo!
+  edges: [tournamentGroupEdge]!
+  aggregate: AggregatetournamentGroup!
+}
+
+input tournamentGroupCreateInput {
+  teams: TeamCreateManyInput
+}
+
+type tournamentGroupEdge {
+  node: tournamentGroup!
+  cursor: String!
+}
+
+enum tournamentGroupOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type tournamentGroupPreviousValues {
+  id: ID!
+}
+
+type tournamentGroupSubscriptionPayload {
+  mutation: MutationType!
+  node: tournamentGroup
+  updatedFields: [String!]
+  previousValues: tournamentGroupPreviousValues
+}
+
+input tournamentGroupSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: tournamentGroupWhereInput
+  AND: [tournamentGroupSubscriptionWhereInput!]
+  OR: [tournamentGroupSubscriptionWhereInput!]
+  NOT: [tournamentGroupSubscriptionWhereInput!]
+}
+
+input tournamentGroupUpdateInput {
+  teams: TeamUpdateManyInput
+}
+
+input tournamentGroupWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  teams_every: TeamWhereInput
+  teams_some: TeamWhereInput
+  teams_none: TeamWhereInput
+  AND: [tournamentGroupWhereInput!]
+  OR: [tournamentGroupWhereInput!]
+  NOT: [tournamentGroupWhereInput!]
+}
+
+input tournamentGroupWhereUniqueInput {
+  id: ID
 }
 
 type TournamentMember {

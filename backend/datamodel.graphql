@@ -40,15 +40,20 @@ type TournamentMember {
 type Team {
   id: ID! @id
   name: String!
-  record: String
   seed: Float!
-  region: String!
+  region: String
   wins: Float
   bonusPoints: Float
+  season: String
 }
 
 type TournamentRequest {
   id: ID! @id @unique
   tournament: Tournament
   user: User
+}
+
+type tournamentGroup {
+  id: ID! @id @unique
+  teams: [Team] @scalarList(strategy: RELATION)
 }
