@@ -119,12 +119,12 @@ type Subscription {
 type Team {
   id: ID!
   name: String!
-  record: String
   seed: Float!
   region: String
   wins: Float
   bonusPoints: Float
   season: String
+  record: String
 }
 
 type TeamConnection {
@@ -135,12 +135,12 @@ type TeamConnection {
 
 input TeamCreateInput {
   name: String!
-  record: String
   seed: Float!
   region: String
   wins: Float
   bonusPoints: Float
   season: String
+  record: String
 }
 
 input TeamCreateManyInput {
@@ -157,8 +157,6 @@ enum TeamOrderByInput {
   id_DESC
   name_ASC
   name_DESC
-  record_ASC
-  record_DESC
   seed_ASC
   seed_DESC
   region_ASC
@@ -169,6 +167,8 @@ enum TeamOrderByInput {
   bonusPoints_DESC
   season_ASC
   season_DESC
+  record_ASC
+  record_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -178,12 +178,12 @@ enum TeamOrderByInput {
 type TeamPreviousValues {
   id: ID!
   name: String!
-  record: String
   seed: Float!
   region: String
   wins: Float
   bonusPoints: Float
   season: String
+  record: String
 }
 
 type TeamSubscriptionPayload {
@@ -206,12 +206,12 @@ input TeamSubscriptionWhereInput {
 
 input TeamUpdateInput {
   name: String
-  record: String
   seed: Float
   region: String
   wins: Float
   bonusPoints: Float
   season: String
+  record: String
 }
 
 input TeamUpdateManyInput {
@@ -247,20 +247,6 @@ input TeamWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
-  record: String
-  record_not: String
-  record_in: [String!]
-  record_not_in: [String!]
-  record_lt: String
-  record_lte: String
-  record_gt: String
-  record_gte: String
-  record_contains: String
-  record_not_contains: String
-  record_starts_with: String
-  record_not_starts_with: String
-  record_ends_with: String
-  record_not_ends_with: String
   seed: Float
   seed_not: Float
   seed_in: [Float!]
@@ -313,6 +299,20 @@ input TeamWhereInput {
   season_not_starts_with: String
   season_ends_with: String
   season_not_ends_with: String
+  record: String
+  record_not: String
+  record_in: [String!]
+  record_not_in: [String!]
+  record_lt: String
+  record_lte: String
+  record_gt: String
+  record_gte: String
+  record_contains: String
+  record_not_contains: String
+  record_starts_with: String
+  record_not_starts_with: String
+  record_ends_with: String
+  record_not_ends_with: String
   AND: [TeamWhereInput!]
   OR: [TeamWhereInput!]
   NOT: [TeamWhereInput!]
@@ -371,7 +371,9 @@ type TournamentEdge {
 
 type tournamentGroup {
   id: ID!
+  name: String!
   teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
+  rounds: Float
 }
 
 type tournamentGroupConnection {
@@ -381,7 +383,9 @@ type tournamentGroupConnection {
 }
 
 input tournamentGroupCreateInput {
+  name: String!
   teams: TeamCreateManyInput
+  rounds: Float
 }
 
 type tournamentGroupEdge {
@@ -392,6 +396,10 @@ type tournamentGroupEdge {
 enum tournamentGroupOrderByInput {
   id_ASC
   id_DESC
+  name_ASC
+  name_DESC
+  rounds_ASC
+  rounds_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -400,6 +408,8 @@ enum tournamentGroupOrderByInput {
 
 type tournamentGroupPreviousValues {
   id: ID!
+  name: String!
+  rounds: Float
 }
 
 type tournamentGroupSubscriptionPayload {
@@ -421,7 +431,9 @@ input tournamentGroupSubscriptionWhereInput {
 }
 
 input tournamentGroupUpdateInput {
+  name: String
   teams: TeamUpdateManyInput
+  rounds: Float
 }
 
 input tournamentGroupWhereInput {
@@ -439,9 +451,31 @@ input tournamentGroupWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
   teams_every: TeamWhereInput
   teams_some: TeamWhereInput
   teams_none: TeamWhereInput
+  rounds: Float
+  rounds_not: Float
+  rounds_in: [Float!]
+  rounds_not_in: [Float!]
+  rounds_lt: Float
+  rounds_lte: Float
+  rounds_gt: Float
+  rounds_gte: Float
   AND: [tournamentGroupWhereInput!]
   OR: [tournamentGroupWhereInput!]
   NOT: [tournamentGroupWhereInput!]
@@ -449,6 +483,7 @@ input tournamentGroupWhereInput {
 
 input tournamentGroupWhereUniqueInput {
   id: ID
+  name: String
 }
 
 type TournamentMember {
