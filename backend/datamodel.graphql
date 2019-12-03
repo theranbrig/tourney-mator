@@ -54,9 +54,10 @@ type TournamentRequest {
   user: User
 }
 
-type tournamentGroup {
+type TournamentGroup {
   id: ID! @id @unique
   name: String! @unique
   teams: [Team] @scalarList(strategy: RELATION)
   rounds: Float
 }
+

@@ -6,7 +6,7 @@ type AggregateTournament {
   count: Int!
 }
 
-type AggregatetournamentGroup {
+type AggregateTournamentGroup {
   count: Int!
 }
 
@@ -38,6 +38,12 @@ type Mutation {
   upsertTournament(where: TournamentWhereUniqueInput!, create: TournamentCreateInput!, update: TournamentUpdateInput!): Tournament!
   deleteTournament(where: TournamentWhereUniqueInput!): Tournament
   deleteManyTournaments(where: TournamentWhereInput): BatchPayload!
+  createTournamentGroup(data: TournamentGroupCreateInput!): TournamentGroup!
+  updateTournamentGroup(data: TournamentGroupUpdateInput!, where: TournamentGroupWhereUniqueInput!): TournamentGroup
+  updateManyTournamentGroups(data: TournamentGroupUpdateInput!, where: TournamentGroupWhereInput): BatchPayload!
+  upsertTournamentGroup(where: TournamentGroupWhereUniqueInput!, create: TournamentGroupCreateInput!, update: TournamentGroupUpdateInput!): TournamentGroup!
+  deleteTournamentGroup(where: TournamentGroupWhereUniqueInput!): TournamentGroup
+  deleteManyTournamentGroups(where: TournamentGroupWhereInput): BatchPayload!
   createTournamentMember(data: TournamentMemberCreateInput!): TournamentMember!
   updateTournamentMember(data: TournamentMemberUpdateInput!, where: TournamentMemberWhereUniqueInput!): TournamentMember
   updateManyTournamentMembers(data: TournamentMemberUpdateInput!, where: TournamentMemberWhereInput): BatchPayload!
@@ -56,12 +62,6 @@ type Mutation {
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
-  createtournamentGroup(data: tournamentGroupCreateInput!): tournamentGroup!
-  updatetournamentGroup(data: tournamentGroupUpdateInput!, where: tournamentGroupWhereUniqueInput!): tournamentGroup
-  updateManytournamentGroups(data: tournamentGroupUpdateInput!, where: tournamentGroupWhereInput): BatchPayload!
-  upserttournamentGroup(where: tournamentGroupWhereUniqueInput!, create: tournamentGroupCreateInput!, update: tournamentGroupUpdateInput!): tournamentGroup!
-  deletetournamentGroup(where: tournamentGroupWhereUniqueInput!): tournamentGroup
-  deleteManytournamentGroups(where: tournamentGroupWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -92,6 +92,9 @@ type Query {
   tournament(where: TournamentWhereUniqueInput!): Tournament
   tournaments(where: TournamentWhereInput, orderBy: TournamentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Tournament]!
   tournamentsConnection(where: TournamentWhereInput, orderBy: TournamentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TournamentConnection!
+  tournamentGroup(where: TournamentGroupWhereUniqueInput!): TournamentGroup
+  tournamentGroups(where: TournamentGroupWhereInput, orderBy: TournamentGroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentGroup]!
+  tournamentGroupsConnection(where: TournamentGroupWhereInput, orderBy: TournamentGroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TournamentGroupConnection!
   tournamentMember(where: TournamentMemberWhereUniqueInput!): TournamentMember
   tournamentMembers(where: TournamentMemberWhereInput, orderBy: TournamentMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentMember]!
   tournamentMembersConnection(where: TournamentMemberWhereInput, orderBy: TournamentMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TournamentMemberConnection!
@@ -101,19 +104,16 @@ type Query {
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  tournamentGroup(where: tournamentGroupWhereUniqueInput!): tournamentGroup
-  tournamentGroups(where: tournamentGroupWhereInput, orderBy: tournamentGroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [tournamentGroup]!
-  tournamentGroupsConnection(where: tournamentGroupWhereInput, orderBy: tournamentGroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): tournamentGroupConnection!
   node(id: ID!): Node
 }
 
 type Subscription {
   team(where: TeamSubscriptionWhereInput): TeamSubscriptionPayload
   tournament(where: TournamentSubscriptionWhereInput): TournamentSubscriptionPayload
+  tournamentGroup(where: TournamentGroupSubscriptionWhereInput): TournamentGroupSubscriptionPayload
   tournamentMember(where: TournamentMemberSubscriptionWhereInput): TournamentMemberSubscriptionPayload
   tournamentRequest(where: TournamentRequestSubscriptionWhereInput): TournamentRequestSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  tournamentGroup(where: tournamentGroupSubscriptionWhereInput): tournamentGroupSubscriptionPayload
 }
 
 type Team {
@@ -369,31 +369,31 @@ type TournamentEdge {
   cursor: String!
 }
 
-type tournamentGroup {
+type TournamentGroup {
   id: ID!
   name: String!
   teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
   rounds: Float
 }
 
-type tournamentGroupConnection {
+type TournamentGroupConnection {
   pageInfo: PageInfo!
-  edges: [tournamentGroupEdge]!
-  aggregate: AggregatetournamentGroup!
+  edges: [TournamentGroupEdge]!
+  aggregate: AggregateTournamentGroup!
 }
 
-input tournamentGroupCreateInput {
+input TournamentGroupCreateInput {
   name: String!
   teams: TeamCreateManyInput
   rounds: Float
 }
 
-type tournamentGroupEdge {
-  node: tournamentGroup!
+type TournamentGroupEdge {
+  node: TournamentGroup!
   cursor: String!
 }
 
-enum tournamentGroupOrderByInput {
+enum TournamentGroupOrderByInput {
   id_ASC
   id_DESC
   name_ASC
@@ -406,37 +406,37 @@ enum tournamentGroupOrderByInput {
   updatedAt_DESC
 }
 
-type tournamentGroupPreviousValues {
+type TournamentGroupPreviousValues {
   id: ID!
   name: String!
   rounds: Float
 }
 
-type tournamentGroupSubscriptionPayload {
+type TournamentGroupSubscriptionPayload {
   mutation: MutationType!
-  node: tournamentGroup
+  node: TournamentGroup
   updatedFields: [String!]
-  previousValues: tournamentGroupPreviousValues
+  previousValues: TournamentGroupPreviousValues
 }
 
-input tournamentGroupSubscriptionWhereInput {
+input TournamentGroupSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: tournamentGroupWhereInput
-  AND: [tournamentGroupSubscriptionWhereInput!]
-  OR: [tournamentGroupSubscriptionWhereInput!]
-  NOT: [tournamentGroupSubscriptionWhereInput!]
+  node: TournamentGroupWhereInput
+  AND: [TournamentGroupSubscriptionWhereInput!]
+  OR: [TournamentGroupSubscriptionWhereInput!]
+  NOT: [TournamentGroupSubscriptionWhereInput!]
 }
 
-input tournamentGroupUpdateInput {
+input TournamentGroupUpdateInput {
   name: String
   teams: TeamUpdateManyInput
   rounds: Float
 }
 
-input tournamentGroupWhereInput {
+input TournamentGroupWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -476,12 +476,12 @@ input tournamentGroupWhereInput {
   rounds_lte: Float
   rounds_gt: Float
   rounds_gte: Float
-  AND: [tournamentGroupWhereInput!]
-  OR: [tournamentGroupWhereInput!]
-  NOT: [tournamentGroupWhereInput!]
+  AND: [TournamentGroupWhereInput!]
+  OR: [TournamentGroupWhereInput!]
+  NOT: [TournamentGroupWhereInput!]
 }
 
-input tournamentGroupWhereUniqueInput {
+input TournamentGroupWhereUniqueInput {
   id: ID
   name: String
 }
