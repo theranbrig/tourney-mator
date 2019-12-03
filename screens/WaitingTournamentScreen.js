@@ -13,7 +13,7 @@ import SpinningImage from 'react-native-spinning-image';
 import GoldSpinner from '../src/components/SpinnerGold';
 
 const WaitingTournamentScreen = ({ history }) => {
-  const { tournamentId, admin } = history.location.state;
+  const { tournamentId, admin, currentMember } = history.location.state;
   const [docSnap, setDocSnap] = useState(null);
   const [listLoading, setListLoading] = useState(false);
 
@@ -45,7 +45,7 @@ const WaitingTournamentScreen = ({ history }) => {
   useEffect(() => {
     if (liveTournamentFirebaseValue) {
       setDocSnap(liveTournamentFirebaseValue.data());
-      
+
     }
   }, [liveTournamentFirebaseValue, tournamentData]);
 
@@ -74,14 +74,14 @@ const WaitingTournamentScreen = ({ history }) => {
                 borderTopColor: '#fff',
               }}>
               {docSnap.currentMembers.map(member => (
-                <MemberItem key={member} memberId={member} />
+                <MemberItem key={member} memberId={member}  />
               ))}
             </List>
-            {docSnap && docSnap.currentMembers.length !== tournament.maxMember && (
+            {docSnap && (docSnap.currentMembers.length !== tournament.maxMember) && (
               <Button
                 onPress={() => {
                   startTournament(tournamentId);
-                  history.push('/live', { tournamentId: tournamentId, admin: admin });
+                  history.push('/live', { tournamentId, admin, currentMember });
                 }}
                 block
                 style={{

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Text, Button, View, List, ListItem } from 'native-base';
+import { useQuery } from '@apollo/react-hooks';
 import { UserContext } from '../utilities/UserContext';
 import { TOURNAMENT_INFORMATION_QUERY } from '../utilities/Queries';
-import { useQuery } from '@apollo/react-hooks';
 import GoldSpinner from './SpinnerGold';
 import { FirebaseContext } from '../utilities/Firebase';
+import MemberItem from './MemberItem';
 
 const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
   const [pickOrder, setPickOrder] = useState([]);
@@ -21,12 +22,9 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
   const selectMember = () => {
     if (tournament && pickOrder && tournamentInfo) {
       if (user.tournamentMembers.some(member => (member.id = admin))) {
-        if (pickOrder.length < tournament.maxMembers) {
-          const pick =
-            tournamentInfo.currentMembers[
-              Math.floor(Math.random() * tournamentInfo.currentMembers.length)
-            ];
-          // TODO: Set user to pick in Firebase
+        if (pickOrder.length < tournament.maxMembers && tournamentInfo.currentMembers.length > 0) {
+          const pick = tournamentInfo.currentMembers[Math.floor(Math.random() * tournamentInfo.currentMembers.length)];
+
           setPickOrder([...pickOrder, pick]);
           setFirebasePickOrder(tournamentId, pick);
         }
@@ -44,13 +42,27 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
   if (loading) return <GoldSpinner />;
 
   return (
-    <View>
-      {pickOrder.map(pick => (
-        <Text>{pick}</Text>
-      ))}
-      <Button onPress={() => selectMember()}>
-        <Text>Hello</Text>
-      </Button>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+      <Text>Draft Order</Text>
+      {pickOrder.length > 0 && tournamentInfo.currentMembers && (
+        <List
+          style={{
+            backgroundColor: '#fc3',
+            width: '100%',
+            borderTopWidth: 2,
+            borderTopColor: '#fff',
+          }}
+        >
+          {pickOrder.map((pick, index) => (
+            <MemberItem key={pick} memberId={pick} order={index} />
+          ))}
+        </List>
+      )}
+      {tournamentInfo && tournamentInfo.currentMembers.length > 0 && (
+        <Button onPress={() => selectMember()}>
+          <Text>Hello</Text>
+        </Button>
+      )}
     </View>
   );
 };

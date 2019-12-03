@@ -44,6 +44,7 @@ const TournamentInformationScreen = ({ history }) => {
   const [admin, setAdmin] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
+  const [tournament, setTournament] = useState(null)
 
   const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
 
@@ -53,7 +54,7 @@ const TournamentInformationScreen = ({ history }) => {
     variables: { id: tournamentId },
   });
 
-  const { tournament } = data;
+
 
   const [
     createTournamentRequest,
@@ -113,6 +114,7 @@ const TournamentInformationScreen = ({ history }) => {
   );
 
   useEffect(() => {
+    if(data) {setTournament(data.tournament)}
     if (tournament) {
       const adminRole = tournament.tournamentMembers.filter(member => member.role === 'ADMIN');
       setAdmin(adminRole[0].user.id);
@@ -122,7 +124,7 @@ const TournamentInformationScreen = ({ history }) => {
       setCurrentMember(currentMembers[0].id);
       setTournamentInfo(liveTournamentFirebaseValue.data());
     }
-  }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue, currentMember]);
+  }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue, currentMember, tournament]);
 
   if (loading)
     return (
@@ -230,7 +232,7 @@ const TournamentInformationScreen = ({ history }) => {
                     onPress={() => {
                       joinLiveTournament(tournament.id, currentMember);
                       setMessage('Taking you to the big show...');
-                      history.push('/waiting', { tournamentId: tournament.id, admin: admin });
+                      history.push('/waiting', { tournamentId, admin, currentMember });
                     }}>
                     <Text style={styles.mainButtonText}>Join Pool</Text>
                   </Button>
