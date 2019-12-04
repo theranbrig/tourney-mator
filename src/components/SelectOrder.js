@@ -59,8 +59,29 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
         </List>
       )}
       {tournamentInfo && tournamentInfo.currentMembers.length > 0 && (
-        <Button onPress={() => selectMember()}>
-          <Text>Hello</Text>
+        <Button
+          style={{
+            marginTop: 10,
+            borderColor: '#fc3',
+            backgroundColor: '#f3f3f3',
+            borderWidth: 2,
+            width: '90%',
+            borderRadius: 0,
+            marginLeft: '5%',
+            textAlign: 'center',
+          }}
+          onPress={() => selectMember()}
+        >
+          <Text
+            style={{
+              fontSize: 20,
+              color: '#7a0019',
+              fontFamily: 'graduate',
+              textAlign: 'center',
+            }}
+          >
+            SELECT NEXT IN DRAFT ORDER
+          </Text>
         </Button>
       )}
     </View>
