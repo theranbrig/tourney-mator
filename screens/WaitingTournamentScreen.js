@@ -26,7 +26,7 @@ const WaitingTournamentScreen = ({ history }) => {
 
   const { tournament } = tournamentData;
 
-  const { firebase, startTournament } = useContext(FirebaseContext);
+  const { firebase, setTournamentStatus } = useContext(FirebaseContext);
 
   const [
     liveTournamentFirebaseValue: value,
@@ -54,7 +54,7 @@ const WaitingTournamentScreen = ({ history }) => {
       <BackButtonHeader history={history} title="Ready" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <GoldSpinner />
-        {docSnap && docSnap.currentMembers.length && (
+        {docSnap && docSnap.status === "WAITING" && ( // TEST MODE: Needs to be updated for length === maxMembers
           <>
             <Text
               style={{
@@ -80,7 +80,7 @@ const WaitingTournamentScreen = ({ history }) => {
             {docSnap && (docSnap.currentMembers.length !== tournament.maxMember) && (
               <Button
                 onPress={() => {
-                  startTournament(tournamentId);
+                  setTournamentStatus(tournamentId, "SELECTPICKS");
                   history.push('/live', { tournamentId, admin, currentMember });
                 }}
                 block

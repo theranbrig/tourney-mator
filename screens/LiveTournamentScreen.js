@@ -8,7 +8,9 @@ import { UserContext } from '../src/utilities/UserContext';
 
 const LiveTournamentScreen = ({ history }) => {
   const [docSnap, setDocSnap] = useState(null);
+  const [tournamentStatus, setTournamentStatus] = useState('SELECTPICKS');
   const { tournamentId, admin } = history.location.state;
+
 
   const { firebase, startTournament } = useContext(FirebaseContext);
 
@@ -37,7 +39,18 @@ const LiveTournamentScreen = ({ history }) => {
     <Layout title="Pools">
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Live Tournament</Text>
-        <SelectOrder tournamentInfo={docSnap} tournamentId={tournamentId} admin={admin} />
+        {docSnap && docSnap.status === "SELECTPICKS" &&
+          <SelectOrder tournamentInfo={docSnap} tournamentId={tournamentId} admin={admin} />
+        }
+        {docSnap && docSnap.status === "STARTDRAFT" &&
+          <Text>Set Order</Text>
+        }
+        {docSnap && docSnap.status === "PICKS" &&
+          <Text>Set Order</Text>
+        }
+        {docSnap && docSnap.status === "RESULTS" &&
+          <Text>Set Order</Text>
+        }
       </View>
     </Layout>
   );

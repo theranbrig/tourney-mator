@@ -62,7 +62,8 @@ const LoadingScreen = ({ history }) => {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: '#fc3',
-        }}>
+        }}
+      >
         <H1 style={{ fontFamily: 'graduate', color: '#7a0019' }}>Tourney-mator</H1>
         <MaroonSpinner />
       </View>

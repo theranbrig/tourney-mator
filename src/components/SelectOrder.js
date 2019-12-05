@@ -28,6 +28,9 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
           setPickOrder([...pickOrder, pick]);
           setFirebasePickOrder(tournamentId, pick);
         }
+        if (pickOrder.length === tournament.maxMembers) {
+          console.log('even')
+        }
       }
     }
   };

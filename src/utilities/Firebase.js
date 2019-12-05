@@ -48,6 +48,7 @@ const FirebaseProvider = ({ children }) => {
         currentPick: 0,
         pickOrder: [],
         currentMembers: [memberId],
+        status: "WAITING"
       });
   };
 
@@ -71,12 +72,14 @@ const FirebaseProvider = ({ children }) => {
       .update({ currentMembers: firebase.firestore.FieldValue.arrayRemove(memberId) });
   };
 
-  const startTournament = tournamentId => {
+  const setTournamentStatus = (tournamentId, status) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
-      .update({ isLive: true });
-  };
+      .update({
+        status
+      });
+  }
 
   // Watches all users
   const [
@@ -95,10 +98,10 @@ const FirebaseProvider = ({ children }) => {
         userFirebaseError,
         userFirebaseLoading,
         createTournamentData,
-        startTournament,
         setLiveUserData,
         joinLiveTournament,
         setFirebasePickOrder,
+        setTournamentStatus,
       }}>
       {children}
     </FirebaseContext.Provider>
