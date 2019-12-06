@@ -36,12 +36,13 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
       let fullPickOrder = [];
       let currentRound = 1;
       const totalRounds = Math.round(64 / pickOrder.length);
+      console.log(totalRounds);
       const emptyPicks = 64 % totalRounds; // To be used if not divisible by 64
-      while (currentRound >= totalRounds) {
+      while (currentRound <= totalRounds) {
         if (currentRound % 2 === 0) {
-          fullPickOrder = [...fullPickOrder, pickOrder.reverse()];
+          fullPickOrder = [...fullPickOrder, ...pickOrder.reverse()];
         } else {
-          fullPickOrder = [...fullPickOrder, pickOrder];
+          fullPickOrder = [...fullPickOrder, ...pickOrder];
         }
         currentRound += 1;
       }
@@ -101,6 +102,13 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
             SELECT NEXT IN DRAFT ORDER
           </Text>
         </Button>
+      )}
+      {pickOrder && pickOrder.length === tournament.maxMembers && (
+        <View>
+          <Button onPress={() => goLive()}>
+            <Text>Set Picks</Text>
+          </Button>
+        </View>
       )}
     </View>
   );
