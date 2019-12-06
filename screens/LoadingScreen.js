@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import { Button, Text, View, H1 } from 'native-base';
-import SpinningImage from 'react-native-spinning-image';
-import { StatusBar, StyleSheet } from 'react-native';
+import { View, H1 } from 'native-base';
+
+import { StyleSheet } from 'react-native';
 import { UserContext } from '../src/utilities/UserContext';
 import Layout from '../src/utilities/Layout';
 import MaroonSpinner from '../src/components/SpinnerMaroon';

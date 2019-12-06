@@ -54,7 +54,7 @@ const WaitingTournamentScreen = ({ history }) => {
       <BackButtonHeader history={history} title="Ready" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <GoldSpinner />
-        {docSnap && docSnap.status === "WAITING" && ( // TEST MODE: Needs to be updated for length === maxMembers
+        {docSnap && docSnap.status === "SELECTPICKS" && (
           <>
             <Text
               style={{

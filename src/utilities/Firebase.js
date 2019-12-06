@@ -46,7 +46,7 @@ const FirebaseProvider = ({ children }) => {
         isLive: false,
         isWaiting: true,
         currentPick: 0,
-        pickOrder: [],
+
         currentMembers: [memberId],
         status: "WAITING"
       });
@@ -61,15 +61,12 @@ const FirebaseProvider = ({ children }) => {
       });
   };
 
-  const setFirebasePickOrder = (tournamentId, memberId) => {
+  const setFirebasePickOrder = (tournamentId, pickOrder) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
-      .update({ pickOrder: firebase.firestore.FieldValue.arrayUnion(memberId) });
-    dbh
-      .collection('tournaments')
-      .doc(tournamentId)
-      .update({ currentMembers: firebase.firestore.FieldValue.arrayRemove(memberId) });
+      .update({ pickOrder });
+
   };
 
   const setTournamentStatus = (tournamentId, status) => {

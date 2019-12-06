@@ -123,6 +123,7 @@ const TournamentInformationScreen = ({ history }) => {
       );
       setCurrentMember(currentMembers[0].id);
       setTournamentInfo(liveTournamentFirebaseValue.data());
+
     }
   }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue, currentMember, tournament]);
 
@@ -230,7 +231,7 @@ const TournamentInformationScreen = ({ history }) => {
                     block
                     style={styles.mainButton2}
                     onPress={() => {
-                      joinLiveTournament(tournament.id, currentMember);
+                      joinLiveTournament(tournamentId, currentMember);
                       setMessage('Taking you to the big show...');
                       history.push('/waiting', { tournamentId, admin, currentMember });
                     }}>

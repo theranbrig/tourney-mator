@@ -43,7 +43,7 @@ const LiveTournamentScreen = ({ history }) => {
           <SelectOrder tournamentInfo={docSnap} tournamentId={tournamentId} admin={admin} />
         }
         {docSnap && docSnap.status === "STARTDRAFT" &&
-          <Text>Set Order</Text>
+          <Text>View Draft Order</Text>
         }
         {docSnap && docSnap.status === "PICKS" &&
           <Text>Set Order</Text>

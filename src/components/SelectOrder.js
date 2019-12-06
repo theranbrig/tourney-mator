@@ -26,12 +26,27 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
           const pick = tournamentInfo.currentMembers[Math.floor(Math.random() * tournamentInfo.currentMembers.length)];
 
           setPickOrder([...pickOrder, pick]);
-          setFirebasePickOrder(tournamentId, pick);
-        }
-        if (pickOrder.length === tournament.maxMembers) {
-          console.log('even')
         }
       }
+    }
+  };
+
+  const goLive = () => {
+    if (pickOrder.length === tournament.maxMembers) {
+      let fullPickOrder = [];
+      let currentRound = 1;
+      const totalRounds = Math.round(64 / pickOrder.length);
+      const emptyPicks = 64 % totalRounds; // To be used if not divisible by 64
+      while (currentRound >= totalRounds) {
+        if (currentRound % 2 === 0) {
+          fullPickOrder = [...fullPickOrder, pickOrder.reverse()];
+        } else {
+          fullPickOrder = [...fullPickOrder, pickOrder];
+        }
+        currentRound += 1;
+      }
+      console.log(fullPickOrder);
+      // setFirebasePickOrder(tournamentId, pickOrder);
     }
   };
 
