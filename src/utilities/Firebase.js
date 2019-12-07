@@ -38,7 +38,7 @@ const FirebaseProvider = ({ children }) => {
   };
   // TODO: All firebase should originate from here.
   // Called to open waiting room for tournament
-  const createTournamentData = (tournamentId, memberId) => {
+  const createTournamentData = (tournamentId, member) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
@@ -46,8 +46,7 @@ const FirebaseProvider = ({ children }) => {
         isLive: false,
         isWaiting: true,
         currentPick: 0,
-
-        currentMembers: [memberId],
+        currentMembers: [member],
         status: "WAITING"
       });
   };

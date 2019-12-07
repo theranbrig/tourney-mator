@@ -24,7 +24,6 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
       if (user.tournamentMembers.some(member => (member.id = admin))) {
         if (pickOrder.length < tournament.maxMembers && tournamentInfo.currentMembers.length > 0) {
           const pick = tournamentInfo.currentMembers[Math.floor(Math.random() * tournamentInfo.currentMembers.length)];
-
           setPickOrder([...pickOrder, pick]);
         }
       }
@@ -36,18 +35,19 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
       let fullPickOrder = [];
       let currentRound = 1;
       const totalRounds = Math.round(64 / pickOrder.length);
-      console.log(totalRounds);
       const emptyPicks = 64 % totalRounds; // To be used if not divisible by 64
       while (currentRound <= totalRounds) {
-        if (currentRound % 2 === 0) {
-          fullPickOrder = [...fullPickOrder, ...pickOrder.reverse()];
-        } else {
+        if (currentRound % 2 !== 0) {
           fullPickOrder = [...fullPickOrder, ...pickOrder];
+          console.log(fullPickOrder);
+        } else {
+          fullPickOrder = [...fullPickOrder, ...pickOrder.reverse()];
+          console.log(fullPickOrder);
         }
         currentRound += 1;
       }
       console.log(fullPickOrder);
-      // setFirebasePickOrder(tournamentId, pickOrder);
+      setFirebasePickOrder(tournamentId, pickOrder);
     }
   };
 
@@ -73,7 +73,7 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
           }}
         >
           {pickOrder.map((pick, index) => (
-            <MemberItem key={pick} memberId={pick} order={index} />
+            <MemberItem key={pick.id} memberId={pick.id} order={index} />
           ))}
         </List>
       )}
@@ -84,9 +84,9 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
             borderColor: '#fc3',
             backgroundColor: '#f3f3f3',
             borderWidth: 2,
-            width: '90%',
+
             borderRadius: 0,
-            marginLeft: '5%',
+
             textAlign: 'center',
           }}
           onPress={() => selectMember()}

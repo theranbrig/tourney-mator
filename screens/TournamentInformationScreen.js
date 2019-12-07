@@ -37,7 +37,7 @@ import GoldSpinner from '../src/components/SpinnerGold';
 
 const TournamentInformationScreen = ({ history }) => {
   const { tournamentId } = history.location.state;
-  const [currentMember, setCurrentMember] = useState('');
+  const [currentMember, setCurrentMember] = useState(null);
   const [tournamentInfo, setTournamentInfo] = useState({});
   const [email, setEmail] = useState('');
   const [adminRole, setAdminRole] = useState('');
@@ -121,9 +121,8 @@ const TournamentInformationScreen = ({ history }) => {
       const currentMembers = tournament.tournamentMembers.filter(
         member => member.user.id === user.id
       );
-      setCurrentMember(currentMembers[0].id);
+      setCurrentMember(currentMembers[0]);
       setTournamentInfo(liveTournamentFirebaseValue.data());
-
     }
   }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue, currentMember, tournament]);
 

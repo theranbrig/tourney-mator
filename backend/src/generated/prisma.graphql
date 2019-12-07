@@ -327,6 +327,7 @@ type Tournament {
   startDate: String
   tournamentMembers(where: TournamentMemberWhereInput, orderBy: TournamentMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentMember!]
   maxMembers: Float
+  tournamentGroup(where: TournamentGroupWhereInput, orderBy: TournamentGroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentGroup!]
 }
 
 type TournamentConnection {
@@ -343,6 +344,7 @@ input TournamentCreateInput {
   startDate: String
   tournamentMembers: TournamentMemberCreateManyWithoutTournamentInput
   maxMembers: Float
+  tournamentGroup: TournamentGroupCreateManyInput
 }
 
 input TournamentCreateOneInput {
@@ -362,6 +364,7 @@ input TournamentCreateWithoutTournamentMembersInput {
   type: String
   startDate: String
   maxMembers: Float
+  tournamentGroup: TournamentGroupCreateManyInput
 }
 
 type TournamentEdge {
@@ -386,6 +389,11 @@ input TournamentGroupCreateInput {
   name: String!
   teams: TeamCreateManyInput
   rounds: Float
+}
+
+input TournamentGroupCreateManyInput {
+  create: [TournamentGroupCreateInput!]
+  connect: [TournamentGroupWhereUniqueInput!]
 }
 
 type TournamentGroupEdge {
@@ -430,10 +438,36 @@ input TournamentGroupSubscriptionWhereInput {
   NOT: [TournamentGroupSubscriptionWhereInput!]
 }
 
+input TournamentGroupUpdateDataInput {
+  name: String
+  teams: TeamUpdateManyInput
+  rounds: Float
+}
+
 input TournamentGroupUpdateInput {
   name: String
   teams: TeamUpdateManyInput
   rounds: Float
+}
+
+input TournamentGroupUpdateManyInput {
+  create: [TournamentGroupCreateInput!]
+  delete: [TournamentGroupWhereUniqueInput!]
+  connect: [TournamentGroupWhereUniqueInput!]
+  disconnect: [TournamentGroupWhereUniqueInput!]
+  update: [TournamentGroupUpdateWithWhereUniqueNestedInput!]
+  upsert: [TournamentGroupUpsertWithWhereUniqueNestedInput!]
+}
+
+input TournamentGroupUpdateWithWhereUniqueNestedInput {
+  where: TournamentGroupWhereUniqueInput!
+  data: TournamentGroupUpdateDataInput!
+}
+
+input TournamentGroupUpsertWithWhereUniqueNestedInput {
+  where: TournamentGroupWhereUniqueInput!
+  update: TournamentGroupUpdateDataInput!
+  create: TournamentGroupCreateInput!
 }
 
 input TournamentGroupWhereInput {
@@ -859,6 +893,7 @@ input TournamentUpdateDataInput {
   startDate: String
   tournamentMembers: TournamentMemberUpdateManyWithoutTournamentInput
   maxMembers: Float
+  tournamentGroup: TournamentGroupUpdateManyInput
 }
 
 input TournamentUpdateInput {
@@ -869,6 +904,7 @@ input TournamentUpdateInput {
   startDate: String
   tournamentMembers: TournamentMemberUpdateManyWithoutTournamentInput
   maxMembers: Float
+  tournamentGroup: TournamentGroupUpdateManyInput
 }
 
 input TournamentUpdateOneInput {
@@ -896,6 +932,7 @@ input TournamentUpdateWithoutTournamentMembersDataInput {
   type: String
   startDate: String
   maxMembers: Float
+  tournamentGroup: TournamentGroupUpdateManyInput
 }
 
 input TournamentUpsertNestedInput {
@@ -993,6 +1030,9 @@ input TournamentWhereInput {
   maxMembers_lte: Float
   maxMembers_gt: Float
   maxMembers_gte: Float
+  tournamentGroup_every: TournamentGroupWhereInput
+  tournamentGroup_some: TournamentGroupWhereInput
+  tournamentGroup_none: TournamentGroupWhereInput
   AND: [TournamentWhereInput!]
   OR: [TournamentWhereInput!]
   NOT: [TournamentWhereInput!]

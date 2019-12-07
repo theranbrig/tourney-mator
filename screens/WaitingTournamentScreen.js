@@ -54,7 +54,7 @@ const WaitingTournamentScreen = ({ history }) => {
       <BackButtonHeader history={history} title="Ready" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <GoldSpinner />
-        {docSnap && docSnap.status === "SELECTPICKS" && (
+        {docSnap && docSnap.status === "WAITING" && (
           <>
             <Text
               style={{
@@ -74,7 +74,7 @@ const WaitingTournamentScreen = ({ history }) => {
                 borderTopColor: '#fff',
               }}>
               {docSnap.currentMembers.map(member => (
-                <MemberItem key={member} memberId={member}  />
+                <MemberItem key={member} memberId={member.id}  />
               ))}
             </List>
             {docSnap && (docSnap.currentMembers.length !== tournament.maxMember) && (
