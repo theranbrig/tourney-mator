@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Text, Button, View, List, ListItem } from 'native-base';
+import { Text, Button, View, List } from 'native-base';
 import { useQuery } from '@apollo/react-hooks';
 import { UserContext } from '../utilities/UserContext';
 import { TOURNAMENT_INFORMATION_QUERY } from '../utilities/Queries';
@@ -10,10 +10,10 @@ import MemberItem from './MemberItem';
 const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
   const [pickOrder, setPickOrder] = useState([]);
 
-  const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
-  const { setFirebasePickOrder } = useContext(FirebaseContext);
+  const { user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
+  const { setFirebasePickOrder, setTournamentStatus } = useContext(FirebaseContext);
 
-  const { loading, data, refetch } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
+  const { loading, data } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: tournamentId },
   });
 
@@ -48,15 +48,9 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
       }
       console.log(fullPickOrder);
       setFirebasePickOrder(tournamentId, pickOrder);
+      setTournamentStatus(tournamentId, 'STARTDRAFT');
     }
   };
-
-  useEffect(() => {
-    if (tournament) {
-      console.log(tournament);
-      console.log(tournamentInfo);
-    }
-  }, [tournamentInfo]);
 
   if (loading) return <GoldSpinner />;
 
@@ -77,16 +71,14 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
           ))}
         </List>
       )}
-      {tournamentInfo && tournamentInfo.currentMembers.length > 0 && (
+      {tournamentInfo && pickOrder.length !== tournament.maxMembers && (
         <Button
           style={{
             marginTop: 10,
             borderColor: '#fc3',
             backgroundColor: '#f3f3f3',
             borderWidth: 2,
-
             borderRadius: 0,
-
             textAlign: 'center',
           }}
           onPress={() => selectMember()}
@@ -103,10 +95,29 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
           </Text>
         </Button>
       )}
-      {pickOrder && pickOrder.length === tournament.maxMembers && (
+      {pickOrder.length === tournament.maxMembers && (
         <View>
-          <Button onPress={() => goLive()}>
-            <Text>Set Picks</Text>
+          <Button
+            style={{
+              marginTop: 10,
+              borderColor: '#fc3',
+              backgroundColor: '#f3f3f3',
+              borderWidth: 2,
+              borderRadius: 0,
+              textAlign: 'center',
+            }}
+            onPress={() => goLive()}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                color: '#7a0019',
+                fontFamily: 'graduate',
+                textAlign: 'center',
+              }}
+            >
+              Set Picks
+            </Text>
           </Button>
         </View>
       )}
