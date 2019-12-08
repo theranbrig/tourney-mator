@@ -7,7 +7,7 @@ import GoldSpinner from './SpinnerGold';
 import { FirebaseContext } from '../utilities/Firebase';
 import MemberItem from './MemberItem';
 
-const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
+const SelectOrder = ({ firebaseTournamentInfo, tournamentId, admin }) => {
   const [pickOrder, setPickOrder] = useState([]);
 
   const { user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
@@ -20,10 +20,13 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
   const { tournament } = data;
 
   const selectMember = () => {
-    if (tournament && pickOrder && tournamentInfo) {
+    if (tournament && pickOrder && firebaseTournamentInfo) {
       if (user.tournamentMembers.some(member => (member.id = admin))) {
-        if (pickOrder.length < tournament.maxMembers && tournamentInfo.currentMembers.length > 0) {
-          const pick = tournamentInfo.currentMembers[Math.floor(Math.random() * tournamentInfo.currentMembers.length)];
+        if (pickOrder.length < tournament.maxMembers && firebaseTournamentInfo.currentMembers.length > 0) {
+          const pick =
+            firebaseTournamentInfo.currentMembers[
+              Math.floor(Math.random() * firebaseTournamentInfo.currentMembers.length)
+            ];
           setPickOrder([...pickOrder, pick]);
         }
       }
@@ -47,7 +50,7 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
         currentRound += 1;
       }
       console.log(fullPickOrder);
-      setFirebasePickOrder(tournamentId, pickOrder);
+      setFirebasePickOrder(tournamentId, fullPickOrder);
       setTournamentStatus(tournamentId, 'STARTDRAFT');
     }
   };
@@ -57,7 +60,7 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
       <Text>Draft Order</Text>
-      {pickOrder.length > 0 && tournamentInfo.currentMembers && (
+      {pickOrder.length > 0 && firebaseTournamentInfo.currentMembers && (
         <List
           style={{
             backgroundColor: '#fc3',
@@ -71,7 +74,7 @@ const SelectOrder = ({ tournamentInfo, tournamentId, admin }) => {
           ))}
         </List>
       )}
-      {tournamentInfo && pickOrder.length !== tournament.maxMembers && (
+      {firebaseTournamentInfo && pickOrder.length !== tournament.maxMembers && (
         <Button
           style={{
             marginTop: 10,

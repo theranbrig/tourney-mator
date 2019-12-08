@@ -5,12 +5,12 @@ import SelectOrder from '../src/components/SelectOrder';
 import { FirebaseContext } from '../src/utilities/Firebase';
 import { useDocument } from 'react-firebase-hooks/firestore';
 import { UserContext } from '../src/utilities/UserContext';
+import SelectRandomPick from '../src/components/SelectRandomPick';
 
 const LiveTournamentScreen = ({ history }) => {
   const [docSnap, setDocSnap] = useState(null);
   const [tournamentStatus, setTournamentStatus] = useState('SELECTPICKS');
   const { tournamentId, admin } = history.location.state;
-
 
   const { firebase, startTournament } = useContext(FirebaseContext);
 
@@ -40,10 +40,10 @@ const LiveTournamentScreen = ({ history }) => {
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Live Tournament</Text>
         {docSnap && docSnap.status === "SELECTPICKS" &&
-          <SelectOrder tournamentInfo={docSnap} tournamentId={tournamentId} admin={admin} />
+          <SelectOrder firebaseTournamentInfo={docSnap} tournamentId={tournamentId} admin={admin} />
         }
         {docSnap && docSnap.status === "STARTDRAFT" &&
-          <Text>View Draft Order</Text>
+          <SelectRandomPick firebaseTournamentInfo={docSnap} tournamentId={tournamentId} admin={admin}/>
         }
         {docSnap && docSnap.status === "PICKS" &&
           <Text>Set Order</Text>

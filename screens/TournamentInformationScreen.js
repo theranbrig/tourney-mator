@@ -55,7 +55,6 @@ const TournamentInformationScreen = ({ history }) => {
   });
 
 
-
   const [
     createTournamentRequest,
     requestOnCompleted: onCompleted,
@@ -97,6 +96,7 @@ const TournamentInformationScreen = ({ history }) => {
     firebaseValue,
     createTournamentData,
     joinLiveTournament,
+    setTournamentStatus
   } = useContext(FirebaseContext);
 
   const [
@@ -210,8 +210,7 @@ const TournamentInformationScreen = ({ history }) => {
                   <View
                     style={{
                       backgroundColor: '#fc3',
-                      width: '90%',
-                      marginLeft: '5%',
+                      width: '100%',
                       borderColor: '#fff',
                       borderWidth: 2,
                       padding: 10,
@@ -232,13 +231,13 @@ const TournamentInformationScreen = ({ history }) => {
                     onPress={() => {
                       joinLiveTournament(tournamentId, currentMember);
                       setMessage('Taking you to the big show...');
+                      setTournamentStatus(tournamentId,'WAITING')
                       history.push('/waiting', { tournamentId, admin, currentMember });
                     }}>
                     <Text style={styles.mainButtonText}>Join Pool</Text>
                   </Button>
                 </>
               )}
-
               <Form style={styles.form}>
                 <Item regular style={{ marginBottom: 10 }}>
                   <Input
