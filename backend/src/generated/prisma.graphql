@@ -322,7 +322,6 @@ type Tournament {
   id: ID!
   name: String!
   password: String!
-  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
   type: String
   startDate: String
   tournamentMembers(where: TournamentMemberWhereInput, orderBy: TournamentMemberOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentMember!]
@@ -339,7 +338,6 @@ type TournamentConnection {
 input TournamentCreateInput {
   name: String!
   password: String!
-  teams: TeamCreateManyInput
   type: String
   startDate: String
   tournamentMembers: TournamentMemberCreateManyWithoutTournamentInput
@@ -360,7 +358,6 @@ input TournamentCreateOneWithoutTournamentMembersInput {
 input TournamentCreateWithoutTournamentMembersInput {
   name: String!
   password: String!
-  teams: TeamCreateManyInput
   type: String
   startDate: String
   maxMembers: Float
@@ -882,7 +879,6 @@ input TournamentSubscriptionWhereInput {
 input TournamentUpdateDataInput {
   name: String
   password: String
-  teams: TeamUpdateManyInput
   type: String
   startDate: String
   tournamentMembers: TournamentMemberUpdateManyWithoutTournamentInput
@@ -893,7 +889,6 @@ input TournamentUpdateDataInput {
 input TournamentUpdateInput {
   name: String
   password: String
-  teams: TeamUpdateManyInput
   type: String
   startDate: String
   tournamentMembers: TournamentMemberUpdateManyWithoutTournamentInput
@@ -922,7 +917,6 @@ input TournamentUpdateOneWithoutTournamentMembersInput {
 input TournamentUpdateWithoutTournamentMembersDataInput {
   name: String
   password: String
-  teams: TeamUpdateManyInput
   type: String
   startDate: String
   maxMembers: Float
@@ -982,9 +976,6 @@ input TournamentWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
-  teams_every: TeamWhereInput
-  teams_some: TeamWhereInput
-  teams_none: TeamWhereInput
   type: String
   type_not: String
   type_in: [String!]
