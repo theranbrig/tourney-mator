@@ -69,3 +69,17 @@ export const TOURNAMENT_MEMBER_QUERY = gql`
     }
   }
 `;
+
+export const TOURNAMENT_GROUP_QUERY = gql`
+  query TOURNAMENT_GROUP_QUERY($id: ID!) {
+    tournamentGroup(where: { id: $id }) {
+      id
+      teams {
+        id
+        name
+        seed
+        region
+      }
+    }
+  }
+`;

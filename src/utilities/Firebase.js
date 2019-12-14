@@ -47,7 +47,7 @@ const FirebaseProvider = ({ children }) => {
         isWaiting: true,
         currentPick: 0,
         currentMembers: [member],
-        status: "WAITING"
+        status: "WAITING",
       });
   };
 
@@ -65,7 +65,13 @@ const FirebaseProvider = ({ children }) => {
       .collection('tournaments')
       .doc(tournamentId)
       .update({ pickOrder });
+  };
 
+  const setFirebaseTeams = (tournamentId, teams) => {
+    dbh
+      .collection('tournaments')
+      .doc(tournamentId)
+      .update({ teams });
   };
 
   const setTournamentStatus = (tournamentId, status) => {
@@ -98,6 +104,7 @@ const FirebaseProvider = ({ children }) => {
         joinLiveTournament,
         setFirebasePickOrder,
         setTournamentStatus,
+        setFirebaseTeams
       }}>
       {children}
     </FirebaseContext.Provider>

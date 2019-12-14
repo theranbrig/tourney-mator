@@ -7,7 +7,7 @@ import { FirebaseContext } from '../src/utilities/Firebase';
 import '@firebase/firestore';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useDocument } from 'react-firebase-hooks/firestore';
-import { TOURNAMENT_INFORMATION_QUERY } from '../src/utilities/Queries';
+import { TOURNAMENT_INFORMATION_QUERY, TOURNAMENT_GROUP_QUERY } from '../src/utilities/Queries';
 import MemberItem from '../src/components/MemberItem';
 import SpinningImage from 'react-native-spinning-image';
 import GoldSpinner from '../src/components/SpinnerGold';
@@ -24,9 +24,14 @@ const WaitingTournamentScreen = ({ history }) => {
     }
   );
 
+  const {loading: teamLoading, data: teamData, onCompleted} = useQuery(TOURNAMENT_GROUP_QUERY, {variables: {id: "ck3qej9qdynvx0b09uqrdf3j5"},  onCompleted: async data => {
+  console.log(data)
+
+    }} );
+
   const { tournament } = tournamentData;
 
-  const { firebase, setTournamentStatus } = useContext(FirebaseContext);
+  const { firebase, setTournamentStatus, setFirebaseTeams } = useContext(FirebaseContext);
 
   const [
     liveTournamentFirebaseValue: value,
@@ -45,7 +50,9 @@ const WaitingTournamentScreen = ({ history }) => {
   useEffect(() => {
     if (liveTournamentFirebaseValue) {
       setDocSnap(liveTournamentFirebaseValue.data());
-
+    }
+    if (teamData) {
+      console.log(teamData.teams)
     }
   }, [liveTournamentFirebaseValue, tournamentData]);
 
