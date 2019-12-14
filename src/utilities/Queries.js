@@ -54,6 +54,16 @@ export const TOURNAMENT_INFORMATION_QUERY = gql`
         role
       }
       maxMembers
+      tournamentGroup {
+        id
+        name
+        teams {
+          id
+          name
+          seed
+          region
+        }
+      }
     }
   }
 `;

@@ -24,7 +24,7 @@ const WaitingTournamentScreen = ({ history }) => {
     }
   );
 
-  const {loading: teamLoading, data: teamData, onCompleted} = useQuery(TOURNAMENT_GROUP_QUERY, {variables: {id: "ck3qej9qdynvx0b09uqrdf3j5"},  onCompleted: async data => {
+  const {loading: teamLoading, data: teamData, onCompleted} = useQuery(TOURNAMENT_GROUP_QUERY, {variables: {id: "ck3qej9qdynvx0b09uqrdf3j5"},         onCompleted: async (data) => {
   console.log(data)
 
     }} );

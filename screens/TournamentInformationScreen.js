@@ -67,6 +67,7 @@ const TournamentInformationScreen = ({ history }) => {
       setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`),
   });
 
+  // TODO: Move this out to Apollo Functions.
   const [removeTournament, onCompleted] = useMutation(REMOVE_POOL_MUTATION, {
     variables: { id: tournamentId },
     onCompleted: async data => {
@@ -124,6 +125,7 @@ const TournamentInformationScreen = ({ history }) => {
       setCurrentMember(currentMembers[0]);
       setTournamentInfo(liveTournamentFirebaseValue.data());
     }
+    console.log(tournament)
   }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue, currentMember, tournament]);
 
   if (loading)
@@ -198,7 +200,7 @@ const TournamentInformationScreen = ({ history }) => {
                   block
                   style={styles.mainButton2}
                   onPress={() => {
-                    createTournamentData(tournament.id, currentMember);
+                    createTournamentData(tournament.id, currentMember, tournament.tournamentGroup.teams);
                     setMessage('Taking you to the big show...');
                     history.push('/waiting', { tournamentId: tournament.id, admin: admin });
                   }}>

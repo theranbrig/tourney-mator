@@ -26,7 +26,7 @@ type Tournament {
   startDate: String
   tournamentMembers: [TournamentMember] @scalarList(strategy: RELATION)
   maxMembers: Float
-  tournamentGroup: [TournamentGroup] @scalarList(strategy: RELATION)
+  tournamentGroup: TournamentGroup
 }
 
 type TournamentMember {
