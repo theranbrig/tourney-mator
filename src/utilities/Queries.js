@@ -40,9 +40,6 @@ export const TOURNAMENT_INFORMATION_QUERY = gql`
       id
       name
       password
-      teams {
-        id
-      }
       type
       startDate
       tournamentMembers {
@@ -82,14 +79,9 @@ export const TOURNAMENT_MEMBER_QUERY = gql`
 
 export const TOURNAMENT_GROUP_QUERY = gql`
   query TOURNAMENT_GROUP_QUERY($id: ID!) {
-    tournamentGroup(where: { id: $id }) {
+    tournamentGroups(where: { id: $id }) {
       id
-      teams {
-        id
-        name
-        seed
-        region
-      }
+      name
     }
   }
 `;

@@ -16,7 +16,7 @@ const Query = {
   user: forwardTo('db'),
   tournament: forwardTo('db'),
   tournamentMember: forwardTo('db'),
-  tournamentGroup: forwardTo('db'),
+  tournamentGroups: forwardTo('db'),
 };
 
 module.exports = Query;

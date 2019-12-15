@@ -46,10 +46,9 @@ const styles = StyleSheet.create({
 
 const LoadingScreen = ({ history }) => {
   const { user, userLoading } = useContext(UserContext);
-  console.log(history.location.state.destination);
 
   useEffect(() => {
-    if (user) {
+    if (user && !userLoading) {
       history.push(history.location.state.destination);
     }
   }, [user]);

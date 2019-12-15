@@ -29,5 +29,5 @@ type Query {
   tournament(where: TournamentWhereInput): Tournament
   tournamentMember(where: TournamentMemberWhereInput): TournamentMember
   user(where: UserWhereInput): User
-  tournamentGroup(where: TournamentGroupWhereInput): TournamentGroup
+  tournamentGroups(where: TournamentGroupWhereInput): [TournamentGroup]
 }

@@ -1,23 +1,12 @@
-import React, { useState, useContext } from 'react';
-import {
-  View,
-  Text,
-  Form,
-  Item,
-  Label,
-  Input,
-  Button,
-  Picker,
-  Icon,
-  DatePicker,
-  H1,
-} from 'native-base';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, Form, Item, Label, Input, Button, Picker, Icon, DatePicker, H1 } from 'native-base';
 import { NavigationEvents } from 'react-navigation';
 import { StyleSheet } from 'react-native';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import Layout from '../src/utilities/Layout';
 import { UserContext } from '../src/utilities/UserContext';
 import { CREATE_POOL_MUTATION } from '../src/utilities/Mutations';
+import { TOURNAMENT_GROUP_QUERY } from '../src/utilities/Queries';
 import BackButtonHeader from '../src/components/BackButtonHeader';
 
 const styles = StyleSheet.create({
@@ -63,12 +52,18 @@ const styles = StyleSheet.create({
 
 const CreateTournamentScreen = ({ history }) => {
   const { userLoading, user } = useContext(UserContext);
-  const [userState, setUserState] = useState(null);
   const [name, setName] = useState(null);
   const [password, setPassword] = useState(null);
   const [maxMembers, setMaxMembers] = useState(null);
+  const [teams, setTeams] = useState(null);
   const [type, setType] = useState('DRAFT');
   const [startDate, setStartDate] = useState(new Date().toString().substr(4, 11));
+  const [tournamentGroups, setTournamentGroups] = useState(null);
+  const tournamentGroupId = 'ck3qej9qdynvx0b09uqrdf3j5';
+
+  const { data, loading } = useQuery(TOURNAMENT_GROUP_QUERY, {
+    variables: { id: tournamentGroupId },
+  });
 
   const [createTournament, onCompleted] = useMutation(CREATE_POOL_MUTATION, {
     onCompleted: data => {
@@ -76,6 +71,12 @@ const CreateTournamentScreen = ({ history }) => {
     },
     refetchQueries: [],
   });
+
+  useEffect(() => {
+    if (data) {
+      setTournamentGroups(data.tournamentGroups);
+    }
+  }, [data]);
 
   return (
     <Layout title="Pools">
@@ -92,7 +93,8 @@ const CreateTournamentScreen = ({ history }) => {
               borderBottomWidth: 2,
               borderRightWidth: 2,
               borderLeftWidth: 2,
-            }}>
+            }}
+          >
             <Input
               placeholder="Enter Pool Name"
               autoCapitalize="none"
@@ -111,7 +113,8 @@ const CreateTournamentScreen = ({ history }) => {
               borderBottomWidth: 2,
               borderRightWidth: 2,
               borderLeftWidth: 2,
-            }}>
+            }}
+          >
             <Input
               placeholder="Enter Pool Password"
               autoCapitalize="none"
@@ -130,7 +133,8 @@ const CreateTournamentScreen = ({ history }) => {
               borderBottomWidth: 2,
               borderRightWidth: 2,
               borderLeftWidth: 2,
-            }}>
+            }}
+          >
             <Input
               placeholder="Enter Max Member Number"
               autoCapitalize="none"
@@ -157,10 +161,32 @@ const CreateTournamentScreen = ({ history }) => {
               borderBottomWidth: 2,
               borderRightWidth: 2,
               borderLeftWidth: 2,
-            }}>
+            }}
+          >
             <Picker.Item label="Random" value="RANDOM" />
             <Picker.Item label="Draft" value="DRAFT" />
             <Picker.Item label="Seed" value="SEED" />
+          </Picker>
+          <Label style={styles.label}>Tournament Group</Label>
+          <Picker
+            mode="dropdown"
+            iosHeader="Select Pool Type"
+            iosIcon={<Icon name="arrow-down" style={{ color: '#fc3', fontSize: 25 }} />}
+            selectedValue={teams}
+            onValueChange={teams => setTeams(teams)}
+            placeholder="Choose One"
+            placeholderStyle={{ color: '#fc3', fontFamily: 'graduate' }}
+            textStyle={{ color: '#fff', fontFamily: 'graduate' }}
+            style={{
+              marginBottom: 10,
+              borderColor: '#fc3',
+              borderTopWidth: 2,
+              borderBottomWidth: 2,
+              borderRightWidth: 2,
+              borderLeftWidth: 2,
+            }}
+          >
+            {tournamentGroups && tournamentGroups.map(group => <Picker.Item label={group.name} value={group.id} />)}
           </Picker>
           <Label style={styles.label}>Draft Date</Label>
           <View
@@ -171,7 +197,8 @@ const CreateTournamentScreen = ({ history }) => {
               borderBottomWidth: 2,
               borderRightWidth: 2,
               borderLeftWidth: 2,
-            }}>
+            }}
+          >
             <DatePicker
               defaultDate={new Date()}
               minimumDate={new Date(2018, 1, 1)}
@@ -198,7 +225,8 @@ const CreateTournamentScreen = ({ history }) => {
             style={styles.mainButton}
             onPress={async () => {
               await createTournament({ variables: { name, password, type, startDate, maxMembers } });
-            }}>
+            }}
+          >
             <Text style={styles.mainButtonText}>Create Tournament</Text>
           </Button>
         </Form>

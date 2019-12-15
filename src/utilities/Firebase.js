@@ -38,7 +38,7 @@ const FirebaseProvider = ({ children }) => {
   };
   // TODO: All firebase should originate from here.
   // Called to open waiting room for tournament
-  const createTournamentData = (tournamentId, member, teams) => {
+  const createTournamentData = (tournamentId, member) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
@@ -48,7 +48,6 @@ const FirebaseProvider = ({ children }) => {
         currentPick: 0,
         currentMembers: [member],
         status: "WAITING",
-        teams: [...teams]
       });
   };
 

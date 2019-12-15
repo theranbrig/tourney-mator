@@ -24,10 +24,7 @@ import SpinningImage from 'react-native-spinning-image';
 import Layout from '../src/utilities/Layout';
 import BackButtonHeader from '../src/components/BackButtonHeader';
 import { UserContext } from '../src/utilities/UserContext';
-import {
-  REMOVE_POOL_MUTATION,
-  CREATE_TOURNAMENT_REQUEST_MUTATION,
-} from '../src/utilities/Mutations';
+import { REMOVE_POOL_MUTATION, CREATE_TOURNAMENT_REQUEST_MUTATION } from '../src/utilities/Mutations';
 import { TOURNAMENT_INFORMATION_QUERY } from '../src/utilities/Queries';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Error from '../src/components/ErrorMessage';
@@ -44,7 +41,7 @@ const TournamentInformationScreen = ({ history }) => {
   const [admin, setAdmin] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
-  const [tournament, setTournament] = useState(null)
+  const [tournament, setTournament] = useState(null);
 
   const { userRefetch, user } = useContext(UserContext); // Used to refetch data for going back to the previous page.
 
@@ -54,18 +51,14 @@ const TournamentInformationScreen = ({ history }) => {
     variables: { id: tournamentId },
   });
 
-
-  const [
-    createTournamentRequest,
-    requestOnCompleted: onCompleted,
-    requestLoading: loading,
-    onError,
-  ] = useMutation(CREATE_TOURNAMENT_REQUEST_MUTATION, {
-    variables: { tournament: tournamentId, userEmail: email },
-    onError: async error => setError(error.message),
-    onCompleted: async data =>
-      setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`),
-  });
+  const [createTournamentRequest, requestOnCompleted: onCompleted, requestLoading: loading, onError] = useMutation(
+    CREATE_TOURNAMENT_REQUEST_MUTATION,
+    {
+      variables: { tournament: tournamentId, userEmail: email },
+      onError: async error => setError(error.message),
+      onCompleted: async data => setMessage(`Tournament request sent to ${email}.  Waiting for confirmation`),
+    }
+  );
 
   // TODO: Move this out to Apollo Functions.
   const [removeTournament, onCompleted] = useMutation(REMOVE_POOL_MUTATION, {
@@ -97,7 +90,7 @@ const TournamentInformationScreen = ({ history }) => {
     firebaseValue,
     createTournamentData,
     joinLiveTournament,
-    setTournamentStatus
+    setTournamentStatus,
   } = useContext(FirebaseContext);
 
   const [
@@ -115,17 +108,17 @@ const TournamentInformationScreen = ({ history }) => {
   );
 
   useEffect(() => {
-    if(data) {setTournament(data.tournament)}
+    if (data) {
+      setTournament(data.tournament);
+    }
     if (tournament) {
       const adminRole = tournament.tournamentMembers.filter(member => member.role === 'ADMIN');
       setAdmin(adminRole[0].user.id);
-      const currentMembers = tournament.tournamentMembers.filter(
-        member => member.user.id === user.id
-      );
+      const currentMembers = tournament.tournamentMembers.filter(member => member.user.id === user.id);
       setCurrentMember(currentMembers[0]);
       setTournamentInfo(liveTournamentFirebaseValue.data());
     }
-    console.log(tournament)
+    console.log(tournament);
   }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue, currentMember, tournament]);
 
   if (loading)
@@ -141,169 +134,178 @@ const TournamentInformationScreen = ({ history }) => {
     );
 
   return (
-    <Layout title="Pools" style={{ backgroundColor: '#7a0019' }}>
+    <>
       <BackButtonHeader history={history} title="Pool Info" />
-      <View style={styles.mainView}>
-        <ScrollView
-          bounces
-          endFillColor="#7a0019"
-          style={{ width: '100%', marginTop: 20, marginBottom: 20, backgroundColor: '#7a0019' }}>
-          {tournament && (
-            <>
-              <View style={{ marginBottom: 10, backgroundColor: '#7a0019' }}>
-                <View>
-                  <Text style={styles.title}>{tournament.name}</Text>
-                  <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                    <Text style={styles.subTitle}>{tournament.startDate} </Text>
-                    <Text style={styles.subTitle}>~ {tournament.type}</Text>
+      <Layout title="Pools" style={{ backgroundColor: '#7a0019' }}>
+        <View style={styles.mainView}>
+          <ScrollView
+            bounces
+            endFillColor="#7a0019"
+            style={{ width: '100%', marginTop: 20, marginBottom: 20, backgroundColor: '#7a0019' }}
+          >
+            {tournament && (
+              <>
+                <View style={{ marginBottom: 10, backgroundColor: '#7a0019' }}>
+                  <View>
+                    <Text style={styles.title}>{tournament.name}</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                      <Text style={styles.subTitle}>{tournament.startDate} </Text>
+                      <Text style={styles.subTitle}>~ {tournament.type}</Text>
+                    </View>
                   </View>
                 </View>
-              </View>
-              <List
-                style={{
-                  backgroundColor: '#fc3',
-                  width: '100%',
-                  borderTopWidth: 2,
-                  borderTopColor: '#fff',
-                }}>
-                {tournament.tournamentMembers.map((member, index) => (
-                  <ListItem
-                    style={{
-                      backgroundColor: '#fc3',
-                      width: '100%',
-                      height: 50,
-                      borderColor: '#7a0019',
-                      marginLeft: 0,
-                      borderBottomWidth: 2,
-                      borderBottomColor: '#fff',
+                <List
+                  style={{
+                    backgroundColor: '#fc3',
+                    width: '100%',
+                    borderTopWidth: 2,
+                    borderTopColor: '#fff',
+                  }}
+                >
+                  {tournament.tournamentMembers.map((member, index) => (
+                    <ListItem
+                      style={{
+                        backgroundColor: '#fc3',
+                        width: '100%',
+                        height: 50,
+                        borderColor: '#7a0019',
+                        marginLeft: 0,
+                        borderBottomWidth: 2,
+                        borderBottomColor: '#fff',
+                      }}
+                      key={member.user.id}
+                    >
+                      <Body>
+                        <Text style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 20 }}>
+                          {member.user.username}
+                        </Text>
+                      </Body>
+                      <Right>
+                        <Button style={{ backgroundColor: '#fc3' }}>
+                          {member.user.id === admin ? (
+                            <Icon name="star" size={30} color="#7a0019" />
+                          ) : (
+                            <Icon name="account-outline" size={30} color="#7a0019" />
+                          )}
+                        </Button>
+                      </Right>
+                    </ListItem>
+                  ))}
+                </List>
+                {admin === user.id && (
+                  <Button
+                    block
+                    style={styles.mainButton2}
+                    onPress={() => {
+                      createTournamentData(tournament.id, currentMember);
+                      setMessage('Taking you to the big show...');
+                      history.push('/waiting', { tournamentId: tournament.id, admin: admin });
                     }}
-                    key={member.user.id}>
-                    <Body>
-                      <Text style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 20 }}>
-                        {member.user.username}
+                  >
+                    <Text style={styles.mainButtonText}>Begin Pool Now</Text>
+                  </Button>
+                )}
+                {tournamentInfo && tournamentInfo.isWaiting && user.id !== admin && (
+                  <>
+                    <View
+                      style={{
+                        backgroundColor: '#fc3',
+                        width: '100%',
+                        borderColor: '#fff',
+                        borderWidth: 2,
+                        padding: 10,
+                        marginTop: 20,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: '#7a0019',
+                          fontFamily: 'graduate',
+                          textAlign: 'center',
+                        }}
+                      >
+                        POOL IS LIVE NOW!
                       </Text>
-                    </Body>
-                    <Right>
-                      <Button style={{ backgroundColor: '#fc3' }}>
-                        {member.user.id === admin ? (
-                          <Icon name="star" size={30} color="#7a0019" />
-                        ) : (
-                          <Icon name="account-outline" size={30} color="#7a0019" />
-                        )}
-                      </Button>
-                    </Right>
-                  </ListItem>
-                ))}
-              </List>
-              {admin === user.id && (
-                <Button
-                  block
-                  style={styles.mainButton2}
-                  onPress={() => {
-                    createTournamentData(tournament.id, currentMember, tournament.tournamentGroup.teams);
-                    setMessage('Taking you to the big show...');
-                    history.push('/waiting', { tournamentId: tournament.id, admin: admin });
-                  }}>
-                  <Text style={styles.mainButtonText}>Begin Pool Now</Text>
-                </Button>
-              )}
-              {tournamentInfo && tournamentInfo.isWaiting && user.id !== admin && (
-                <>
+                    </View>
+                    <Button
+                      block
+                      style={styles.mainButton2}
+                      onPress={() => {
+                        joinLiveTournament(tournamentId, currentMember);
+                        setMessage('Taking you to the big show...');
+                        setTournamentStatus(tournamentId, 'WAITING');
+                        history.push('/waiting', { tournamentId, admin, currentMember });
+                      }}
+                    >
+                      <Text style={styles.mainButtonText}>Join Pool</Text>
+                    </Button>
+                  </>
+                )}
+                <Form style={styles.form}>
+                  <Item regular style={{ marginBottom: 10 }}>
+                    <Input
+                      placeholder="Email Address"
+                      keyboardType="email-address"
+                      value={email}
+                      onChangeText={email => setEmail(email)}
+                      textContentType="emailAddress"
+                      autoCapitalize="none"
+                      style={{ color: '#f3f3f3', fontFamily: 'graduate' }}
+                      placeholderTextColor="#fc3"
+                    />
+                  </Item>
+                  <Button
+                    block
+                    style={styles.mainButton}
+                    onPress={() => {
+                      createTournamentRequest();
+                    }}
+                    disabled={error || email.length < 5}
+                  >
+                    {requestLoading ? <Spinner /> : <Text style={styles.mainButtonText}>Send Invitation</Text>}
+                  </Button>
+                </Form>
+                {error && <Error errorMessage={error} />}
+                {message !== '' && (
                   <View
                     style={{
                       backgroundColor: '#fc3',
-                      width: '100%',
+                      width: '90%',
+                      marginLeft: '5%',
                       borderColor: '#fff',
                       borderWidth: 2,
                       padding: 10,
                       marginTop: 20,
-                    }}>
+                    }}
+                  >
                     <Text
                       style={{
                         color: '#7a0019',
                         fontFamily: 'graduate',
                         textAlign: 'center',
-                      }}>
-                      POOL IS LIVE NOW!
+                      }}
+                    >
+                      {message}
                     </Text>
                   </View>
+                )}
+                {admin === user.id && (
                   <Button
                     block
                     style={styles.mainButton2}
                     onPress={() => {
-                      joinLiveTournament(tournamentId, currentMember);
-                      setMessage('Taking you to the big show...');
-                      setTournamentStatus(tournamentId,'WAITING')
-                      history.push('/waiting', { tournamentId, admin, currentMember });
-                    }}>
-                    <Text style={styles.mainButtonText}>Join Pool</Text>
+                      removeTournamentAlert();
+                    }}
+                  >
+                    <Text style={styles.mainButtonText}>Remove Pool</Text>
                   </Button>
-                </>
-              )}
-              <Form style={styles.form}>
-                <Item regular style={{ marginBottom: 10 }}>
-                  <Input
-                    placeholder="Email Address"
-                    keyboardType="email-address"
-                    value={email}
-                    onChangeText={email => setEmail(email)}
-                    textContentType="emailAddress"
-                    autoCapitalize="none"
-                    style={{ color: '#f3f3f3', fontFamily: 'graduate' }}
-                    placeholderTextColor="#fc3"
-                  />
-                </Item>
-                <Button
-                  block
-                  style={styles.mainButton}
-                  onPress={() => {
-                    createTournamentRequest();
-                  }}
-                  disabled={error || email.length < 5}>
-                  {requestLoading ? (
-                    <Spinner />
-                  ) : (
-                    <Text style={styles.mainButtonText}>Send Invitation</Text>
-                  )}
-                </Button>
-              </Form>
-              {error && <Error errorMessage={error} />}
-              {message !== '' && (
-                <View
-                  style={{
-                    backgroundColor: '#fc3',
-                    width: '90%',
-                    marginLeft: '5%',
-                    borderColor: '#fff',
-                    borderWidth: 2,
-                    padding: 10,
-                    marginTop: 20,
-                  }}>
-                  <Text
-                    style={{
-                      color: '#7a0019',
-                      fontFamily: 'graduate',
-                      textAlign: 'center',
-                    }}>
-                    {message}
-                  </Text>
-                </View>
-              )}
-              {admin === user.id && (
-                <Button
-                  block
-                  style={styles.mainButton2}
-                  onPress={() => {
-                    removeTournamentAlert();
-                  }}>
-                  <Text style={styles.mainButtonText}>Remove Pool</Text>
-                </Button>
-              )}
-            </>
-          )}
-        </ScrollView>
-      </View>
-    </Layout>
+                )}
+              </>
+            )}
+          </ScrollView>
+        </View>
+      </Layout>
+    </>
   );
 };
 

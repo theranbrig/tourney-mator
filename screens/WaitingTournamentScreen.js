@@ -24,11 +24,6 @@ const WaitingTournamentScreen = ({ history }) => {
     }
   );
 
-  const {loading: teamLoading, data: teamData, onCompleted} = useQuery(TOURNAMENT_GROUP_QUERY, {variables: {id: "ck3qej9qdynvx0b09uqrdf3j5"},         onCompleted: async (data) => {
-  console.log(data)
-
-    }} );
-
   const { tournament } = tournamentData;
 
   const { firebase, setTournamentStatus, setFirebaseTeams } = useContext(FirebaseContext);
@@ -50,9 +45,6 @@ const WaitingTournamentScreen = ({ history }) => {
   useEffect(() => {
     if (liveTournamentFirebaseValue) {
       setDocSnap(liveTournamentFirebaseValue.data());
-    }
-    if (teamData) {
-      console.log(teamData.teams)
     }
   }, [liveTournamentFirebaseValue, tournamentData]);
 
