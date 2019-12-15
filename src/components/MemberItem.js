@@ -11,11 +11,14 @@ const MemberItem = ({ memberId, order }) => {
   });
 
   useEffect(() => {
-    console.log('MEMBER', data.tournamentMember);
-    setMemberData(data.tournamentMember);
+    if (data) {
+      console.log('MEMBER', data.tournamentMember);
+      setMemberData(data.tournamentMember);
+    }
   }, [onCompleted, memberId, data]);
 
   if (loading) return <Spinner color="#7a0019" />;
+
   return (
     <>
       {memberData && (

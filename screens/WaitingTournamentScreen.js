@@ -14,15 +14,13 @@ import GoldSpinner from '../src/components/SpinnerGold';
 
 const WaitingTournamentScreen = ({ history }) => {
   const { tournamentId, admin, currentMember } = history.location.state;
+  const [currentMembers, setCurrentMembers] = useState([]);
   const [docSnap, setDocSnap] = useState(null);
   const [listLoading, setListLoading] = useState(false);
 
-  const { loading: tournamentLoading, data: tournamentData } = useQuery(
-    TOURNAMENT_INFORMATION_QUERY,
-    {
-      variables: { id: tournamentId },
-    }
-  );
+  const { loading: tournamentLoading, data: tournamentData } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
+    variables: { id: tournamentId },
+  });
 
   const { tournament } = tournamentData;
 
@@ -45,15 +43,21 @@ const WaitingTournamentScreen = ({ history }) => {
   useEffect(() => {
     if (liveTournamentFirebaseValue) {
       setDocSnap(liveTournamentFirebaseValue.data());
+      setCurrentMembers([...liveTournamentFirebaseValue.data().currentMembers]);
+      console.log('Current', currentMembers);
     }
   }, [liveTournamentFirebaseValue, tournamentData]);
+
+  if (liveTournamentFirebaseLoading || tournamentLoading) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <Layout title="Pools">
       <BackButtonHeader history={history} title="Ready" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <GoldSpinner />
-        {docSnap && docSnap.status === "WAITING" && (
+        {docSnap && docSnap.status === 'WAITING' && (
           <>
             <Text
               style={{
@@ -62,24 +66,28 @@ const WaitingTournamentScreen = ({ history }) => {
                 fontFamily: 'graduate',
                 marginBottom: 5,
                 fontSize: 25,
-              }}>
+              }}
+            >
               Waiting For All Tournament Members
             </Text>
-            <List
-              style={{
-                backgroundColor: '#fc3',
-                width: '100%',
-                borderTopWidth: 2,
-                borderTopColor: '#fff',
-              }}>
-              {docSnap.currentMembers.map(member => (
-                <MemberItem key={member} memberId={member.id}  />
-              ))}
-            </List>
-            {docSnap && (docSnap.currentMembers.length !== tournament.maxMember) && (
+            {currentMembers.length && (
+              <List
+                style={{
+                  backgroundColor: '#fc3',
+                  width: '100%',
+                  borderTopWidth: 2,
+                  borderTopColor: '#fff',
+                }}
+              >
+                {currentMembers.map(member => (
+                  <MemberItem key={member.id} memberId={member.id} />
+                ))}
+              </List>
+            )}
+            {currentMembers.length !== 8 && (
               <Button
                 onPress={() => {
-                  setTournamentStatus(tournamentId, "SELECTPICKS");
+                  setTournamentStatus(tournamentId, 'SELECTPICKS');
                   history.push('/live', { tournamentId, admin, currentMember });
                 }}
                 block
@@ -91,10 +99,9 @@ const WaitingTournamentScreen = ({ history }) => {
                   borderRadius: 0,
                   marginLeft: '5%',
                   marginTop: 40,
-                }}>
-                <Text style={{ fontSize: 20, color: '#7a0019', fontFamily: 'graduate' }}>
-                  Start Picking Now
-                </Text>
+                }}
+              >
+                <Text style={{ fontSize: 20, color: '#7a0019', fontFamily: 'graduate' }}>Start Picking Now</Text>
               </Button>
             )}
           </>

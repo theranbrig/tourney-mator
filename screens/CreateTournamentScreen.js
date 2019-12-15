@@ -186,7 +186,8 @@ const CreateTournamentScreen = ({ history }) => {
               borderLeftWidth: 2,
             }}
           >
-            {tournamentGroups && tournamentGroups.map(group => <Picker.Item label={group.name} value={group.id} />)}
+            {tournamentGroups &&
+              tournamentGroups.map(group => <Picker.Item key={group.id} label={group.name} value={group.id} />)}
           </Picker>
           <Label style={styles.label}>Draft Date</Label>
           <View
@@ -224,7 +225,9 @@ const CreateTournamentScreen = ({ history }) => {
             block
             style={styles.mainButton}
             onPress={async () => {
-              await createTournament({ variables: { name, password, type, startDate, maxMembers } });
+              await createTournament({
+                variables: { name, password, type, startDate, maxMembers, tournamentGroup: teams },
+              });
             }}
           >
             <Text style={styles.mainButtonText}>Create Tournament</Text>

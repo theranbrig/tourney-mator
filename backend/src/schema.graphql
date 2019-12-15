@@ -11,9 +11,10 @@ type Mutation {
   createTournament(
     name: String!
     password: String!
-    type: String
-    startDate: String
-    maxMembers: Float
+    type: String!
+    startDate: String!
+    maxMembers: Float!
+    tournamentGroup: String!
   ): Tournament!
   removeTournament(id: ID!): SuccessMessage
   createTournamentRequest(tournament: ID!, userEmail: String!): TournamentRequest!

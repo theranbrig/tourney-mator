@@ -9,8 +9,7 @@ const Mutations = {
     if (emailCheck) throw new Error(`${args.email} already has an account.  Please Log In.`);
     const nameCheck = await ctx.db.query.user({ where: { username: args.username } });
     // Check if user with submitted username exists
-    if (nameCheck)
-      throw new Error(`${args.username} already exists.  Please choose a new user name.`);
+    if (nameCheck) throw new Error(`${args.username} already exists.  Please choose a new user name.`);
     // Set password hash and user info
     const password = await bcrypt.hash(args.password, 15);
     const user = await ctx.db.mutation.createUser(
@@ -63,6 +62,9 @@ const Mutations = {
         data: {
           ...args,
           startDate: args.startDate,
+          tournamentGroup: {
+            connect: { id: args.tournamentGroup },
+          },
         },
       },
       info

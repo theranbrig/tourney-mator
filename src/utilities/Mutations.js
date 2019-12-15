@@ -23,9 +23,10 @@ export const CREATE_POOL_MUTATION = gql`
   mutation CreateTournament(
     $name: String!
     $password: String!
-    $type: String
-    $startDate: String
-    $maxMembers: Float
+    $type: String!
+    $startDate: String!
+    $maxMembers: Float!
+    $tournamentGroup: String!
   ) {
     createTournament(
       name: $name
@@ -33,6 +34,7 @@ export const CREATE_POOL_MUTATION = gql`
       type: $type
       startDate: $startDate
       maxMembers: $maxMembers
+      tournamentGroup: $tournamentGroup
     ) {
       id
       name

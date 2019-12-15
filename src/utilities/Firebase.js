@@ -47,7 +47,7 @@ const FirebaseProvider = ({ children }) => {
         isWaiting: true,
         currentPick: 0,
         currentMembers: [member],
-        status: "WAITING",
+        status: 'WAITING',
       });
   };
 
@@ -79,18 +79,17 @@ const FirebaseProvider = ({ children }) => {
       .collection('tournaments')
       .doc(tournamentId)
       .update({
-        status
+        status,
       });
-  }
+  };
 
   // Watches all users
-  const [
-    userFirebaseData: value,
-    userFirebaseLoading: loading,
-    userFirebaseError: error,
-  ] = useCollection(firebase.firestore().collection('users'), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+  const [userFirebaseData: value, userFirebaseLoading: loading, userFirebaseError: error] = useCollection(
+    firebase.firestore().collection('users'),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
   return (
     <FirebaseContext.Provider
@@ -104,8 +103,9 @@ const FirebaseProvider = ({ children }) => {
         joinLiveTournament,
         setFirebasePickOrder,
         setTournamentStatus,
-        setFirebaseTeams
-      }}>
+        setFirebaseTeams,
+      }}
+    >
       {children}
     </FirebaseContext.Provider>
   );
