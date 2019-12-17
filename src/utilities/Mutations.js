@@ -102,3 +102,11 @@ export const JOIN_TOURNAMENT_MUTATION = gql`
     }
   }
 `;
+
+export const ADD_TOURNAMENT_TEAM_MUTATION = gql`
+  mutation AddTournamentTeam($memberId: ID!, $teamId: ID!) {
+    addTournamentTeam(memberId: $memberId, teamId: $teamId) {
+      id
+    }
+  }
+`;

@@ -234,6 +234,13 @@ const Mutations = {
     });
     return { message: 'Request Deleted' };
   },
+  async addTournamentTeam(parent, args, ctx, info) {
+    const updatedTournamentMember = await ctx.db.mutation.updateTournamentMember(
+      { where: { id: args.memberId } },
+      { data: { teams: { connect: { id: args.teamId } } } }
+    );
+    return updatedTournamentMember;
+  },
 };
 
 module.exports = Mutations;

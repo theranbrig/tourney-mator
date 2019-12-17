@@ -45,10 +45,10 @@ const FirebaseProvider = ({ children }) => {
       .set({
         isLive: false,
         isWaiting: true,
-        currentPick: 0,
+        previousPick: null,
         currentMembers: [member],
         status: 'WAITING',
-        tournamentGroup: tournamentGroup,
+        teams: tournamentGroup,
       });
   };
 

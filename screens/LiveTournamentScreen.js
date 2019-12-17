@@ -35,7 +35,7 @@ const LiveTournamentScreen = ({ history }) => {
   }, [liveTournamentFirebaseValue]);
 
   return (
-    <Layout title="Pools">
+    <Layout>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Live Tournament</Text>
         {docSnap && docSnap.status === 'SELECTPICKS' && (
