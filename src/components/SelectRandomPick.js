@@ -8,7 +8,7 @@ import { FirebaseContext } from '../utilities/Firebase';
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember }) => {
   const [addTournamentTeam, data] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
 
-  const [nextPick, removeTeam] = useContext(FirebaseContext);
+  const { nextPick, removeTeam, setPreviousPick } = useContext(FirebaseContext);
 
   const selectTeam = () => {
     const pick = firebaseTournamentInfo.teams[Math.floor(Math.random() * firebaseTournamentInfo.teams.length)];
