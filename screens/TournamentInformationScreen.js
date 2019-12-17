@@ -203,6 +203,7 @@ const TournamentInformationScreen = ({ history }) => {
                       history.push('/waiting', {
                         tournamentId: tournament.id,
                         admin,
+                        currentMember,
                       });
                     }}
                   >

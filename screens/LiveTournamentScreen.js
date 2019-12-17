@@ -10,7 +10,7 @@ import SelectRandomPick from '../src/components/SelectRandomPick';
 const LiveTournamentScreen = ({ history }) => {
   const [docSnap, setDocSnap] = useState(null);
   const [tournamentStatus, setTournamentStatus] = useState('SELECTPICKS');
-  const { tournamentId, admin } = history.location.state;
+  const { tournamentId, admin, currentMember } = history.location.state;
 
   const { firebase, startTournament } = useContext(FirebaseContext);
 
@@ -31,7 +31,6 @@ const LiveTournamentScreen = ({ history }) => {
   useEffect(() => {
     if (liveTournamentFirebaseValue) {
       setDocSnap(liveTournamentFirebaseValue.data());
-      console.log(docSnap);
     }
   }, [liveTournamentFirebaseValue]);
 
@@ -39,18 +38,18 @@ const LiveTournamentScreen = ({ history }) => {
     <Layout title="Pools">
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Live Tournament</Text>
-        {docSnap && docSnap.status === "SELECTPICKS" &&
+        {docSnap && docSnap.status === 'SELECTPICKS' && (
           <SelectOrder firebaseTournamentInfo={docSnap} tournamentId={tournamentId} admin={admin} />
-        }
-        {docSnap && docSnap.status === "STARTDRAFT" &&
-          <SelectRandomPick firebaseTournamentInfo={docSnap} tournamentId={tournamentId} admin={admin}/>
-        }
-        {docSnap && docSnap.status === "PICKS" &&
-          <Text>Set Order</Text>
-        }
-        {docSnap && docSnap.status === "RESULTS" &&
-          <Text>Set Order</Text>
-        }
+        )}
+        {docSnap && docSnap.status === 'STARTDRAFT' && (
+          <SelectRandomPick
+            firebaseTournamentInfo={docSnap}
+            tournamentId={tournamentId}
+            currentMember={currentMember.id}
+          />
+        )}
+        {docSnap && docSnap.status === 'PICKS' && <Text>Set Order</Text>}
+        {docSnap && docSnap.status === 'RESULTS' && <Text>Set Order</Text>}
       </View>
     </Layout>
   );

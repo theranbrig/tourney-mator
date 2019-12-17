@@ -44,13 +44,8 @@ const WaitingTournamentScreen = ({ history }) => {
     if (liveTournamentFirebaseValue) {
       setDocSnap(liveTournamentFirebaseValue.data());
       setCurrentMembers([...liveTournamentFirebaseValue.data().currentMembers]);
-      console.log('Current', currentMembers);
     }
   }, [liveTournamentFirebaseValue, tournamentData]);
-
-  if (liveTournamentFirebaseLoading || tournamentLoading) {
-    return <Text>Loading...</Text>;
-  }
 
   return (
     <Layout title="Pools">

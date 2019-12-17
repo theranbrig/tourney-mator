@@ -2,10 +2,16 @@ import React from 'react';
 import { View, Text } from 'native-base';
 
 const NextUp = ({ current, next, later }) => (
-  <View>
-    <Text>{current}</Text>
-    <Text>{next}</Text>
-    <Text>{later}</Text>
+  <View style={{ flex: 1, flexDirection: 'row' }}>
+    <View style={{ padding: 5 }}>
+      <Text>{current}</Text>
+    </View>
+    <View style={{ padding: 5 }}>
+      <Text>{next}</Text>
+    </View>
+    <View style={{ padding: 5 }}>
+      <Text>{later}</Text>
+    </View>
   </View>
 );
 
