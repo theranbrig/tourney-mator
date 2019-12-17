@@ -117,8 +117,8 @@ const TournamentInformationScreen = ({ history }) => {
       const currentMembers = tournament.tournamentMembers.filter(member => member.user.id === user.id);
       setCurrentMember(currentMembers[0]);
       setTournamentInfo(liveTournamentFirebaseValue.data());
+      console.log(tournament.tournamentGroup.teams);
     }
-    console.log(tournament);
   }, [data, requestOnCompleted, onError, liveTournamentFirebaseValue, currentMember, tournament]);
 
   if (loading)
@@ -198,9 +198,12 @@ const TournamentInformationScreen = ({ history }) => {
                     style={styles.mainButton2}
                     onPress={() => {
                       console.log('pressed');
-                      createTournamentData(tournament.id, currentMember);
+                      createTournamentData(tournament.id, currentMember, tournament.tournamentGroup.teams);
                       setMessage('Taking you to the big show...');
-                      history.push('/waiting', { tournamentId: tournament.id, admin: admin });
+                      history.push('/waiting', {
+                        tournamentId: tournament.id,
+                        admin,
+                      });
                     }}
                   >
                     <Text style={styles.mainButtonText}>Begin Pool Now</Text>
