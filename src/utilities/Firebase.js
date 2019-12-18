@@ -81,14 +81,14 @@ const FirebaseProvider = ({ children }) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
-      .update(pickOrder);
+      .update({ pickOrder });
   };
 
   const removeTeam = (tournamentId, teams) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
-      .update(teams);
+      .update({ teams });
   };
 
   const setPreviousPick = (tournamentId, previousPick) => {
@@ -118,6 +118,9 @@ const FirebaseProvider = ({ children }) => {
         joinLiveTournament,
         setFirebasePickOrder,
         setTournamentStatus,
+        nextPick,
+        removeTeam,
+        setPreviousPick,
       }}
     >
       {children}

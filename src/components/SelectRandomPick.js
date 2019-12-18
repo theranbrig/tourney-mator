@@ -5,14 +5,21 @@ import { ADD_TOURNAMENT_TEAM_MUTATION } from '../utilities/Mutations';
 import NextUp from './NextUp';
 import { FirebaseContext } from '../utilities/Firebase';
 
-const SelectRandomPick = ({ firebaseTournamentInfo, currentMember }) => {
+const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
   const [addTournamentTeam, data] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
 
   const { nextPick, removeTeam, setPreviousPick } = useContext(FirebaseContext);
 
-  const selectTeam = () => {
-    const pick = firebaseTournamentInfo.teams[Math.floor(Math.random() * firebaseTournamentInfo.teams.length)];
-    console.log(pick.id);
+  const selectTeam = async () => {
+    const randomTeamNumber = Math.floor(Math.random() * firebaseTournamentInfo.teams.length);
+    console.log(randomTeamNumber);
+    const pick = firebaseTournamentInfo.teams[randomTeamNumber];
+    // await addTournamentTeam({ variables: { memberId: currentMember, teamId: pick.id } });
+    const newTeamList = firebaseTournamentInfo.teams.filter(team => team.id !== pick.id);
+    removeTeam(tournamentId, newTeamList);
+    const newPickOrder = firebaseTournamentInfo.pickOrder.map(member => member);
+    newPickOrder.shift();
+    nextPick(tournamentId, newPickOrder);
   };
 
   useEffect(() => {
