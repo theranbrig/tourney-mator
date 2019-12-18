@@ -94,7 +94,6 @@ const Mutations = {
     const tourneyMembers = await ctx.db.mutation.deleteManyTournamentMembers({
       where: { tournament: { id: args.id } },
     });
-
     const removedTournament = await ctx.db.mutation.deleteTournament({ where: { id: args.id } });
     return { message: 'Pool Deleted' };
   },
@@ -118,7 +117,6 @@ const Mutations = {
     const deletedTourneyMember = await ctx.db.mutation.deleteTournamentMember({
       where: { id: tourneyMembers[0].id },
     });
-    console.log('DELETED', deletedTourneyMember);
     return { message: 'Removed from Tournament' };
   },
   async joinTournament(parent, args, ctx, info) {
@@ -235,10 +233,19 @@ const Mutations = {
     return { message: 'Request Deleted' };
   },
   async addTournamentTeam(parent, args, ctx, info) {
-    const updatedTournamentMember = await ctx.db.mutation.updateTournamentMember(
-      { where: { id: args.memberId } },
-      { data: { teams: { connect: { id: args.teamId } } } }
-    );
+    console.log(args);
+    const myTeam = await ctx.db.query.teams({ where: { id: args.teamId } });
+    console.log(myTeam);
+    const updatedTournamentMember = await ctx.db.mutation.updateTournamentMember({
+      where: { id: args.tournamentMemberId },
+      data: {
+        myTeams: {
+          connect: { id: teamId },
+        },
+      },
+      info,
+    });
+
     return updatedTournamentMember;
   },
 };
