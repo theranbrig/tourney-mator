@@ -237,7 +237,7 @@ const Mutations = {
     const updatedTournamentMember = await ctx.db.mutation.updateTournamentMember({
       where: { id: tournamentMemberId },
       data: {
-        myTeams: { connect: { id: teamId } },
+        teams: { connect: { id: teamId } },
       },
       info,
     });

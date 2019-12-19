@@ -30,7 +30,10 @@ scalar Long
 
 type Mutation {
   createTeam(data: TeamCreateInput!): Team!
+  updateTeam(data: TeamUpdateInput!, where: TeamWhereUniqueInput!): Team
   updateManyTeams(data: TeamUpdateInput!, where: TeamWhereInput): BatchPayload!
+  upsertTeam(where: TeamWhereUniqueInput!, create: TeamCreateInput!, update: TeamUpdateInput!): Team!
+  deleteTeam(where: TeamWhereUniqueInput!): Team
   deleteManyTeams(where: TeamWhereInput): BatchPayload!
   createTournament(data: TournamentCreateInput!): Tournament!
   updateTournament(data: TournamentUpdateInput!, where: TournamentWhereUniqueInput!): Tournament
@@ -87,6 +90,7 @@ enum Permission {
 }
 
 type Query {
+  team(where: TeamWhereUniqueInput!): Team
   teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team]!
   teamsConnection(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TeamConnection!
   tournament(where: TournamentWhereUniqueInput!): Tournament
@@ -145,6 +149,7 @@ input TeamCreateInput {
 
 input TeamCreateManyInput {
   create: [TeamCreateInput!]
+  connect: [TeamWhereUniqueInput!]
 }
 
 type TeamEdge {
@@ -204,6 +209,16 @@ input TeamSubscriptionWhereInput {
   NOT: [TeamSubscriptionWhereInput!]
 }
 
+input TeamUpdateDataInput {
+  name: String
+  seed: Float
+  region: String
+  wins: Float
+  bonusPoints: Float
+  season: String
+  record: String
+}
+
 input TeamUpdateInput {
   name: String
   seed: Float
@@ -216,6 +231,22 @@ input TeamUpdateInput {
 
 input TeamUpdateManyInput {
   create: [TeamCreateInput!]
+  delete: [TeamWhereUniqueInput!]
+  connect: [TeamWhereUniqueInput!]
+  disconnect: [TeamWhereUniqueInput!]
+  update: [TeamUpdateWithWhereUniqueNestedInput!]
+  upsert: [TeamUpsertWithWhereUniqueNestedInput!]
+}
+
+input TeamUpdateWithWhereUniqueNestedInput {
+  where: TeamWhereUniqueInput!
+  data: TeamUpdateDataInput!
+}
+
+input TeamUpsertWithWhereUniqueNestedInput {
+  where: TeamWhereUniqueInput!
+  update: TeamUpdateDataInput!
+  create: TeamCreateInput!
 }
 
 input TeamWhereInput {
@@ -316,6 +347,10 @@ input TeamWhereInput {
   AND: [TeamWhereInput!]
   OR: [TeamWhereInput!]
   NOT: [TeamWhereInput!]
+}
+
+input TeamWhereUniqueInput {
+  id: ID
 }
 
 type Tournament {
@@ -516,7 +551,7 @@ type TournamentMember {
   user: User
   tournament: Tournament
   points: Float
-  myTeams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
+  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
   role: String
 }
 
@@ -530,7 +565,7 @@ input TournamentMemberCreateInput {
   user: UserCreateOneWithoutTournamentMembersInput
   tournament: TournamentCreateOneWithoutTournamentMembersInput
   points: Float
-  myTeams: TeamCreateManyInput
+  teams: TeamCreateManyInput
   role: String
 }
 
@@ -547,14 +582,14 @@ input TournamentMemberCreateManyWithoutUserInput {
 input TournamentMemberCreateWithoutTournamentInput {
   user: UserCreateOneWithoutTournamentMembersInput
   points: Float
-  myTeams: TeamCreateManyInput
+  teams: TeamCreateManyInput
   role: String
 }
 
 input TournamentMemberCreateWithoutUserInput {
   tournament: TournamentCreateOneWithoutTournamentMembersInput
   points: Float
-  myTeams: TeamCreateManyInput
+  teams: TeamCreateManyInput
   role: String
 }
 
@@ -604,7 +639,7 @@ input TournamentMemberUpdateInput {
   user: UserUpdateOneWithoutTournamentMembersInput
   tournament: TournamentUpdateOneWithoutTournamentMembersInput
   points: Float
-  myTeams: TeamUpdateManyInput
+  teams: TeamUpdateManyInput
   role: String
 }
 
@@ -629,14 +664,14 @@ input TournamentMemberUpdateManyWithoutUserInput {
 input TournamentMemberUpdateWithoutTournamentDataInput {
   user: UserUpdateOneWithoutTournamentMembersInput
   points: Float
-  myTeams: TeamUpdateManyInput
+  teams: TeamUpdateManyInput
   role: String
 }
 
 input TournamentMemberUpdateWithoutUserDataInput {
   tournament: TournamentUpdateOneWithoutTournamentMembersInput
   points: Float
-  myTeams: TeamUpdateManyInput
+  teams: TeamUpdateManyInput
   role: String
 }
 
@@ -687,9 +722,9 @@ input TournamentMemberWhereInput {
   points_lte: Float
   points_gt: Float
   points_gte: Float
-  myTeams_every: TeamWhereInput
-  myTeams_some: TeamWhereInput
-  myTeams_none: TeamWhereInput
+  teams_every: TeamWhereInput
+  teams_some: TeamWhereInput
+  teams_none: TeamWhereInput
   role: String
   role_not: String
   role_in: [String!]

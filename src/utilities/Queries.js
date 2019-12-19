@@ -85,3 +85,12 @@ export const TOURNAMENT_GROUP_QUERY = gql`
     }
   }
 `;
+
+export const TOURNAMENT_TEAM = gql`
+  query TOURNAMENT_TEAM($id: ID!) {
+    team(where: { id: $id }) {
+      id
+      name
+    }
+  }
+`;

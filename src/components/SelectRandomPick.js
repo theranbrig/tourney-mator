@@ -6,7 +6,7 @@ import NextUp from './NextUp';
 import { FirebaseContext } from '../utilities/Firebase';
 
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
-  const [addTournamentTeam, data] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
+  const [addTournamentTeam] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
 
   const { nextPick, removeTeam, setPreviousPick } = useContext(FirebaseContext);
 
@@ -14,6 +14,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
     const randomTeamNumber = Math.floor(Math.random() * firebaseTournamentInfo.teams.length);
     const pick = firebaseTournamentInfo.teams[randomTeamNumber];
     console.log(pick);
+    console.log(pick.id);
     await addTournamentTeam({
       variables: { tournamentMemberId: currentMember, teamId: pick.id },
     });
@@ -35,11 +36,13 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
         next={firebaseTournamentInfo.pickOrder[1].user.username}
         later={firebaseTournamentInfo.pickOrder[2].user.username}
       />
+      {/* TODO: PREVIOUS THREE PICKS */}
       {firebaseTournamentInfo.pickOrder[0].id === currentMember && (
         <Button onPress={() => selectTeam()}>
           <Text>Pick Now</Text>
         </Button>
       )}
+      {/* TODO: MY CURRENT PICKS */}
     </View>
   );
 };
