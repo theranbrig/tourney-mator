@@ -45,7 +45,7 @@ const FirebaseProvider = ({ children }) => {
       .set({
         isLive: false,
         isWaiting: true,
-        previousPick: null,
+        previousPicks: [],
         currentMembers: [member],
         status: 'WAITING',
         teams: tournamentGroup,
@@ -91,11 +91,11 @@ const FirebaseProvider = ({ children }) => {
       .update({ teams });
   };
 
-  const setPreviousPick = (tournamentId, previousPick) => {
+  const previousPick = (tournamentId, previousPicks) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
-      .update(previousPick);
+      .update({ previousPicks });
   };
 
   // Watches all users
@@ -120,7 +120,7 @@ const FirebaseProvider = ({ children }) => {
         setTournamentStatus,
         nextPick,
         removeTeam,
-        setPreviousPick,
+        previousPick,
       }}
     >
       {children}
