@@ -12,9 +12,11 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
 
   const selectTeam = async () => {
     const randomTeamNumber = Math.floor(Math.random() * firebaseTournamentInfo.teams.length);
-    console.log(randomTeamNumber);
     const pick = firebaseTournamentInfo.teams[randomTeamNumber];
-    // await addTournamentTeam({ variables: { memberId: currentMember, teamId: pick.id } });
+    console.log(pick);
+    await addTournamentTeam({
+      variables: { tournamentMemberId: currentMember, teamId: pick.id },
+    });
     const newTeamList = firebaseTournamentInfo.teams.filter(team => team.id !== pick.id);
     removeTeam(tournamentId, newTeamList);
     const newPickOrder = firebaseTournamentInfo.pickOrder.map(member => member);

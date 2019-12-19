@@ -232,16 +232,12 @@ const Mutations = {
     });
     return { message: 'Request Deleted' };
   },
-  async addTournamentTeam(parent, args, ctx, info) {
-    console.log(args);
-    const myTeam = await ctx.db.query.teams({ where: { id: args.teamId } });
-    console.log(myTeam);
+  async addTournamentTeam(parent, { tournamentMemberId, teamId }, ctx, info) {
+    // console.log(args);
     const updatedTournamentMember = await ctx.db.mutation.updateTournamentMember({
-      where: { id: args.tournamentMemberId },
+      where: { id: tournamentMemberId },
       data: {
-        myTeams: {
-          connect: { id: teamId },
-        },
+        myTeams: { connect: { id: teamId } },
       },
       info,
     });
