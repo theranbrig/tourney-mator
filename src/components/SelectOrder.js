@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Text, Button, View, List } from 'native-base';
 import { useQuery } from '@apollo/react-hooks';
+import { StyleSheet } from 'react-native';
 import { UserContext } from '../utilities/UserContext';
 import { TOURNAMENT_INFORMATION_QUERY } from '../utilities/Queries';
 import GoldSpinner from './SpinnerGold';
 import { FirebaseContext } from '../utilities/Firebase';
 import MemberItem from './MemberItem';
+
+import { mainStyles } from '../utilities/Styles';
 
 const SelectOrder = ({ firebaseTournamentInfo, tournamentId, admin }) => {
   const [pickOrder, setPickOrder] = useState([]);
@@ -59,21 +62,16 @@ const SelectOrder = ({ firebaseTournamentInfo, tournamentId, admin }) => {
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-      <Text>Draft Order</Text>
-      {pickOrder.length > 0 && firebaseTournamentInfo.currentMembers && (
-        <List
-          style={{
-            backgroundColor: '#fc3',
-            width: '100%',
-            borderTopWidth: 2,
-            borderTopColor: '#fff',
-          }}
-        >
-          {pickOrder.map((pick, index) => (
-            <MemberItem key={pick.id} memberId={pick.id} order={index} />
-          ))}
-        </List>
-      )}
+      <Text style={mainStyles.goldTitle}>Draft Order</Text>
+      <List style={pickOrder.length > 0 ? mainStyles.listWithItems : mainStyles.listNoItems}>
+        {pickOrder.length > 0 && firebaseTournamentInfo.currentMembers && (
+          <>
+            {pickOrder.map((pick, index) => (
+              <MemberItem key={pick.id} memberId={pick.id} order={index} />
+            ))}
+          </>
+        )}
+      </List>
       {firebaseTournamentInfo && pickOrder.length !== tournament.maxMembers && (
         <Button
           style={{
@@ -100,27 +98,8 @@ const SelectOrder = ({ firebaseTournamentInfo, tournamentId, admin }) => {
       )}
       {pickOrder.length === tournament.maxMembers && (
         <View>
-          <Button
-            style={{
-              marginTop: 10,
-              borderColor: '#fc3',
-              backgroundColor: '#f3f3f3',
-              borderWidth: 2,
-              borderRadius: 0,
-              textAlign: 'center',
-            }}
-            onPress={() => goLive()}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                color: '#7a0019',
-                fontFamily: 'graduate',
-                textAlign: 'center',
-              }}
-            >
-              Set Picks
-            </Text>
+          <Button style={mainStyles.goldButton} onPress={() => goLive()}>
+            <Text style={mainStyles.goldButtonText}>To The Draft</Text>
           </Button>
         </View>
       )}
