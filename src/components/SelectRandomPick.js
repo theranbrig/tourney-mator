@@ -10,6 +10,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
 
   const { nextPick, removeTeam, previousPick } = useContext(FirebaseContext);
 
+  // TODO: NEEDS TO BE MOVED OUT FOR REUSABLITY
   const selectTeam = async () => {
     const randomTeamNumber = Math.floor(Math.random() * firebaseTournamentInfo.teams.length);
     const pick = firebaseTournamentInfo.teams[randomTeamNumber];
@@ -40,6 +41,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
 
   return (
     <View style={{ height: 400, width: '100%' }}>
+      {/* TODO: TIMER */}
       <NextUp
         current={firebaseTournamentInfo.pickOrder[0].user.username}
         next={firebaseTournamentInfo.pickOrder[1].user.username}
