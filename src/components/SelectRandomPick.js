@@ -5,6 +5,8 @@ import { ADD_TOURNAMENT_TEAM_MUTATION } from '../utilities/Mutations';
 import NextUp from './NextUp';
 import { FirebaseContext } from '../utilities/Firebase';
 
+import { mainStyles } from '../utilities/Styles';
+
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
   const [addTournamentTeam] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
 
@@ -49,8 +51,8 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       />
       {/* TODO: PREVIOUS THREE PICKS */}
       {firebaseTournamentInfo.pickOrder[0].id === currentMember && (
-        <Button onPress={() => selectTeam()}>
-          <Text>Pick Now</Text>
+        <Button style={mainStyles.goldButton} onPress={() => selectTeam()}>
+          <Text style={mainStyles.goldButtonText}>Pick Now</Text>
         </Button>
       )}
       {/* TODO: MY CURRENT PICKS */}
