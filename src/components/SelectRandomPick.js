@@ -6,6 +6,7 @@ import NextUp from './NextUp';
 import { FirebaseContext } from '../utilities/Firebase';
 
 import { mainStyles } from '../utilities/Styles';
+import PreviousPicks from './PreviousPicks';
 
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
   const [addTournamentTeam] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
@@ -27,11 +28,11 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       username: firebaseTournamentInfo.pickOrder[0].user.username,
       team: pick.name,
       seed: pick.seed,
+      region: pick.region,
     });
     if (previousPicks.length > 3) {
       previousPicks.pop();
     }
-    console.log('PREVIOUS', previousPicks);
     previousPick(tournamentId, previousPicks);
     newPickOrder.shift();
     nextPick(tournamentId, newPickOrder);
@@ -49,7 +50,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
         next={firebaseTournamentInfo.pickOrder[1].user.username}
         later={firebaseTournamentInfo.pickOrder[2].user.username}
       />
-      {/* TODO: PREVIOUS THREE PICKS */}
+      <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks} />
       {firebaseTournamentInfo.pickOrder[0].id === currentMember && (
         <Button style={mainStyles.goldButton} onPress={() => selectTeam()}>
           <Text style={mainStyles.goldButtonText}>Pick Now</Text>
