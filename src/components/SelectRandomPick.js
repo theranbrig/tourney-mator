@@ -29,6 +29,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       team: pick.name,
       seed: pick.seed,
       region: pick.region,
+      pick: 64 - newPickOrder.length + 1,
     });
     if (previousPicks.length > 3) {
       previousPicks.pop();

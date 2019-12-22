@@ -3,7 +3,7 @@ import { View, Text } from 'native-base';
 
 const PreviousPicks = ({ previousPicks }) => (
   <View style={{ width: '100%', flex: 1 }}>
-    <Text>Previous Picks</Text>
+    <Text style={{ fontFamily: 'graduate', color: '#fc3', textAlign: 'center', fontSize: 16 }}>PREVIOUS PICKS</Text>
     <View
       style={{
         width: '95%',
@@ -18,7 +18,7 @@ const PreviousPicks = ({ previousPicks }) => (
         previousPicks.map(pick => (
           <View id={pick.team} style={{ width: '25%', textAlign: 'center', margin: 2 }}>
             <Text style={{ fontFamily: 'graduate', color: '#fc3', textAlign: 'center', fontSize: 10 }}>
-              {pick.username}
+              {pick.pick} - {pick.username}
             </Text>
             <Text style={{ fontFamily: 'graduate', color: '#fc3', textAlign: 'center', fontSize: 10 }}>
               {pick.seed}
@@ -28,7 +28,7 @@ const PreviousPicks = ({ previousPicks }) => (
         ))
       ) : (
         <View>
-          <Text>No Picks Yet</Text>
+          <Text style={{ fontFamily: 'graduate', color: '#fc3', textAlign: 'center', fontSize: 10 }}>No Picks Yet</Text>
         </View>
       )}
     </View>
