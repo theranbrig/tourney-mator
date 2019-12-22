@@ -21,7 +21,10 @@ const NextUp = ({ current, next, later, picks, currentPick }) => {
         {picks.map((pick, index) => (
           <View style={{ width: '25%', textAlign: 'center', margin: 2 }}>
             <Text style={{ fontFamily: 'graduate', color: '#fff', textAlign: 'center', fontSize: 12 }}>
-              {currentPick + index + 1} - {pick.user.username}
+              <Text style={{ fontFamily: 'graduate', color: '#fc0', textAlign: 'center', fontSize: 12 }}>
+                {currentPick + index + 1}
+              </Text>{' '}
+              - {pick.user.username}
             </Text>
           </View>
         ))}

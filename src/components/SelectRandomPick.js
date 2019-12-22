@@ -49,16 +49,16 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
   return (
     <View style={{ height: 400, width: '100%' }}>
       {/* TODO: TIMER */}
-      {/* TODO: REMAINING TEAMS */}
       <CurrentPick pick={firebaseTournamentInfo.pickOrder[0]} currentPick={currentPickNumber} />
       <NextUp picks={firebaseTournamentInfo.pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
       <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks} />
+      {/* TODO: REMAINING TEAMS */}
+      {/* TODO: MY CURRENT PICKS */}
       {firebaseTournamentInfo.pickOrder[0].id === currentMember && (
         <Button style={mainStyles.goldButton} onPress={() => selectTeam()}>
           <Text style={mainStyles.goldButtonText}>Pick Now</Text>
         </Button>
       )}
-      {/* TODO: MY CURRENT PICKS */}
     </View>
   );
 };
