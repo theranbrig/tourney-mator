@@ -7,11 +7,14 @@ import { FirebaseContext } from '../utilities/Firebase';
 
 import { mainStyles } from '../utilities/Styles';
 import PreviousPicks from './PreviousPicks';
+import CurrentPick from './CurrentPick';
 
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
   const [addTournamentTeam] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
 
   const { nextPick, removeTeam, previousPick } = useContext(FirebaseContext);
+
+  const currentPickNumber = 64 - firebaseTournamentInfo.pickOrder.length + 1;
 
   // TODO: NEEDS TO BE MOVED OUT FOR REUSABLITY
   const selectTeam = async () => {
@@ -46,11 +49,9 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
   return (
     <View style={{ height: 400, width: '100%' }}>
       {/* TODO: TIMER */}
-      <NextUp
-        current={firebaseTournamentInfo.pickOrder[0].user.username}
-        next={firebaseTournamentInfo.pickOrder[1].user.username}
-        later={firebaseTournamentInfo.pickOrder[2].user.username}
-      />
+      {/* TODO: REMAINING TEAMS */}
+      <CurrentPick pick={firebaseTournamentInfo.pickOrder[0]} currentPick={currentPickNumber} />
+      <NextUp picks={firebaseTournamentInfo.pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
       <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks} />
       {firebaseTournamentInfo.pickOrder[0].id === currentMember && (
         <Button style={mainStyles.goldButton} onPress={() => selectTeam()}>
