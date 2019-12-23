@@ -49,6 +49,7 @@ const FirebaseProvider = ({ children }) => {
         currentMembers: [member],
         status: 'WAITING',
         teams: tournamentGroup,
+        remainingTeams: tournamentGroup,
       });
   };
 
@@ -96,6 +97,13 @@ const FirebaseProvider = ({ children }) => {
       .collection('tournaments')
       .doc(tournamentId)
       .update({ previousPicks });
+  };
+
+  const remainingPicks = (tournamentId, remainingPicks) => {
+    dbh
+      .collection('tournaments')
+      .doc(tournamentId)
+      .update({ remainingPicks });
   };
 
   // Watches all users
