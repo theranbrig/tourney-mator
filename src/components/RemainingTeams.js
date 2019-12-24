@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'native-base';
 
-const RemainingTeams = () => (
+const RemainingTeams = ({}) => (
   <View>
     <Text />
   </View>

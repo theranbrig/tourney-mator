@@ -12,31 +12,37 @@ import CurrentPick from './CurrentPick';
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
   const [addTournamentTeam] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
 
-  const { nextPick, removeTeam, previousPick, remainingPicks } = useContext(FirebaseContext);
+  const { setNextPicks, removeTeam, setPreviousPick, setRemainingTeams } = useContext(FirebaseContext);
 
-  const currentPickNumber = 64 - firebaseTournamentInfo.pickOrder.length + 1;
+  const { teams, remainingTeams, previousPicks, pickOrder } = firebaseTournamentInfo;
+
+  const currentPickNumber = 64 - pickOrder.length + 1;
 
   // TODO: NEEDS TO BE MOVED OUT FOR REUSABLITY
   const selectTeam = async () => {
-    const randomTeamNumber = Math.floor(Math.random() * firebaseTournamentInfo.teams.length);
-    const pick = firebaseTournamentInfo.teams[randomTeamNumber];
+    const randomTeamNumber = Math.floor(Math.random() * teams.length);
+    const pick = teams[randomTeamNumber];
     // GraphQL Add Tournament Team to Member
     await addTournamentTeam({
       variables: { tournamentMemberId: currentMember, teamId: pick.id },
     });
 
-    const newTeamList = firebaseTournamentInfo.teams.filter(team => team.id !== pick.id);
+    const newTeamList = teams.filter(team => team.id !== pick.id);
     removeTeam(tournamentId, newTeamList);
     // Set Remaining Teams List
-    const newPickedTeams = firebaseTournamentInfo.remainingTeams.map(team => team);
-    newPickedTeams[randomTeamNumber] = {
-      ...newPickedTeams[randomTeamNumber],
+    // TODO: NEEDS TO SEARCH FOR ITEM IN ARRAY
+    const pickedTeams = remainingTeams.map(team => team);
+    pickedTeams[randomTeamNumber] = {
+      ...pickedTeams[randomTeamNumber],
       picked: true,
     };
+    const newPickedTeams = [...pickedTeams];
+    console.log(newPickedTeams);
+    await setRemainingTeams(tournamentId, pickedTeams);
     // Set Previous 3 Picks
-    const previousPicks = firebaseTournamentInfo.previousPicks.map(member => member);
+    const previousPicks = previousPicks.map(member => member);
     previousPicks.unshift({
-      username: firebaseTournamentInfo.pickOrder[0].user.username,
+      username: pickOrder[0].user.username,
       team: pick.name,
       seed: pick.seed,
       region: pick.region,
@@ -47,23 +53,23 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
     }
     previousPick(tournamentId, previousPicks);
     // Set New Pick Order
-    const newPickOrder = firebaseTournamentInfo.pickOrder.map(member => member);
+    const newPickOrder = pickOrder.map(member => member);
     newPickOrder.shift();
     nextPick(tournamentId, newPickOrder);
   };
 
   useEffect(() => {
-    console.log('EQUAL', firebaseTournamentInfo.pickOrder[0].id === currentMember);
+    console.log('EQUAL', pickOrder[0].id === currentMember);
   }, [firebaseTournamentInfo, currentMember]);
 
   return (
     <View style={{ height: 400, width: '100%' }}>
       {/* TODO: TIMER */}
-      <CurrentPick pick={firebaseTournamentInfo.pickOrder[0]} currentPick={currentPickNumber} />
-      <NextUp picks={firebaseTournamentInfo.pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
+      <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} />
+      <NextUp picks={pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
       <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks} />
       {/* TODO: REMAINING TEAMS */}
-      {firebaseTournamentInfo.pickOrder[0].id === currentMember && (
+      {pickOrder[0].id === currentMember && (
         <Button style={mainStyles.goldButton} onPress={() => selectTeam()}>
           <Text style={mainStyles.goldButtonText}>Pick Now</Text>
         </Button>

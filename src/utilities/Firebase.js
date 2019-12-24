@@ -78,7 +78,7 @@ const FirebaseProvider = ({ children }) => {
       });
   };
 
-  const nextPick = (tournamentId, pickOrder) => {
+  const setNextPick = (tournamentId, pickOrder) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
@@ -92,18 +92,18 @@ const FirebaseProvider = ({ children }) => {
       .update({ teams });
   };
 
-  const previousPick = (tournamentId, previousPicks) => {
+  const setPreviousPick = (tournamentId, previousPicks) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
       .update({ previousPicks });
   };
 
-  const remainingPicks = (tournamentId, remainingPicks) => {
+  const setRemainingTeams = (tournamentId, remainingTeams) => {
     dbh
       .collection('tournaments')
       .doc(tournamentId)
-      .update({ remainingPicks });
+      .update({ remainingTeams });
   };
 
   // Watches all users
@@ -126,9 +126,10 @@ const FirebaseProvider = ({ children }) => {
         joinLiveTournament,
         setFirebasePickOrder,
         setTournamentStatus,
-        nextPick,
+        setNextPick,
         removeTeam,
-        previousPick,
+        setPreviousPick,
+        setRemainingTeams,
       }}
     >
       {children}
