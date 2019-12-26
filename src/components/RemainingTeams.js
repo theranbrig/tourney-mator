@@ -11,19 +11,28 @@ const RemainingTeams = ({ region, teams, title }) => {
 
   return (
     <View style={{ backgroundColor: '#fff' }}>
-      <Text>{title}</Text>
+      <Text style={{ fontFamily: 'graduate', color: '#7a0019', textAlign: 'center', fontSize: 14 }}>{title}</Text>
       {teamGroup.map(team => (
         <Text
           style={
             team.picked
-              ? { fontFamily: 'graduate', color: '#7a0019', textAlign: 'center', fontSize: 14 }
-              : { fontFamily: 'graduate', color: '#fc0', textAlign: 'center', fontSize: 14 }
+              ? {
+                  fontFamily: 'graduate',
+                  color: '#fc0',
+                  textAlign: 'center',
+                  fontSize: 14,
+                  textDecorationLine: 'line-through',
+                  textDecorationStyle: 'solid',
+                }
+              : {
+                  fontFamily: 'graduate',
+                  color: '#7a0019',
+                  textAlign: 'center',
+                  fontSize: 14,
+                }
           }
         >
-          <Text style={{ fontFamily: 'graduate', color: '#7a0019', textAlign: 'center', fontSize: 14 }}>
-            {team.seed} -
-          </Text>
-          {team.name}
+          {team.seed} - {team.name}
         </Text>
       ))}
     </View>

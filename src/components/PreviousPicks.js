@@ -9,7 +9,6 @@ const PreviousPicks = ({ previousPicks }) => (
       borderBottomWidth: 2,
       borderBottomColor: '#fff',
       paddingTop: 10,
-      paddingBottom: 20,
     }}
   >
     <Text style={{ fontFamily: 'graduate', color: '#fc3', textAlign: 'center', fontSize: 16 }}>PREVIOUS PICKS</Text>
@@ -21,6 +20,7 @@ const PreviousPicks = ({ previousPicks }) => (
         flexDirection: 'row',
         justifyContent: 'space-around',
         textAlign: 'center',
+   
       }}
     >
       {previousPicks.length ? (
