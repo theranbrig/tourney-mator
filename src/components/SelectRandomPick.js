@@ -1,18 +1,19 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { View, Text, Button } from 'native-base';
 import { useMutation } from '@apollo/react-hooks';
+import { TouchableOpacity } from 'react-native';
+import SpecialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { ADD_TOURNAMENT_TEAM_MUTATION } from '../utilities/Mutations';
 import NextUp from './NextUp';
 import { FirebaseContext } from '../utilities/Firebase';
-
 import { mainStyles } from '../utilities/Styles';
 import PreviousPicks from './PreviousPicks';
 import CurrentPick from './CurrentPick';
-
 import RemainingTeams from './RemainingTeams';
 
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
   const [addTournamentTeam] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const { setNextPick, removeTeam, setPreviousPick, setRemainingTeams } = useContext(FirebaseContext);
 
@@ -63,7 +64,40 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} />
       <NextUp picks={pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
       <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks} />
-      <RemainingTeams teams={firebaseTournamentInfo.remainingTeams} region="W" title="WEST" />
+      <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}>
+        <View
+          style={{
+            flexDirection: 'row',
+            padding: 10,
+            textAlign: 'center',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: '#fff',
+            borderBottomColor: '#7a0019',
+            borderBottomWidth: 2,
+            width: '100%',
+          }}
+        >
+          <Text
+            style={{
+              color: '#7a0019',
+              fontFamily: 'graduate',
+              fontSize: 16,
+            }}
+          >
+            View Selected Teams
+          </Text>
+          <SpecialIcon name={isCollapsed ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
+        </View>
+      </TouchableOpacity>
+      <View>
+        <View style={{ height: 1, width: '100%' }} />
+        {!isCollapsed && (
+          <View style={{ padding: 16 }}>
+            <RemainingTeams teams={firebaseTournamentInfo.remainingTeams} region="W" title="WEST" />
+          </View>
+        )}
+      </View>
       {pickOrder[0].id === currentMember && (
         <Button style={mainStyles.goldButton} onPress={() => selectTeam()}>
           <Text style={mainStyles.goldButtonText}>Pick Now</Text>

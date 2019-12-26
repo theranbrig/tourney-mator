@@ -10,7 +10,7 @@ const RemainingTeams = ({ region, teams, title }) => {
   }, [teams]);
 
   return (
-    <View style={{ backgroundColor: '#fff' }}>
+    <View style={{ backgroundColor: '#fff', width: '100%' }}>
       <Text style={{ fontFamily: 'graduate', color: '#7a0019', textAlign: 'center', fontSize: 14 }}>{title}</Text>
       {teamGroup.map(team => (
         <Text
