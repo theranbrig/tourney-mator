@@ -9,10 +9,12 @@ import { mainStyles } from '../utilities/Styles';
 import PreviousPicks from './PreviousPicks';
 import CurrentPick from './CurrentPick';
 
+import RemainingTeams from './RemainingTeams';
+
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
   const [addTournamentTeam] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
 
-  const { setNextPicks, removeTeam, setPreviousPick, setRemainingTeams } = useContext(FirebaseContext);
+  const { setNextPick, removeTeam, setPreviousPick, setRemainingTeams } = useContext(FirebaseContext);
 
   const { teams, remainingTeams, previousPicks, pickOrder } = firebaseTournamentInfo;
 
@@ -26,36 +28,29 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
     await addTournamentTeam({
       variables: { tournamentMemberId: currentMember, teamId: pick.id },
     });
-
     const newTeamList = teams.filter(team => team.id !== pick.id);
     removeTeam(tournamentId, newTeamList);
     // Set Remaining Teams List
-    // TODO: NEEDS TO SEARCH FOR ITEM IN ARRAY
-    const pickedTeams = remainingTeams.map(team => team);
-    pickedTeams[randomTeamNumber] = {
-      ...pickedTeams[randomTeamNumber],
-      picked: true,
-    };
-    const newPickedTeams = [...pickedTeams];
-    console.log(newPickedTeams);
+    const pickedTeams = remainingTeams.map(team => (team.id === pick.id ? { ...team, picked: true } : team));
+    console.log(pickedTeams);
     await setRemainingTeams(tournamentId, pickedTeams);
+    // Set New Pick Order
+    const newPickOrder = pickOrder.map(member => member);
+    newPickOrder.shift();
+    setNextPick(tournamentId, newPickOrder);
     // Set Previous 3 Picks
-    const previousPicks = previousPicks.map(member => member);
-    previousPicks.unshift({
+    const newPreviousPicks = previousPicks.map(member => member);
+    newPreviousPicks.unshift({
       username: pickOrder[0].user.username,
       team: pick.name,
       seed: pick.seed,
       region: pick.region,
-      pick: 64 - newPickOrder.length + 1,
+      pick: 64 - newPickOrder.length,
     });
-    if (previousPicks.length > 3) {
-      previousPicks.pop();
+    if (newPreviousPicks.length > 3) {
+      newPreviousPicks.pop();
     }
-    previousPick(tournamentId, previousPicks);
-    // Set New Pick Order
-    const newPickOrder = pickOrder.map(member => member);
-    newPickOrder.shift();
-    nextPick(tournamentId, newPickOrder);
+    setPreviousPick(tournamentId, newPreviousPicks);
   };
 
   useEffect(() => {
@@ -68,7 +63,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} />
       <NextUp picks={pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
       <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks} />
-      {/* TODO: REMAINING TEAMS */}
+      <RemainingTeams teams={firebaseTournamentInfo.remainingTeams} region="W" title="WEST" />
       {pickOrder[0].id === currentMember && (
         <Button style={mainStyles.goldButton} onPress={() => selectTeam()}>
           <Text style={mainStyles.goldButtonText}>Pick Now</Text>
