@@ -10,8 +10,10 @@ const RemainingTeams = ({ region, teams, title }) => {
   }, [teams]);
 
   return (
-    <View style={{ backgroundColor: '#fff', width: '100%' }}>
-      <Text style={{ fontFamily: 'graduate', color: '#7a0019', textAlign: 'center', fontSize: 14 }}>{title}</Text>
+    <View style={{ backgroundColor: '#fff', width: '100%', padding: 5 }}>
+      <Text style={{ fontFamily: 'graduate', color: '#7a0019', textAlign: 'center', fontSize: 14, paddingBottom: 5 }}>
+        {title}
+      </Text>
       {teamGroup.map(team => (
         <Text
           style={
@@ -20,7 +22,7 @@ const RemainingTeams = ({ region, teams, title }) => {
                   fontFamily: 'graduate',
                   color: '#fc0',
                   textAlign: 'center',
-                  fontSize: 14,
+                  fontSize: 12,
                   textDecorationLine: 'line-through',
                   textDecorationStyle: 'solid',
                 }
@@ -28,7 +30,7 @@ const RemainingTeams = ({ region, teams, title }) => {
                   fontFamily: 'graduate',
                   color: '#7a0019',
                   textAlign: 'center',
-                  fontSize: 14,
+                  fontSize: 12,
                 }
           }
         >

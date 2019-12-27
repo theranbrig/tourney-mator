@@ -48,9 +48,9 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       region: pick.region,
       pick: 64 - newPickOrder.length,
     });
-    if (newPreviousPicks.length > 3) {
-      newPreviousPicks.pop();
-    }
+    // if (newPreviousPicks.length > 3) {
+    //   newPreviousPicks.pop();
+    // }
     setPreviousPick(tournamentId, newPreviousPicks);
   };
 
@@ -61,9 +61,9 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
   return (
     <View style={{ height: 800, width: '100%' }}>
       {/* TODO: TIMER */}
-      <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} />
+      <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} currentMember={currentMember} />
       <NextUp picks={pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
-      <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks} />
+      <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks.slice(0, 3)} />
       <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}>
         <View
           style={{
@@ -85,7 +85,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
               fontSize: 16,
             }}
           >
-            View Selected Teams
+            View Remaining Teams
           </Text>
           <SpecialIcon name={isCollapsed ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
         </View>
@@ -93,7 +93,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       <View>
         <View style={{ height: 1, width: '100%' }} />
         {!isCollapsed && (
-          <View style={{ padding: 16 }}>
+          <View>
             <RemainingTeams teams={firebaseTournamentInfo.remainingTeams} region="W" title="WEST" />
           </View>
         )}

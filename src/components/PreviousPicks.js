@@ -20,7 +20,7 @@ const PreviousPicks = ({ previousPicks }) => (
         flexDirection: 'row',
         justifyContent: 'space-around',
         textAlign: 'center',
-   
+
       }}
     >
       {previousPicks.length ? (
