@@ -13,7 +13,8 @@ import RemainingTeams from './RemainingTeams';
 
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
   const [addTournamentTeam] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const [isRemainingCollapsed, setIsRemainingCollapsed] = useState(true);
 
   const { setNextPick, removeTeam, setPreviousPick, setRemainingTeams } = useContext(FirebaseContext);
 
@@ -48,9 +49,6 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       region: pick.region,
       pick: 64 - newPickOrder.length,
     });
-    // if (newPreviousPicks.length > 3) {
-    //   newPreviousPicks.pop();
-    // }
     setPreviousPick(tournamentId, newPreviousPicks);
   };
 
@@ -64,7 +62,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} currentMember={currentMember} />
       <NextUp picks={pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
       <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks.slice(0, 3)} />
-      <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}>
+      <TouchableOpacity onPress={() => setIsRemainingCollapsed(!isRemainingCollapsed)}>
         <View
           style={{
             flexDirection: 'row',
@@ -74,7 +72,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
             alignItems: 'center',
             backgroundColor: '#fff',
             borderBottomColor: '#7a0019',
-            borderBottomWidth: 2,
+            borderBottomWidth: 1,
             width: '100%',
           }}
         >
@@ -87,12 +85,12 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
           >
             View Remaining Teams
           </Text>
-          <SpecialIcon name={isCollapsed ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
+          <SpecialIcon name={isRemainingCollapsed ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
         </View>
       </TouchableOpacity>
       <View>
         <View style={{ height: 1, width: '100%' }} />
-        {!isCollapsed && (
+        {!isRemainingCollapsed && (
           <View>
             <RemainingTeams teams={firebaseTournamentInfo.remainingTeams} region="W" title="WEST" />
           </View>

@@ -1,18 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, TouchableOpacity, ScrollView, RefreshControl, Alert } from 'react-native';
-import {
-  Button,
-  Text,
-  List,
-  ListItem,
-  Body,
-  Right,
-  Header,
-  Title,
-  Subtitle,
-  Left,
-  Icon,
-} from 'native-base';
+import { Button, Text, List, ListItem, Body, Right, Header, Title, Subtitle, Left, Icon } from 'native-base';
 import Layout from '../src/utilities/Layout';
 import BottomFooter from '../src/components/Footer';
 import { UserContext } from '../src/utilities/UserContext';
@@ -57,36 +45,25 @@ const MyPoolsScreen = ({ history }) => {
     ]);
   };
 
-  const [acceptRequest, onAcceptCompleted: onCompleted, acceptData: data] = useMutation(
-    ACCEPT_REQUEST_MUTATION,
-    {
-      onAcceptCompleted: async data => {
-        await userRefetch();
-      },
-    }
-  );
+  const [acceptRequest, onAcceptCompleted: onCompleted, acceptData: data] = useMutation(ACCEPT_REQUEST_MUTATION, {
+    onAcceptCompleted: async data => {
+      await userRefetch();
+    },
+  });
 
-  const [deleteRequest, onDeleteCompleted: onCompleted, deleteData: data] = useMutation(
-    DELETE_REQUEST_MUTATION,
-    {
-      onDeleteCompleted: async data => {
-        await userRefetch();
-      },
-    }
-  );
+  const [deleteRequest, onDeleteCompleted: onCompleted, deleteData: data] = useMutation(DELETE_REQUEST_MUTATION, {
+    onDeleteCompleted: async data => {
+      await userRefetch();
+    },
+  });
 
-  const [leaveTournament, onLeaveTournamentCompleted: onCompleted] = useMutation(
-    LEAVE_TOURNAMENT_MUTATION
-  );
+  const [leaveTournament, onLeaveTournamentCompleted: onCompleted] = useMutation(LEAVE_TOURNAMENT_MUTATION);
 
-  const [joinTournament, onJoinTournamentCompleted: onCompleted, onError] = useMutation(
-    JOIN_TOURNAMENT_MUTATION,
-    {
-      onError: error => {
-        setError(error.message);
-      },
-    }
-  );
+  const [joinTournament, onJoinTournamentCompleted: onCompleted, onError] = useMutation(JOIN_TOURNAMENT_MUTATION, {
+    onError: error => {
+      setError(error.message);
+    },
+  });
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -122,7 +99,8 @@ const MyPoolsScreen = ({ history }) => {
             style={{ backgroundColor: '#fc3' }}
             showsVerticalScrollIndicator={false}
           />
-        }>
+        }
+      >
         {user.tournamentRequests ? (
           <RequestList user={user} acceptRequest={acceptRequest} deleteRequest={deleteRequest} />
         ) : (
@@ -139,14 +117,14 @@ const MyPoolsScreen = ({ history }) => {
                   fontFamily: 'graduate',
                   fontSize: 20,
                   textAlign: 'center',
-                }}>
+                }}
+              >
                 No Pools Yet
               </Text>
             )}
           </View>
         </Layout>
       </ScrollView>
-
       <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}>
         <View
           style={{
@@ -158,32 +136,25 @@ const MyPoolsScreen = ({ history }) => {
             backgroundColor: '#fc3',
             borderBottomColor: '#7a0019',
             borderBottomWidth: 2,
-          }}>
+          }}
+        >
           <Text
             style={{
               color: '#7a0019',
               fontFamily: 'graduate',
               fontSize: 16,
-            }}>
+            }}
+          >
             Join A Pool
           </Text>
-          <SpecialIcon
-            name={isCollapsed ? 'chevron-up' : 'chevron-down'}
-            size={30}
-            color="#7a0019"
-          />
+          <SpecialIcon name={isCollapsed ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
         </View>
       </TouchableOpacity>
       <View>
         <View style={{ height: 1, width: '100%' }} />
         {!isCollapsed && (
           <View style={{ padding: 16 }}>
-            <JoinPool
-              joinTournament={joinTournament}
-              joinError={error}
-              userRefetch={userRefetch}
-              onError={onError}
-            />
+            <JoinPool joinTournament={joinTournament} joinError={error} userRefetch={userRefetch} onError={onError} />
           </View>
         )}
       </View>
