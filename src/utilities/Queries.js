@@ -73,6 +73,12 @@ export const TOURNAMENT_MEMBER_QUERY = gql`
         id
         username
       }
+      teams {
+        id
+        name
+        seed
+        region
+      }
     }
   }
 `;

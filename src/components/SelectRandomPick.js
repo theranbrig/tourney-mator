@@ -10,6 +10,7 @@ import { mainStyles } from '../utilities/Styles';
 import PreviousPicks from './PreviousPicks';
 import CurrentPick from './CurrentPick';
 import RemainingTeams from './RemainingTeams';
+import MyPicks from './MyPicks';
 
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
   const [addTournamentTeam] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
@@ -62,6 +63,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} currentMember={currentMember} />
       <NextUp picks={pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
       <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks.slice(0, 3)} />
+      <MyPicks currentMember={currentMember} />
       <TouchableOpacity onPress={() => setIsRemainingCollapsed(!isRemainingCollapsed)}>
         <View
           style={{
