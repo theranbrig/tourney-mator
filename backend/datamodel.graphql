@@ -60,3 +60,11 @@ type TournamentGroup {
   teams: [Team] @scalarList(strategy: RELATION)
   rounds: Float
 }
+
+type TournamentTeam {
+  id: ID! @id @unique
+  team: Team
+  member: TournamentMember
+  points: Float
+  pickNumber: Float
+}

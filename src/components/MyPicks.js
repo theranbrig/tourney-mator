@@ -14,7 +14,7 @@ const MyPicks = ({ currentMember }) => {
 
   return (
     <View style={{ padding: 10 }}>
-      <Text style={{ color: '#fc0', fontFamily: 'graduate', fontSize: 24, textAlign: 'center', marginBottom: 5 }}>
+      <Text style={{ color: '#fc0', fontFamily: 'graduate', fontSize: 24, textAlign: 'center', margin: 5 }}>
         My Picks
       </Text>
       <View
