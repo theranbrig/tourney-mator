@@ -18,6 +18,7 @@ import RequestList from '../src/components/PoolRequests';
 import JoinPool from '../src/components/JoinPool';
 import PoolsHeader from '../src/components/PoolsHeader';
 import PoolsList from '../src/components/PoolsList';
+import RevealBox from '../src/components/RevealBox';
 
 const MyPoolsScreen = ({ history }) => {
   const { user, userRefetch } = useContext(UserContext);
@@ -125,39 +126,9 @@ const MyPoolsScreen = ({ history }) => {
           </View>
         </Layout>
       </ScrollView>
-      <TouchableOpacity onPress={() => setIsCollapsed(!isCollapsed)}>
-        <View
-          style={{
-            flexDirection: 'row',
-            padding: 10,
-            textAlign: 'center',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            backgroundColor: '#fc3',
-            borderBottomColor: '#7a0019',
-            borderBottomWidth: 2,
-          }}
-        >
-          <Text
-            style={{
-              color: '#7a0019',
-              fontFamily: 'graduate',
-              fontSize: 16,
-            }}
-          >
-            Join A Pool
-          </Text>
-          <SpecialIcon name={isCollapsed ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
-        </View>
-      </TouchableOpacity>
-      <View>
-        <View style={{ height: 1, width: '100%' }} />
-        {!isCollapsed && (
-          <View style={{ padding: 16 }}>
-            <JoinPool joinTournament={joinTournament} joinError={error} userRefetch={userRefetch} onError={onError} />
-          </View>
-        )}
-      </View>
+      <RevealBox propHeight={400} buttonTitle="Join A Pool">
+        <JoinPool joinTournament={joinTournament} joinError={error} userRefetch={userRefetch} onError={onError} />
+      </RevealBox>
       <BottomFooter history={history} />
     </>
   );

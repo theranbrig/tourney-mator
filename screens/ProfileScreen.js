@@ -25,3 +25,36 @@ const ProfileScreen = ({ history }) => {
 };
 
 export default ProfileScreen;
+
+// import React, { Component } from 'react';
+// import { Text, View, TouchableWithoutFeedback } from 'react-native';
+// import { Spring, animated } from 'react-spring/renderprops-native';
+
+// const AnimatedView = animated(View);
+
+// const styles = {
+//   flex: 1,
+//   margin: 0,
+//   backgroundColor: 'red',
+//   alignItems: 'center',
+//   justifyContent: 'center',
+// };
+
+// export default class App extends Component {
+//   state = { flag: true };
+//   toggle = () => this.setState(state => ({ flag: !state.flag }));
+//   render() {
+//     const { flag } = this.state;
+//     return (
+//       <Spring native from={{ margin: 0 }} to={{ margin: flag ? 100 : 0 }}>
+//         {props => (
+//           <TouchableWithoutFeedback onPressIn={() => this.toggle()}>
+//             <AnimatedView style={{ ...styles, ...props }}>
+//               <Text>{flag ? 'true' : 'false'}</Text>
+//             </AnimatedView>
+//           </TouchableWithoutFeedback>
+//         )}
+//       </Spring>
+//     );
+//   }
+// }
