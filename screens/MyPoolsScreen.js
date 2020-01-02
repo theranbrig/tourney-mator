@@ -126,7 +126,7 @@ const MyPoolsScreen = ({ history }) => {
           </View>
         </Layout>
       </ScrollView>
-      <RevealBox propHeight={400} buttonTitle="Join A Pool">
+      <RevealBox propHeight={300} buttonTitle="Join A Pool">
         <JoinPool joinTournament={joinTournament} joinError={error} userRefetch={userRefetch} onError={onError} />
       </RevealBox>
       <BottomFooter history={history} />

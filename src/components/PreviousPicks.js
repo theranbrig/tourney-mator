@@ -2,15 +2,7 @@ import React from 'react';
 import { View, Text } from 'native-base';
 
 const PreviousPicks = ({ previousPicks }) => (
-  <View
-    style={{
-      width: '100%',
-      flex: 1,
-      borderBottomWidth: 2,
-      borderBottomColor: '#fff',
-      paddingTop: 10,
-    }}
-  >
+  <View style={{ borderBottomWidth: 2, borderBottomColor: '#fff', paddingTop: 10, height: 100, marginTop: 100 }}>
     <Text style={{ fontFamily: 'graduate', color: '#fc3', textAlign: 'center', fontSize: 16 }}>PREVIOUS PICKS</Text>
     <View
       style={{
@@ -20,7 +12,6 @@ const PreviousPicks = ({ previousPicks }) => (
         flexDirection: 'row',
         justifyContent: 'space-around',
         textAlign: 'center',
-
       }}
     >
       {previousPicks.length ? (

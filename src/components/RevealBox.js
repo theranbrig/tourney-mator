@@ -7,45 +7,49 @@ const AnimatedView = animated(View);
 
 const styles = {
   margin: 0,
-  backgroundColor: 'white',
   alignItems: 'center',
   justifyContent: 'center',
 };
 
-const RevealBox = ({ children, propHeight, buttonTitle }) => {
+const RevealBox = ({ children, propHeight, buttonTitle, propBackground }) => {
   const [collapse, setCollapse] = useState(false);
   return (
-    <Spring native from={{ height: 0, opacity: 0 }} to={{ height: collapse ? propHeight : 0, opacity: 1  }}>
+    <Spring
+      native
+      from={{ height: 0, opacity: 0 }}
+      to={{ height: collapse ? propHeight : 0, opacity: collapse ? 1 : 0 }}
+    >
       {props => (
         <TouchableOpacity onPressIn={() => setCollapse(!collapse)}>
-          <>
-            <View
+          <View
+            style={{
+              flexDirection: 'row',
+              padding: 5,
+              textAlign: 'center',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              backgroundColor: '#fc3',
+              borderBottomColor: '#fff',
+              borderBottomWidth: 2,
+              borderTopColor: '#fff',
+              borderTopWidth: 2,
+              marginTop: 5,
+            }}
+          >
+            <Text
               style={{
-                flexDirection: 'row',
-                padding: 5,
-                textAlign: 'center',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                backgroundColor: '#fc3',
-                borderBottomColor: '#7a0019',
-                borderBottomWidth: 2,
+                color: '#7a0019',
+                fontFamily: 'graduate',
+                fontSize: 16,
               }}
             >
-              <Text
-                style={{
-                  color: '#7a0019',
-                  fontFamily: 'graduate',
-                  fontSize: 16,
-                }}
-              >
-                {buttonTitle}
-              </Text>
-              <SpecialIcon name={collapse ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
-            </View>
-            <AnimatedView style={{ ...styles, ...props,opacity: collapse ? 1: 0 }}>
-              <View>{children}</View>
-            </AnimatedView>
-          </>
+              {buttonTitle}
+            </Text>
+            <SpecialIcon name={!collapse ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
+          </View>
+          <AnimatedView style={{ ...styles, ...props, opacity: collapse ? 1 : 0, backgroundColor: propBackground }}>
+            <View>{children}</View>
+          </AnimatedView>
         </TouchableOpacity>
       )}
     </Spring>

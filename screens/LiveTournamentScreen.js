@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, SafeAreaView } from 'react-native';
 import Layout from '../src/utilities/Layout';
 import SelectOrder from '../src/components/SelectOrder';
 import { FirebaseContext } from '../src/utilities/Firebase';
@@ -36,7 +36,7 @@ const LiveTournamentScreen = ({ history }) => {
 
   return (
     <Layout>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text>Live Tournament</Text>
         {docSnap && docSnap.status === 'SELECTPICKS' && (
           <SelectOrder firebaseTournamentInfo={docSnap} tournamentId={tournamentId} admin={admin} />
@@ -50,7 +50,7 @@ const LiveTournamentScreen = ({ history }) => {
         )}
         {docSnap && docSnap.status === 'PICKS' && <Text>Set Order</Text>}
         {docSnap && docSnap.status === 'RESULTS' && <Text>Set Order</Text>}
-      </View>
+      </SafeAreaView>
     </Layout>
   );
 };
