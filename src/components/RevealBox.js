@@ -18,6 +18,7 @@ const RevealBox = ({ children, propHeight, buttonTitle, propBackground }) => {
       native
       from={{ height: 0, opacity: 0 }}
       to={{ height: collapse ? propHeight : 0, opacity: collapse ? 1 : 0 }}
+      
     >
       {props => (
         <TouchableOpacity onPressIn={() => setCollapse(!collapse)}>
@@ -48,7 +49,7 @@ const RevealBox = ({ children, propHeight, buttonTitle, propBackground }) => {
             <SpecialIcon name={!collapse ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
           </View>
           <AnimatedView style={{ ...styles, ...props, opacity: collapse ? 1 : 0, backgroundColor: propBackground }}>
-            <View>{children}</View>
+            {children}
           </AnimatedView>
         </TouchableOpacity>
       )}

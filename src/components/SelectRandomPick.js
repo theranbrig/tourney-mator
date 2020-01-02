@@ -18,11 +18,19 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
 
   const [isRemainingCollapsed, setIsRemainingCollapsed] = useState(true);
 
+  const [randomTeamView, setRandomTeamView] = useState('');
+
   const { setNextPick, removeTeam, setPreviousPick, setRemainingTeams } = useContext(FirebaseContext);
 
   const { teams, remainingTeams, previousPicks, pickOrder } = firebaseTournamentInfo;
 
   const currentPickNumber = 64 - pickOrder.length + 1;
+
+  const displayRandomTeam = () => {
+    const newRemainingTeams = remainingTeams.filter(team => !team.picked);
+    const randomTeamNumber = Math.floor(Math.random() * newRemainingTeams.length);
+    setRandomTeamView(newRemainingTeams[randomTeamNumber].name);
+  };
 
   // TODO: NEEDS TO BE MOVED OUT FOR REUSABLITY
   const selectTeam = async () => {
@@ -59,24 +67,28 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
   }, [firebaseTournamentInfo, currentMember]);
 
   return (
-    <ScrollView style={{ width: '100%' }}>
+    <View style={{ width: '100%' }}>
       {/* TODO: TIMER */}
       <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} currentMember={currentMember} />
       <NextUp picks={pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
       <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks.slice(0, 3)} />
+      <View style={{ height: 200 }}>
+        <View>
+          <Text>{randomTeamView}</Text>
+        </View>
+        {pickOrder[0].id === currentMember && (
+          <Button style={mainStyles.goldButton} onPress={() => selectTeam()}>
+            <Text style={mainStyles.goldButtonText}>Pick Now</Text>
+          </Button>
+        )}
+      </View>
       <RevealBox buttonTitle="Remaining Teams" propHeight={300} propBackground="white">
         <RemainingTeams teams={firebaseTournamentInfo.remainingTeams} region="W" title="WEST" />
       </RevealBox>
-      <RevealBox buttonTitle="My Picks" propHeight={320} propBackground="white">
+      <RevealBox buttonTitle="My Picks" propHeight={-350} propBackground="white">
         <MyPicks currentMember={currentMember} />
       </RevealBox>
-
-      {pickOrder[0].id === currentMember && (
-        <Button style={mainStyles.goldButton} onPress={() => selectTeam()}>
-          <Text style={mainStyles.goldButtonText}>Pick Now</Text>
-        </Button>
-      )}
-    </ScrollView>
+    </View>
   );
 };
 

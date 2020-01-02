@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'native-base';
 
 const PreviousPicks = ({ previousPicks }) => (
-  <View style={{ borderBottomWidth: 2, borderBottomColor: '#fff', paddingTop: 10, height: 100, marginTop: 100 }}>
+  <View style={{ borderBottomWidth: 2, borderBottomColor: '#fff', paddingTop: 10, height: 90 }}>
     <Text style={{ fontFamily: 'graduate', color: '#fc3', textAlign: 'center', fontSize: 16 }}>PREVIOUS PICKS</Text>
     <View
       style={{

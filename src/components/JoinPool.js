@@ -1,18 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {
-  Container,
-  Header,
-  Content,
-  Form,
-  Item,
-  Input,
-  Button,
-  Text,
-  Label,
-  View,
-  H1,
-  Spinner,
-} from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Button, Text, Label, View, H1, Spinner } from 'native-base';
 import { StyleSheet, StatusBar } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -56,7 +43,7 @@ const JoinPool = props => {
 
   console.log(props);
   return (
-    <Form>
+    <Form style={{ width: '90%', height: '100%' }}>
       <Form style={styles.form}>
         <H1 style={styles.title}>Enter Pool Information</H1>
         <Item
@@ -71,15 +58,15 @@ const JoinPool = props => {
           }}
         >
           <Input
-            placeholder='Pool Name'
+            placeholder="Pool Name"
             value={name}
             onChangeText={name => setName(name)}
-            autoCapitalize='none'
+            autoCapitalize="none"
             style={{
               color: '#7a0019',
               fontFamily: 'graduate',
             }}
-            placeholderTextColor='#7a0019'
+            placeholderTextColor="#7a0019"
             required
           />
         </Item>
@@ -96,20 +83,20 @@ const JoinPool = props => {
         >
           <Input
             required
-            placeholder='Password'
+            placeholder="Password"
             style={{ color: '#7a0019', fontFamily: 'graduate' }}
             value={password}
             onChangeText={password => setPassword(password)}
             secureTextEntry
-            textContentType='password'
-            autoCapitalize='none'
-            placeholderTextColor='#7a0019'
+            textContentType="password"
+            autoCapitalize="none"
+            placeholderTextColor="#7a0019"
           />
         </Item>
         <Button
           block
           style={styles.mainButton}
-          type='submit'
+          type="submit"
           onPress={async () => {
             setLoading(true);
             await props.joinTournament({ variables: { name, password } });
@@ -120,11 +107,7 @@ const JoinPool = props => {
           }}
           disabled={loading}
         >
-          {loading ? (
-            <Spinner color='#7a0019' />
-          ) : (
-            <Text style={styles.mainButtonText}>Join Pool</Text>
-          )}
+          {loading ? <Spinner color="#7a0019" /> : <Text style={styles.mainButtonText}>Join Pool</Text>}
         </Button>
       </Form>
       {error && <ErrorMessage errorMessage={error} error={props.joinError} />}
