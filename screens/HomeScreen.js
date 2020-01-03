@@ -115,7 +115,7 @@ const HomeScreen = ({ history }) => {
           <Text style={styles.title}>Loading Scores...</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <View style={{ height: 350 }}>
-              <Image style={{ width: 300, height: 250 }} source={require('../assets/images/goldBasketball.png')} />
+              <Image style={{ width: 300, height: 250 }} source={require('../assets/images/goldBasketballOutline.png')} />
             </View>
           </View>
         </View>

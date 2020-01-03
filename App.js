@@ -51,7 +51,7 @@ async function loadResourcesAsync() {
   await Promise.all([
     Asset.loadAsync([
       // Images go here.
-      require('./assets/images/goldBasketball.png'),
+      require('./assets/images/goldBasketballOutline.png'),
     ]),
     Font.loadAsync({
       // This is the font that we are using for our tab bar
