@@ -4,10 +4,10 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import UserProvider from './src/utilities/UserContext';
-import FirebaseProvider from './src/utilities/Firebase';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
+import UserProvider from './src/utilities/UserContext';
+import FirebaseProvider from './src/utilities/Firebase';
 import Routing from './navigation/NativeRouter';
 
 export default function App(props) {
@@ -31,20 +31,19 @@ export default function App(props) {
         </FirebaseProvider>
       </ApolloProvider>
     );
-  } else {
-    return (
-      <ApolloProvider client={client}>
-        <FirebaseProvider>
-          <UserProvider>
-            <View style={styles.container}>
-              {Platform.OS === 'ios' && <StatusBar barStyle='default' />}
-              <Routing />
-            </View>
-          </UserProvider>
-        </FirebaseProvider>
-      </ApolloProvider>
-    );
   }
+  return (
+    <ApolloProvider client={client}>
+      <FirebaseProvider>
+        <UserProvider>
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+            <Routing />
+          </View>
+        </UserProvider>
+      </FirebaseProvider>
+    </ApolloProvider>
+  );
 }
 
 async function loadResourcesAsync() {
@@ -52,6 +51,7 @@ async function loadResourcesAsync() {
     Asset.loadAsync([
       // Images go here.
       require('./assets/images/goldBasketballOutline.png'),
+      require('./assets/images/maroonBasketballOutlineSmall.png'),
     ]),
     Font.loadAsync({
       // This is the font that we are using for our tab bar
