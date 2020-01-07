@@ -11,14 +11,14 @@ const styles = {
   justifyContent: 'center',
 };
 
-const RevealBox = ({ children, propHeight, buttonTitle, propBackground, collapsedFunction, isCollapsed }) => (
+const RevealBox = ({ children, propHeight, buttonTitle, propBackground, collapseFunction, isCollapsed }) => (
   <Spring
     native
     from={{ height: 0, opacity: 0 }}
     to={{ height: isCollapsed ? propHeight : 0, opacity: isCollapsed ? 1 : 0 }}
   >
     {props => (
-      <TouchableOpacity onPressIn={() => collapsedFunction()}>
+      <TouchableOpacity onPressIn={() => collapseFunction()}>
         <View
           style={{
             flexDirection: 'row',
@@ -43,7 +43,7 @@ const RevealBox = ({ children, propHeight, buttonTitle, propBackground, collapse
           >
             {buttonTitle}
           </Text>
-          <SpecialIcon name={!isCollapsed ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
+          <SpecialIcon name={isCollapsed ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
         </View>
         <AnimatedView style={{ ...styles, ...props, opacity: isCollapsed ? 1 : 0, backgroundColor: propBackground }}>
           {children}

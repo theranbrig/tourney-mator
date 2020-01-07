@@ -3,6 +3,7 @@ import { View, Text, Button } from 'native-base';
 import { useMutation } from '@apollo/react-hooks';
 import { TouchableOpacity, ScrollView, Image } from 'react-native';
 import SpecialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Pulse from 'react-native-pulse';
 import { ADD_TOURNAMENT_TEAM_MUTATION } from '../utilities/Mutations';
 import NextUp from './NextUp';
 import { FirebaseContext } from '../utilities/Firebase';
@@ -18,8 +19,8 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
 
   const [isRemainingCollapsed, setIsRemainingCollapsed] = useState(true);
   const [isMyPicksCollapsed, setIsMyPicksCollapsed] = useState(true);
-
   const [randomTeamView, setRandomTeamView] = useState('');
+  const [status, setStatus] = useState('');
 
   const { setNextPick, removeTeam, setPreviousPick, setRemainingTeams } = useContext(FirebaseContext);
 
@@ -34,14 +35,13 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
 
   const collapsePicksBox = () => {
     setIsMyPicksCollapsed(!isMyPicksCollapsed);
-    setRemainingCollapsed(true);
+    setIsRemainingCollapsed(true);
   };
 
   const displayRandomTeam = () => {
     const newRemainingTeams = remainingTeams.filter(team => !team.picked);
     const randomTeamNumber = Math.floor(Math.random() * newRemainingTeams.length);
     setRandomTeamView(newRemainingTeams[randomTeamNumber].name);
-    console.log('PICKO', newRemainingTeams[randomTeamNumber].name);
   };
 
   const runDisplay = () => {
@@ -97,24 +97,87 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
     <View style={{ width: '100%' }}>
       {/* TODO: TIMER */}
       <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} currentMember={currentMember} />
-      <NextUp picks={pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
-      <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks.slice(0, 3)} />
-      <View style={{ height: 200 }}>
-        {randomTeamView !== '' && (
-          <View>
-            <Text>Picking...</Text>
-            <Text>{randomTeamView}</Text>
-          </View>
-        )}
-        {pickOrder[0].id === currentMember && (
-          <TouchableOpacity style={mainStyles.goldButton} onPress={() => selectTeam()}>
-            <Text style={mainStyles.goldButtonText}>Pick Now</Text>
-            <Image
-              style={{ height: 100, width: 120 }}
-              source={require('../../assets/images/maroonBasketballOutline.png')}
-            />
-          </TouchableOpacity>
-        )}
+      {randomTeamView === '' ? (
+        <>
+          <NextUp picks={pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
+          <PreviousPicks previousPicks={firebaseTournamentInfo.previousPicks.slice(0, 3)} />
+        </>
+      ) : (
+        <View
+          style={{
+            height: 160,
+            justifyContent: 'center',
+            alignContent: 'center',
+            borderBottomColor: 'white',
+            borderBottomWidth: 2,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 20,
+              color: '#fc0',
+              fontFamily: 'graduate',
+              textAlign: 'center',
+            }}
+          >
+            Picking...
+          </Text>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 20,
+              color: '#fc0',
+              fontFamily: 'graduate',
+            }}
+          >
+            {randomTeamView}
+          </Text>
+        </View>
+      )}
+      <View>
+        <View style={{ height: 200, width: '100%' }}>
+          {pickOrder[0].id === currentMember && (
+            <View style={{ alignItems: 'center' }}>
+              <View>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    color: '#fc0',
+                    fontFamily: 'graduate',
+                    textAlign: 'center',
+                    marginTop: 10,
+                  }}
+                >
+                  Pick Now
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    marginTop: 10,
+                    borderColor: '#fff',
+                    backgroundColor: '#fc3',
+                    borderWidth: 4,
+                    borderRadius: 75,
+                    padding: 10,
+                    height: 150,
+                    width: 150,
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginBottom: 10,
+                    textAlign: 'center',
+                  }}
+                  onPress={() => selectTeam()}
+                >
+                  <Pulse color="white" numPulses={3} diameter={150} speed={20} duration={2000} />
+                  <Image
+                    style={{ height: 90, width: 110, textAlign: 'center', alignSelf: 'center' }}
+                    source={require('../../assets/images/maroonBasketballOutlineSmall.png')}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+        </View>
       </View>
       <RevealBox
         buttonTitle="Remaining Teams"
@@ -127,7 +190,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       </RevealBox>
       <RevealBox
         buttonTitle="My Picks"
-        propHeight={-350}
+        propHeight={300}
         propBackground="white"
         isCollapsed={isMyPicksCollapsed}
         collapseFunction={collapsePicksBox}
