@@ -45,7 +45,10 @@ const WaitingTournamentScreen = ({ history }) => {
       setDocSnap(liveTournamentFirebaseValue.data());
       setCurrentMembers([...liveTournamentFirebaseValue.data().currentMembers]);
     }
-  }, [liveTournamentFirebaseValue, tournamentData]);
+    if (docSnap && docSnap.status === 'STARTDRAFT') {
+      history.push('/live', { tournamentId, admin, currentMember });
+    }
+  }, [liveTournamentFirebaseValue, tournamentData, docSnap]);
 
   return (
     <Layout title="Pools">

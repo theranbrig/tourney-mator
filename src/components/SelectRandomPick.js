@@ -27,12 +27,12 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
 
   const currentPickNumber = 64 - pickOrder.length + 1;
 
-  const remainingBoxCollapsed = () => {
+  const collapseRemainingBox = () => {
     setIsRemainingCollapsed(!isRemainingCollapsed);
     setIsMyPicksCollapsed(true);
   };
 
-  const myPicksBoxCollapsed = () => {
+  const collapsePicksBox = () => {
     setIsMyPicksCollapsed(!isMyPicksCollapsed);
     setRemainingCollapsed(true);
   };
@@ -121,7 +121,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
         propHeight={300}
         propBackground="white"
         isCollapsed={isRemainingCollapsed}
-        collapseFunction={remainingBoxCollapsed}
+        collapseFunction={collapseRemainingBox}
       >
         <RemainingTeams teams={firebaseTournamentInfo.remainingTeams} region="W" title="WEST" />
       </RevealBox>
@@ -130,7 +130,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
         propHeight={-350}
         propBackground="white"
         isCollapsed={isMyPicksCollapsed}
-        collapseFunction={myPickBoxCollapsed}
+        collapseFunction={collapsePicksBox}
       >
         <MyPicks currentMember={currentMember} />
       </RevealBox>

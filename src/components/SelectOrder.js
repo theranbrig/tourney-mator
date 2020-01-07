@@ -58,7 +58,7 @@ const SelectOrder = ({ firebaseTournamentInfo, tournamentId, admin }) => {
     }
   };
 
-  if (loading) return <GoldSpinner />;
+  // if (loading) return <GoldSpinner />;
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%' }}>
