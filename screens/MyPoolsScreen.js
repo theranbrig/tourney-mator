@@ -27,8 +27,12 @@ const MyPoolsScreen = ({ history }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [error, setError] = useState(null);
   const [docSnap, setDocSnap] = useState(null);
+  const [showJoinForm, setShowJoinForm] = useState(true);
 
-  console.log(user);
+  const collapseJoinForm = () => {
+    setShowJoinForm(!showJoinForm);
+  };
+
   const removeTournamentAlert = tournamentId => {
     Alert.alert('Remove Pool?', 'Are you sure you want to remove this pool?', [
       { text: 'NO', onPress: () => console.warn('Thanks for staying'), style: 'cancel' },
@@ -89,7 +93,7 @@ const MyPoolsScreen = ({ history }) => {
     <>
       <PoolsHeader history={history} user={user} />
       <ScrollView
-        style={{ backgroundColor: '#7a0019' }}
+        style={{ backgroundColor: '#7a0019', borderBottomWidth: 0 }}
         contentContainerStyle={{
           flex: 1,
         }}
@@ -126,7 +130,13 @@ const MyPoolsScreen = ({ history }) => {
           </View>
         </Layout>
       </ScrollView>
-      <RevealBox propHeight={300} buttonTitle="Join A Pool">
+      <RevealBox
+        propHeight={300}
+        buttonTitle="Join A Pool"
+        propBackground="white"
+        isCollapsed={!showJoinForm}
+        collapseFunction={collapseJoinForm}
+      >
         <JoinPool joinTournament={joinTournament} joinError={error} userRefetch={userRefetch} onError={onError} />
       </RevealBox>
       <BottomFooter history={history} />
