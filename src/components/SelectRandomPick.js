@@ -13,6 +13,7 @@ import CurrentPick from './CurrentPick';
 import RemainingTeams from './RemainingTeams';
 import MyPicks from './MyPicks';
 import RevealBox from './RevealBox';
+import BasketBallButton from './BasketBallButton';
 
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
   const [addTournamentTeam] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
@@ -57,7 +58,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
     display();
   };
 
-  // TODO: NEEDS TO BE MOVED OUT FOR REUSABLITY
+  // TODO: NEEDS TO BE MOVED OUT FOR REUSABLITY - Based upon comments below.
   const selectTeam = async () => {
     runDisplay();
     setTimeout(() => {
@@ -137,45 +138,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       <View>
         <View style={{ height: 200, width: '100%' }}>
           {pickOrder[0].id === currentMember && (
-            <View style={{ alignItems: 'center' }}>
-              <View>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    color: '#fc0',
-                    fontFamily: 'graduate',
-                    textAlign: 'center',
-                    marginTop: 10,
-                  }}
-                >
-                  Pick Now
-                </Text>
-                <TouchableOpacity
-                  style={{
-                    marginTop: 10,
-                    borderColor: '#fff',
-                    backgroundColor: '#fc3',
-                    borderWidth: 4,
-                    borderRadius: 75,
-                    padding: 10,
-                    height: 150,
-                    width: 150,
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: 10,
-                    textAlign: 'center',
-                  }}
-                  onPress={() => selectTeam()}
-                >
-                  <Pulse color="white" numPulses={3} diameter={150} speed={20} duration={2000} />
-                  <Image
-                    style={{ height: 90, width: 110, textAlign: 'center', alignSelf: 'center' }}
-                    source={require('../../assets/images/maroonBasketballOutlineSmall.png')}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
+            <BasketBallButton clickFunction={selectTeam} disabled={randomTeamView !== ''} />
           )}
         </View>
       </View>
@@ -183,7 +146,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
         buttonTitle="Remaining Teams"
         propHeight={300}
         propBackground="white"
-        isCollapsed={isRemainingCollapsed}
+        isCollapsed={!isRemainingCollapsed}
         collapseFunction={collapseRemainingBox}
       >
         <RemainingTeams teams={firebaseTournamentInfo.remainingTeams} region="W" title="WEST" />
@@ -192,7 +155,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
         buttonTitle="My Picks"
         propHeight={300}
         propBackground="white"
-        isCollapsed={isMyPicksCollapsed}
+        isCollapsed={!isMyPicksCollapsed}
         collapseFunction={collapsePicksBox}
       >
         <MyPicks currentMember={currentMember} />
