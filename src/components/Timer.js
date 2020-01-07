@@ -2,8 +2,8 @@ import React, { useEffect, useState, useInterval } from 'react';
 import { View, Text } from 'native-base';
 
 const Timer = ({ selectUserFunction, resetTimer }) => {
-  const [seconds, setSeconds] = useState(0);
-  const [isActive, setIsActive] = useState(false);
+  const [seconds, setSeconds] = useState(60);
+  const [isActive, setIsActive] = useState(true);
 
   function toggle() {
     setIsActive(!isActive);
@@ -18,7 +18,12 @@ const Timer = ({ selectUserFunction, resetTimer }) => {
     let interval = null;
     if (isActive) {
       interval = setInterval(() => {
-        setSeconds( seconds + 1);
+        setSeconds( seconds - 1);
+        if (seconds === 0) {
+          selectUserFunction();
+          clearInterval(interval);
+          setSeconds(60);
+        }
       }, 1000);
     } else if (!isActive && seconds !== 0) {
       clearInterval(interval);
