@@ -14,6 +14,7 @@ import RemainingTeams from './RemainingTeams';
 import MyPicks from './MyPicks';
 import RevealBox from './RevealBox';
 import BasketBallButton from './BasketBallButton';
+import Timer from './Timer';
 
 const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId }) => {
   const [addTournamentTeam] = useMutation(ADD_TOURNAMENT_TEAM_MUTATION);
@@ -97,6 +98,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
   return (
     <View style={{ width: '100%' }}>
       {/* TODO: TIMER */}
+      <Timer selectUserFunction={selectTeam} />
       <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} currentMember={currentMember} />
       {randomTeamView === '' ? (
         <>

@@ -31,7 +31,6 @@ const RevealBox = ({ children, propHeight, buttonTitle, propBackground, collapse
             borderBottomWidth: 2,
             borderTopColor: '#fff',
             borderTopWidth: 2,
-            marginTop: 5,
           }}
         >
           <Text
