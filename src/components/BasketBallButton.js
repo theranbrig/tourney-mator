@@ -3,7 +3,7 @@ import { View, Text } from 'native-base';
 import { Image, TouchableOpacity } from 'react-native';
 import Pulse from 'react-native-pulse';
 
-const BasketBallButton = ({ clickFunction, disabled }) => (
+const BasketBallButton = ({ clickFunction, disabled, title }) => (
   <View style={{ alignItems: 'center' }}>
     <View>
       <Text
@@ -15,7 +15,7 @@ const BasketBallButton = ({ clickFunction, disabled }) => (
           marginTop: 10,
         }}
       >
-        Pick Now
+        {title}
       </Text>
       <TouchableOpacity
         style={{

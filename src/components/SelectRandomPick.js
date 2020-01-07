@@ -138,7 +138,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       <View>
         <View style={{ height: 200, width: '100%' }}>
           {pickOrder[0].id === currentMember && (
-            <BasketBallButton clickFunction={selectTeam} disabled={randomTeamView !== ''} />
+            <BasketBallButton clickFunction={selectTeam} disabled={randomTeamView !== ''} title="PICK NOW" />
           )}
         </View>
       </View>
