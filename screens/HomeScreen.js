@@ -115,7 +115,10 @@ const HomeScreen = ({ history }) => {
           <Text style={styles.title}>Loading Scores...</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
             <View style={{ height: 350 }}>
-              <Image style={{ width: 300, height: 250 }} source={require('../assets/images/goldBasketballOutline.png')} />
+              <Image
+                style={{ width: 300, height: 250 }}
+                source={require('../assets/images/goldBasketballOutline.png')}
+              />
             </View>
           </View>
         </View>
@@ -176,15 +179,32 @@ const HomeScreen = ({ history }) => {
                             source={{ uri: event.competitions[0].competitors[1].team.logo }}
                           />
                           {event.competitions[0].competitors[1].curatedRank.current < 26 && (
-                            <Text>({event.competitions[0].competitors[1].curatedRank.current})</Text>
+                            <Text>({event.competitions[0].competitors[1].curatedRank.current}) </Text>
                           )}
-                          <Text style={event.competitions[0].competitors[1].winner && { color: '#7a0019' }}>
+                          <Text
+                            style={
+                              event.competitions[0].competitors[1].winner && {
+                                color: '#7a0019',
+                              }
+                            }
+                          >
                             {event.competitions[0].competitors[1].team.shortDisplayName} (
                             {event.competitions[0].competitors[1].records[0].summary})
                           </Text>
                         </View>
 
-                        <Text style={event.competitions[0].competitors[1].winner && { color: '#7a0019' }}>
+                        <Text
+                          style={
+                            event.competitions[0].competitors[1].winner
+                              ? {
+                                  color: '#7a0019',
+                                  fontFamily: 'scoreboard',
+                                }
+                              : {
+                                  fontFamily: 'scoreboard',
+                                }
+                          }
+                        >
                           {event.competitions[0].competitors[1].score}
                         </Text>
                       </View>
@@ -195,7 +215,7 @@ const HomeScreen = ({ history }) => {
                             source={{ uri: event.competitions[0].competitors[0].team.logo }}
                           />
                           {event.competitions[0].competitors[0].curatedRank.current < 26 && (
-                            <Text>({event.competitions[0].competitors[0].curatedRank.current})</Text>
+                            <Text>({event.competitions[0].competitors[0].curatedRank.current}) </Text>
                           )}
                           <Text style={event.competitions[0].competitors[0].winner && { color: '#7a0019' }}>
                             {event.competitions[0].competitors[0].team.shortDisplayName} (
@@ -203,7 +223,16 @@ const HomeScreen = ({ history }) => {
                           </Text>
                         </View>
 
-                        <Text style={event.competitions[0].competitors[0].winner && { color: '#7a0019' }}>
+                        <Text
+                          style={
+                            event.competitions[0].competitors[0].winner
+                              ? {
+                                  color: '#7a0019',
+                                  fontFamily: 'scoreboard',
+                                }
+                              : { fontFamily: 'scoreboard' }
+                          }
+                        >
                           {event.competitions[0].competitors[0].score}
                         </Text>
                       </View>

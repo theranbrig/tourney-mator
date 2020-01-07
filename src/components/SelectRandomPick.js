@@ -23,6 +23,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
   const [isMyPicksCollapsed, setIsMyPicksCollapsed] = useState(true);
   const [randomTeamView, setRandomTeamView] = useState('');
   const [status, setStatus] = useState('');
+  const [isActive, setIsActive] = useState(false);
 
   const { setNextPick, removeTeam, setPreviousPick, setRemainingTeams } = useContext(FirebaseContext);
 
@@ -35,8 +36,11 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
   };
 
   const collapsePicksBox = () => {
-
     setIsMyPicksCollapsed(!isMyPicksCollapsed);
+  };
+
+  const resetTimer = () => {
+    setIsActive(true);
   };
 
   const displayRandomTeam = () => {
@@ -60,6 +64,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
 
   // TODO: NEEDS TO BE MOVED OUT FOR REUSABLITY - Based upon comments below.
   const selectTeam = async () => {
+    setIsActive(false);
     runDisplay();
     setTimeout(() => {
       const randomTeamNumber = Math.floor(Math.random() * teams.length);
@@ -92,13 +97,18 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
     }, 5500);
   };
 
-  useEffect(() => {}, [firebaseTournamentInfo, currentMember]);
+  useEffect(() => {
+    if (pickOrder[0].id === currentMember) {
+      setIsActive(true);
+    }
+  }, [firebaseTournamentInfo, currentMember, pickOrder]);
 
   return (
     <View style={{ width: '100%' }}>
-      {/* TODO: TIMER */}
-      <Timer selectUserFunction={selectTeam} />
       <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} currentMember={currentMember} />
+      {pickOrder[0].id === currentMember && (
+        <Timer selectUserFunction={selectTeam} isActive={isActive} propsSeconds={60} />
+      )}
       <RevealBox
         buttonTitle="Remaining Teams"
         propHeight={300}

@@ -60,6 +60,7 @@ async function loadResourcesAsync() {
       // remove this if you are not using it in your app
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
       graduate: require('./assets/fonts/graduate-regular.ttf'),
+      scoreboard: require('./assets/fonts/DjbFridayNightLights-Z8jB.ttf'),
     }),
   ]);
 }
