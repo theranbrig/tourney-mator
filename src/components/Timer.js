@@ -1,41 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useInterval } from 'react';
 import { View, Text } from 'native-base';
 
 const Timer = ({ selectUserFunction, resetTimer }) => {
-  const [time, setTime] = useState(90);
+  const [seconds, setSeconds] = useState(0);
+  const [isActive, setIsActive] = useState(false);
 
-  const startTimer = () => {
-    function display() {
-      const intervalId = setInterval(() => {
-        if (time === 0) {
-          selectUserFunction();
-          clearInterval(intervalId);
-        }
-        setTime(time - 1);
-      }, 1000);
-    }
-    display();
-  };
+  function toggle() {
+    setIsActive(!isActive);
+  }
+
+  function reset() {
+    setSeconds(0);
+    setIsActive(false);
+  }
 
   useEffect(() => {
-    // exit early when we reach 0
-    if (!time) selectUserFunction();
-
-    // save intervalId to clear the interval when the
-    // component re-renders
-    const intervalId = setInterval(() => {
-      setTime(time - 1);
-    }, 1000);
-
-    // clear interval on re-render to avoid memory leaks
-    return () => clearInterval(intervalId);
-    // add timeLeft as a dependency to re-rerun the effect
-    // when we update it
-  }, [time]);
+    let interval = null;
+    if (isActive) {
+      interval = setInterval(() => {
+        setSeconds( seconds + 1);
+      }, 1000);
+    } else if (!isActive && seconds !== 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isActive, seconds]);
 
   return (
     <View>
-      <Text>{time}</Text>
+      <Text>{seconds}</Text>
     </View>
   );
 };

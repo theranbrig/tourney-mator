@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'native-base';
 
 const CurrentPick = ({ pick, currentPick, currentMember }) => (
-  <View style={{ paddingBottom: 20, borderBottomWidth: 2, borderBottomColor: '#fff' }}>
+  <View style={{ paddingBottom: 20}}>
     <Text style={{ fontFamily: 'graduate', color: '#fff', textAlign: 'center', fontSize: 20, paddingBottom: 10 }}>
       CURRENT PICK
     </Text>

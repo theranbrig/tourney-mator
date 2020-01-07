@@ -32,12 +32,11 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
 
   const collapseRemainingBox = () => {
     setIsRemainingCollapsed(!isRemainingCollapsed);
-    setIsMyPicksCollapsed(true);
   };
 
   const collapsePicksBox = () => {
+
     setIsMyPicksCollapsed(!isMyPicksCollapsed);
-    setIsRemainingCollapsed(true);
   };
 
   const displayRandomTeam = () => {
@@ -100,6 +99,15 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       {/* TODO: TIMER */}
       <Timer selectUserFunction={selectTeam} />
       <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} currentMember={currentMember} />
+      <RevealBox
+        buttonTitle="Remaining Teams"
+        propHeight={300}
+        propBackground="white"
+        isCollapsed={isRemainingCollapsed || !isMyPicksCollapsed}
+        collapseFunction={collapseRemainingBox}
+      >
+        <RemainingTeams teams={firebaseTournamentInfo.remainingTeams} region="W" title="WEST" />
+      </RevealBox>
       {randomTeamView === '' ? (
         <>
           <NextUp picks={pickOrder.slice(1, 4)} currentPick={currentPickNumber} />
@@ -128,7 +136,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
           <Text
             style={{
               textAlign: 'center',
-              fontSize: 20,
+              fontSize: 40,
               color: '#fc0',
               fontFamily: 'graduate',
             }}
@@ -144,20 +152,12 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
           )}
         </View>
       </View>
-      <RevealBox
-        buttonTitle="Remaining Teams"
-        propHeight={300}
-        propBackground="white"
-        isCollapsed={!isRemainingCollapsed}
-        collapseFunction={collapseRemainingBox}
-      >
-        <RemainingTeams teams={firebaseTournamentInfo.remainingTeams} region="W" title="WEST" />
-      </RevealBox>
+
       <RevealBox
         buttonTitle="My Picks"
         propHeight={300}
         propBackground="white"
-        isCollapsed={!isMyPicksCollapsed}
+        isCollapsed={isMyPicksCollapsed || !isRemainingCollapsed}
         collapseFunction={collapsePicksBox}
       >
         <MyPicks currentMember={currentMember} />

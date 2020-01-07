@@ -15,10 +15,10 @@ const RevealBox = ({ children, propHeight, buttonTitle, propBackground, collapse
   <Spring
     native
     from={{ height: 0, opacity: 0 }}
-    to={{ height: isCollapsed ? propHeight : 0, opacity: isCollapsed ? 1 : 0 }}
+    to={{ height: !isCollapsed ? propHeight : 0, opacity: isCollapsed ? 1 : 0 }}
   >
     {props => (
-      <TouchableOpacity onPressIn={() => collapseFunction()}>
+      <TouchableOpacity onPress={() => collapseFunction()}>
         <View
           style={{
             flexDirection: 'row',
@@ -42,9 +42,9 @@ const RevealBox = ({ children, propHeight, buttonTitle, propBackground, collapse
           >
             {buttonTitle}
           </Text>
-          <SpecialIcon name={isCollapsed ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
+          <SpecialIcon name={!isCollapsed ? 'chevron-up' : 'chevron-down'} size={30} color="#7a0019" />
         </View>
-        <AnimatedView style={{ ...styles, ...props, opacity: isCollapsed ? 1 : 0, backgroundColor: propBackground }}>
+        <AnimatedView style={{ ...styles, ...props, opacity: !isCollapsed ? 1 : 0, backgroundColor: propBackground }}>
           {children}
         </AnimatedView>
       </TouchableOpacity>

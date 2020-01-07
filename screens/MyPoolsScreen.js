@@ -27,7 +27,7 @@ const MyPoolsScreen = ({ history }) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [error, setError] = useState(null);
   const [docSnap, setDocSnap] = useState(null);
-  const [showJoinForm, setShowJoinForm] = useState(true);
+  const [showJoinForm, setShowJoinForm] = useState(false);
 
   const collapseJoinForm = () => {
     setShowJoinForm(!showJoinForm);

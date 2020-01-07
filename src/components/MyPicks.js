@@ -13,7 +13,7 @@ const MyPicks = ({ currentMember }) => {
   if (loading) return <Text>Loading...</Text>;
 
   return (
-    <View style={{ padding: 10, backgroundColor: 'white' }}>
+    <View style={{ padding: 10, backgroundColor: 'white', height: 200 }}>
       <Text style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 16, textAlign: 'center', margin: 5 }}>
         My Picks
       </Text>
@@ -22,11 +22,14 @@ const MyPicks = ({ currentMember }) => {
           width: '95%',
           margin: '2.5%',
           textAlign: 'center',
+          flex: 1,
+          flexDirection: 'row',
+          flexWrap: 'wrap',
         }}
       >
         {data.tournamentMember.teams &&
           data.tournamentMember.teams.map(team => (
-            <View>
+            <View style={{height: "25%", width: "50%" }}>
               <Text style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 14, textAlign: 'center', padding: 5 }}>
                 {team.seed}
                 {team.region}
