@@ -26,6 +26,7 @@ const Timer = ({ selectUserFunction, resetTimer, isActive, propsSeconds }) => {
       }, 1000);
     } else if (!isActive && seconds !== 0) {
       clearInterval(interval);
+      setSeconds(propsSeconds);
     }
     return () => {
       clearInterval(interval);
