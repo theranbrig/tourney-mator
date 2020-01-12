@@ -9,6 +9,7 @@ import { FirebaseContext } from '../utilities/Firebase';
 import MemberItem from './MemberItem';
 
 import { mainStyles } from '../utilities/Styles';
+import BasketBallButton from './BasketBallButton';
 
 const SelectOrder = ({ firebaseTournamentInfo, tournamentId, admin }) => {
   const [pickOrder, setPickOrder] = useState([]);
@@ -97,10 +98,8 @@ const SelectOrder = ({ firebaseTournamentInfo, tournamentId, admin }) => {
         </Button>
       )}
       {pickOrder.length === tournament.maxMembers && (
-        <View>
-          <Button style={mainStyles.goldButton} onPress={() => goLive()}>
-            <Text style={mainStyles.goldButtonText}>To The Draft</Text>
-          </Button>
+        <View style={{ height: 200 }}>
+          <BasketBallButton clickFunction={goLive} disabled={false} title="TO THE DRAFT" />
         </View>
       )}
     </View>
