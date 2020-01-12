@@ -31,6 +31,7 @@ import Error from '../src/components/ErrorMessage';
 import { FirebaseContext } from '../src/utilities/Firebase';
 import { useDocument } from 'react-firebase-hooks/firestore';
 import GoldSpinner from '../src/components/SpinnerGold';
+import BasketBallButton from '../src/components/BasketBallButton';
 
 const TournamentInformationScreen = ({ history }) => {
   const { tournamentId } = history.location.state;
@@ -106,6 +107,17 @@ const TournamentInformationScreen = ({ history }) => {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
   );
+
+  const startTournament = () => {
+    console.log('pressed');
+    createTournamentData(tournament.id, currentMember, tournament.tournamentGroup.teams);
+    setMessage('Taking you to the big show...');
+    history.push('/waiting', {
+      tournamentId: tournament.id,
+      admin,
+      currentMember,
+    });
+  };
 
   useEffect(() => {
     if (data) {
@@ -193,22 +205,9 @@ const TournamentInformationScreen = ({ history }) => {
                   ))}
                 </List>
                 {admin === user.id && (
-                  <Button
-                    block
-                    style={styles.mainButton2}
-                    onPress={() => {
-                      console.log('pressed');
-                      createTournamentData(tournament.id, currentMember, tournament.tournamentGroup.teams);
-                      setMessage('Taking you to the big show...');
-                      history.push('/waiting', {
-                        tournamentId: tournament.id,
-                        admin,
-                        currentMember,
-                      });
-                    }}
-                  >
-                    <Text style={styles.mainButtonText}>Begin Pool Now</Text>
-                  </Button>
+                  <View style={{ height: 200 }}>
+                    <BasketBallButton clickFunction={startTournament} disabled={false} title="BEGIN POOL NOW" />
+                  </View>
                 )}
                 {tournamentInfo && tournamentInfo.isWaiting && user.id !== admin && (
                   <>
