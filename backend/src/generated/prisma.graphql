@@ -584,7 +584,7 @@ type TournamentMember {
   user: User
   tournament: Tournament
   points: Float
-  teams(where: TeamWhereInput, orderBy: TeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Team!]
+  teams(where: TournamentTeamWhereInput, orderBy: TournamentTeamOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TournamentTeam!]
   role: String
 }
 
@@ -598,7 +598,7 @@ input TournamentMemberCreateInput {
   user: UserCreateOneWithoutTournamentMembersInput
   tournament: TournamentCreateOneWithoutTournamentMembersInput
   points: Float
-  teams: TeamCreateManyInput
+  teams: TournamentTeamCreateManyInput
   role: String
 }
 
@@ -612,22 +612,17 @@ input TournamentMemberCreateManyWithoutUserInput {
   connect: [TournamentMemberWhereUniqueInput!]
 }
 
-input TournamentMemberCreateOneInput {
-  create: TournamentMemberCreateInput
-  connect: TournamentMemberWhereUniqueInput
-}
-
 input TournamentMemberCreateWithoutTournamentInput {
   user: UserCreateOneWithoutTournamentMembersInput
   points: Float
-  teams: TeamCreateManyInput
+  teams: TournamentTeamCreateManyInput
   role: String
 }
 
 input TournamentMemberCreateWithoutUserInput {
   tournament: TournamentCreateOneWithoutTournamentMembersInput
   points: Float
-  teams: TeamCreateManyInput
+  teams: TournamentTeamCreateManyInput
   role: String
 }
 
@@ -673,19 +668,11 @@ input TournamentMemberSubscriptionWhereInput {
   NOT: [TournamentMemberSubscriptionWhereInput!]
 }
 
-input TournamentMemberUpdateDataInput {
-  user: UserUpdateOneWithoutTournamentMembersInput
-  tournament: TournamentUpdateOneWithoutTournamentMembersInput
-  points: Float
-  teams: TeamUpdateManyInput
-  role: String
-}
-
 input TournamentMemberUpdateInput {
   user: UserUpdateOneWithoutTournamentMembersInput
   tournament: TournamentUpdateOneWithoutTournamentMembersInput
   points: Float
-  teams: TeamUpdateManyInput
+  teams: TournamentTeamUpdateManyInput
   role: String
 }
 
@@ -707,26 +694,17 @@ input TournamentMemberUpdateManyWithoutUserInput {
   upsert: [TournamentMemberUpsertWithWhereUniqueWithoutUserInput!]
 }
 
-input TournamentMemberUpdateOneInput {
-  create: TournamentMemberCreateInput
-  update: TournamentMemberUpdateDataInput
-  upsert: TournamentMemberUpsertNestedInput
-  delete: Boolean
-  disconnect: Boolean
-  connect: TournamentMemberWhereUniqueInput
-}
-
 input TournamentMemberUpdateWithoutTournamentDataInput {
   user: UserUpdateOneWithoutTournamentMembersInput
   points: Float
-  teams: TeamUpdateManyInput
+  teams: TournamentTeamUpdateManyInput
   role: String
 }
 
 input TournamentMemberUpdateWithoutUserDataInput {
   tournament: TournamentUpdateOneWithoutTournamentMembersInput
   points: Float
-  teams: TeamUpdateManyInput
+  teams: TournamentTeamUpdateManyInput
   role: String
 }
 
@@ -738,11 +716,6 @@ input TournamentMemberUpdateWithWhereUniqueWithoutTournamentInput {
 input TournamentMemberUpdateWithWhereUniqueWithoutUserInput {
   where: TournamentMemberWhereUniqueInput!
   data: TournamentMemberUpdateWithoutUserDataInput!
-}
-
-input TournamentMemberUpsertNestedInput {
-  update: TournamentMemberUpdateDataInput!
-  create: TournamentMemberCreateInput!
 }
 
 input TournamentMemberUpsertWithWhereUniqueWithoutTournamentInput {
@@ -782,9 +755,9 @@ input TournamentMemberWhereInput {
   points_lte: Float
   points_gt: Float
   points_gte: Float
-  teams_every: TeamWhereInput
-  teams_some: TeamWhereInput
-  teams_none: TeamWhereInput
+  teams_every: TournamentTeamWhereInput
+  teams_some: TournamentTeamWhereInput
+  teams_none: TournamentTeamWhereInput
   role: String
   role_not: String
   role_in: [String!]
@@ -974,9 +947,7 @@ input TournamentSubscriptionWhereInput {
 type TournamentTeam {
   id: ID!
   team: Team
-  member: TournamentMember
-  points: Float
-  pickNumber: Float
+  pick: Float
 }
 
 type TournamentTeamConnection {
@@ -987,9 +958,12 @@ type TournamentTeamConnection {
 
 input TournamentTeamCreateInput {
   team: TeamCreateOneInput
-  member: TournamentMemberCreateOneInput
-  points: Float
-  pickNumber: Float
+  pick: Float
+}
+
+input TournamentTeamCreateManyInput {
+  create: [TournamentTeamCreateInput!]
+  connect: [TournamentTeamWhereUniqueInput!]
 }
 
 type TournamentTeamEdge {
@@ -1000,10 +974,8 @@ type TournamentTeamEdge {
 enum TournamentTeamOrderByInput {
   id_ASC
   id_DESC
-  points_ASC
-  points_DESC
-  pickNumber_ASC
-  pickNumber_DESC
+  pick_ASC
+  pick_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -1012,8 +984,7 @@ enum TournamentTeamOrderByInput {
 
 type TournamentTeamPreviousValues {
   id: ID!
-  points: Float
-  pickNumber: Float
+  pick: Float
 }
 
 type TournamentTeamSubscriptionPayload {
@@ -1034,11 +1005,34 @@ input TournamentTeamSubscriptionWhereInput {
   NOT: [TournamentTeamSubscriptionWhereInput!]
 }
 
+input TournamentTeamUpdateDataInput {
+  team: TeamUpdateOneInput
+  pick: Float
+}
+
 input TournamentTeamUpdateInput {
   team: TeamUpdateOneInput
-  member: TournamentMemberUpdateOneInput
-  points: Float
-  pickNumber: Float
+  pick: Float
+}
+
+input TournamentTeamUpdateManyInput {
+  create: [TournamentTeamCreateInput!]
+  delete: [TournamentTeamWhereUniqueInput!]
+  connect: [TournamentTeamWhereUniqueInput!]
+  disconnect: [TournamentTeamWhereUniqueInput!]
+  update: [TournamentTeamUpdateWithWhereUniqueNestedInput!]
+  upsert: [TournamentTeamUpsertWithWhereUniqueNestedInput!]
+}
+
+input TournamentTeamUpdateWithWhereUniqueNestedInput {
+  where: TournamentTeamWhereUniqueInput!
+  data: TournamentTeamUpdateDataInput!
+}
+
+input TournamentTeamUpsertWithWhereUniqueNestedInput {
+  where: TournamentTeamWhereUniqueInput!
+  update: TournamentTeamUpdateDataInput!
+  create: TournamentTeamCreateInput!
 }
 
 input TournamentTeamWhereInput {
@@ -1057,23 +1051,14 @@ input TournamentTeamWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   team: TeamWhereInput
-  member: TournamentMemberWhereInput
-  points: Float
-  points_not: Float
-  points_in: [Float!]
-  points_not_in: [Float!]
-  points_lt: Float
-  points_lte: Float
-  points_gt: Float
-  points_gte: Float
-  pickNumber: Float
-  pickNumber_not: Float
-  pickNumber_in: [Float!]
-  pickNumber_not_in: [Float!]
-  pickNumber_lt: Float
-  pickNumber_lte: Float
-  pickNumber_gt: Float
-  pickNumber_gte: Float
+  pick: Float
+  pick_not: Float
+  pick_in: [Float!]
+  pick_not_in: [Float!]
+  pick_lt: Float
+  pick_lte: Float
+  pick_gt: Float
+  pick_gte: Float
   AND: [TournamentTeamWhereInput!]
   OR: [TournamentTeamWhereInput!]
   NOT: [TournamentTeamWhereInput!]

@@ -4,15 +4,6 @@ import { View, Text } from 'native-base';
 const Timer = ({ selectUserFunction, resetTimer, isActive, propsSeconds }) => {
   const [seconds, setSeconds] = useState(propsSeconds);
 
-  function toggle() {
-    setIsActive(!isActive);
-  }
-
-  function reset() {
-    setSeconds(propsSeconds);
-    setIsActive(false);
-  }
-
   useEffect(() => {
     let interval = null;
     if (isActive) {

@@ -232,16 +232,21 @@ const Mutations = {
     });
     return { message: 'Request Deleted' };
   },
-  async addTournamentTeam(parent, { tournamentMemberId, teamId }, ctx, info) {
-    // console.log(args);
-    const updatedTournamentMember = await ctx.db.mutation.updateTournamentMember({
-      where: { id: tournamentMemberId },
+  async addTournamentTeam(parent, { tournamentMemberId, pick, teamId }, ctx, info) {
+    const newTournamentTeam = await ctx.db.mutation.createTournamentTeam({
       data: {
-        teams: { connect: { id: teamId } },
+        team: { connect: { id: teamId } },
+        pick: args.pick,
       },
       info,
     });
-
+    const updatedTournamentMember = await ctx.db.mutation.updateTournamentMember({
+      where: { id: tournamentMemberId },
+      data: {
+        teams: { connect: { id: newTournamentTeam.id } },
+      },
+      info,
+    });
     return updatedTournamentMember;
   },
 };

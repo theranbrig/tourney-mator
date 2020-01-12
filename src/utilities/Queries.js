@@ -73,11 +73,17 @@ export const TOURNAMENT_MEMBER_QUERY = gql`
         id
         username
       }
+      tournament {
+        id
+      }
       teams {
         id
-        name
-        seed
-        region
+        team {
+          id
+          name
+          region
+          seed
+        }
       }
     }
   }

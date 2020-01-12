@@ -33,7 +33,7 @@ type TournamentMember {
   user: User
   tournament: Tournament
   points: Float
-  teams: [Team] @scalarList(strategy: RELATION)
+  teams: [TournamentTeam] @scalarList(strategy: RELATION)
   role: String
 }
 
@@ -64,7 +64,5 @@ type TournamentGroup {
 type TournamentTeam {
   id: ID! @id @unique
   team: Team
-  member: TournamentMember
-  points: Float
-  pickNumber: Float
+  pick: Float
 }

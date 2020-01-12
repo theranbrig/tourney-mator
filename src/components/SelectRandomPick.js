@@ -32,10 +32,12 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
   const currentPickNumber = 64 - pickOrder.length + 1;
 
   const collapseRemainingBox = () => {
+    setIsMyPicksCollapsed(true);
     setIsRemainingCollapsed(!isRemainingCollapsed);
   };
 
   const collapsePicksBox = () => {
+    setIsRemainingCollapsed(true);
     setIsMyPicksCollapsed(!isMyPicksCollapsed);
   };
 
@@ -91,7 +93,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
       });
       setPreviousPick(tournamentId, newPreviousPicks);
       addTournamentTeam({
-        variables: { tournamentMemberId: currentMember, teamId: pick.id },
+        variables: { tournamentMemberId: currentMember, teamId: pick.id, pick: 64 - newPickOrder.length },
       });
       setRandomTeamView('');
     }, 5500);

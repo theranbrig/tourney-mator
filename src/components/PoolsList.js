@@ -106,7 +106,7 @@ const PoolsList = ({ user, history, leaveTournament }) => {
                   <Text
                     style={{
                       color: '#7a0019',
-                      fontFamily: 'graduate',
+                      fontFamily: 'scoreboard',
                       fontSize: 25,
                       paddingTop: 5,
                       paddingRight: 5,
