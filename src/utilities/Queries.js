@@ -84,6 +84,7 @@ export const TOURNAMENT_MEMBER_QUERY = gql`
           region
           seed
         }
+        pick
       }
     }
   }

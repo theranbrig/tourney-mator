@@ -108,9 +108,9 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
   return (
     <View style={{ width: '100%' }}>
       <CurrentPick pick={pickOrder[0]} currentPick={currentPickNumber} currentMember={currentMember} />
-      {pickOrder[0].id === currentMember && (
+      {/* {pickOrder[0].id === currentMember && (
         <Timer selectUserFunction={selectTeam} isActive={isActive} propsSeconds={60} />
-      )}
+      )} */}
       <RevealBox
         buttonTitle="Remaining Teams"
         propHeight={300}
@@ -172,7 +172,7 @@ const SelectRandomPick = ({ firebaseTournamentInfo, currentMember, tournamentId 
         isCollapsed={isMyPicksCollapsed || !isRemainingCollapsed}
         collapseFunction={collapsePicksBox}
       >
-        <MyPicks currentMember={currentMember} />
+        <MyPicks currentMember={currentMember} pickOrder={pickOrder} />
       </RevealBox>
     </View>
   );

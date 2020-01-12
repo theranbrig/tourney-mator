@@ -3,12 +3,13 @@ import { View, Text } from 'native-base';
 import { useQuery } from '@apollo/react-hooks';
 import { TOURNAMENT_MEMBER_QUERY } from '../utilities/Queries';
 
-const MyPicks = ({ currentMember }) => {
-  const { data, loading, error } = useQuery(TOURNAMENT_MEMBER_QUERY, { variables: { id: currentMember } });
+const MyPicks = ({ currentMember, pickOrder }) => {
+  const { data, loading, refetch } = useQuery(TOURNAMENT_MEMBER_QUERY, { variables: { id: currentMember } });
 
   useEffect(() => {
-    console.log(data.tournamentMember.teams);
-  }, [data]);
+    console.log('CURRENT', data);
+    refetch();
+  }, [data, pickOrder]);
 
   if (loading) return <Text>Loading...</Text>;
 
@@ -29,12 +30,18 @@ const MyPicks = ({ currentMember }) => {
       >
         {data.tournamentMember.teams &&
           data.tournamentMember.teams.map(team => (
-            <View style={{height: "25%", width: "50%" }}>
+            <View style={{ height: '25%', width: '50%' }}>
               <Text style={{ color: '#7a0019', fontFamily: 'graduate', fontSize: 14, textAlign: 'center', padding: 5 }}>
-                {team.seed}
-                {team.region}
+                <Text
+                  style={{ color: '#7a0019', fontFamily: 'scoreboard', fontSize: 14, textAlign: 'center', padding: 5 }}
+                >
+                  {team.pick}
+                </Text>
+                {': '}
+                {team.team.seed}
+                {team.team.region}
                 {' - '}
-                {team.name}
+                {team.team.name}
               </Text>
             </View>
           ))}

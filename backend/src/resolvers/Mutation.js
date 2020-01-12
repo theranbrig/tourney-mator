@@ -236,7 +236,7 @@ const Mutations = {
     const newTournamentTeam = await ctx.db.mutation.createTournamentTeam({
       data: {
         team: { connect: { id: teamId } },
-        pick: args.pick,
+        pick,
       },
       info,
     });

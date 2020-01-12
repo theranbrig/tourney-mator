@@ -104,7 +104,7 @@ export const JOIN_TOURNAMENT_MUTATION = gql`
 `;
 
 export const ADD_TOURNAMENT_TEAM_MUTATION = gql`
-  mutation AddTournamentTeam($tournamentMemberId: ID!, $teamId: ID!, pick: Float) {
+  mutation AddTournamentTeam($tournamentMemberId: ID!, $teamId: ID!, $pick: Float) {
     addTournamentTeam(tournamentMemberId: $tournamentMemberId, teamId: $teamId, pick: $pick) {
       id
     }
