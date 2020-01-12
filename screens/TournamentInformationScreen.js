@@ -119,6 +119,13 @@ const TournamentInformationScreen = ({ history }) => {
     });
   };
 
+  const goToLiveTournament = () => {
+    joinLiveTournament(tournamentId, currentMember);
+    setMessage('Taking you to the big show...');
+    setTournamentStatus(tournamentId, 'WAITING');
+    history.push('/waiting', { tournamentId, admin, currentMember });
+  };
+
   useEffect(() => {
     if (data) {
       setTournament(data.tournament);
@@ -231,18 +238,9 @@ const TournamentInformationScreen = ({ history }) => {
                         POOL IS LIVE NOW!
                       </Text>
                     </View>
-                    <Button
-                      block
-                      style={styles.mainButton2}
-                      onPress={() => {
-                        joinLiveTournament(tournamentId, currentMember);
-                        setMessage('Taking you to the big show...');
-                        setTournamentStatus(tournamentId, 'WAITING');
-                        history.push('/waiting', { tournamentId, admin, currentMember });
-                      }}
-                    >
-                      <Text style={styles.mainButtonText}>Join Pool</Text>
-                    </Button>
+                    <View style={{ height: 200 }}>
+                      <BasketBallButton clickFunction={goToLiveTournament} disabled={false} title="JOIN POOL NOW" />
+                    </View>
                   </>
                 )}
                 <Form style={styles.form}>

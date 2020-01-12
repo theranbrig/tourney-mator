@@ -38,7 +38,7 @@ const BasketBallButton = ({ clickFunction, disabled, title }) => (
       >
         <Pulse color="white" numPulses={3} diameter={150} speed={20} duration={2000} />
         <Image
-          style={{ height: 90, width: 110, textAlign: 'center', alignSelf: 'center' }}
+          style={{ height: 90, width: 110, alignSelf: 'center' }}
           source={require('../../assets/images/maroonBasketballOutlineSmall.png')}
         />
       </TouchableOpacity>
