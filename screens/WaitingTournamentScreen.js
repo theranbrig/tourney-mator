@@ -11,6 +11,7 @@ import { TOURNAMENT_INFORMATION_QUERY, TOURNAMENT_GROUP_QUERY } from '../src/uti
 import MemberItem from '../src/components/MemberItem';
 import SpinningImage from 'react-native-spinning-image';
 import GoldSpinner from '../src/components/SpinnerGold';
+import BasketBallButton from '../src/components/BasketBallButton';
 
 const WaitingTournamentScreen = ({ history }) => {
   const { tournamentId, admin, currentMember } = history.location.state;
@@ -40,6 +41,11 @@ const WaitingTournamentScreen = ({ history }) => {
     }
   );
 
+  const setOrder = () => {
+    setTournamentStatus(tournamentId, 'SELECTPICKS');
+    history.push('/live', { tournamentId, admin, currentMember });
+  };
+
   useEffect(() => {
     if (liveTournamentFirebaseValue) {
       setDocSnap(liveTournamentFirebaseValue.data());
@@ -54,7 +60,7 @@ const WaitingTournamentScreen = ({ history }) => {
     <Layout title="Pools">
       <BackButtonHeader history={history} title="Ready" />
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <GoldSpinner />
+        <GoldSpinner height={150} />
         {docSnap && docSnap.status === 'WAITING' && (
           <>
             <Text
@@ -83,24 +89,13 @@ const WaitingTournamentScreen = ({ history }) => {
               </List>
             )}
             {currentMembers.length !== 8 && (
-              <Button
-                onPress={() => {
-                  setTournamentStatus(tournamentId, 'SELECTPICKS');
-                  history.push('/live', { tournamentId, admin, currentMember });
-                }}
-                block
-                style={{
-                  borderColor: '#fc3',
-                  backgroundColor: '#f3f3f3',
-                  borderWidth: 2,
-                  width: '90%',
-                  borderRadius: 0,
-                  marginLeft: '5%',
-                  marginTop: 40,
-                }}
-              >
-                <Text style={{ fontSize: 20, color: '#7a0019', fontFamily: 'graduate' }}>Start Picking Now</Text>
-              </Button>
+              <View style={{ height: 200 }}>
+                <BasketBallButton
+                  clickFunction={setOrder}
+                  disabled={currentMembers.length !== 8}
+                  title=" START PICKING DRAFT ORDER NOW"
+                />
+              </View>
             )}
           </>
         )}
