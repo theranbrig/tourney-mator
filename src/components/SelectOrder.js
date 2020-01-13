@@ -74,28 +74,9 @@ const SelectOrder = ({ firebaseTournamentInfo, tournamentId, admin }) => {
         )}
       </List>
       {firebaseTournamentInfo && pickOrder.length !== tournament.maxMembers && (
-        <Button
-          style={{
-            marginTop: 10,
-            borderColor: '#fc3',
-            backgroundColor: '#f3f3f3',
-            borderWidth: 2,
-            borderRadius: 0,
-            textAlign: 'center',
-          }}
-          onPress={() => selectMember()}
-        >
-          <Text
-            style={{
-              fontSize: 20,
-              color: '#7a0019',
-              fontFamily: 'graduate',
-              textAlign: 'center',
-            }}
-          >
-            SELECT NEXT IN DRAFT ORDER
-          </Text>
-        </Button>
+        <View style={{ height: 200 }}>
+          <BasketBallButton clickFunction={selectMember} disabled={false} title="SELECT NEXT IN DRAFT ORDER" />
+        </View>
       )}
       {pickOrder.length === tournament.maxMembers && (
         <View style={{ height: 200 }}>
