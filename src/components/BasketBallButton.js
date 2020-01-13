@@ -5,7 +5,7 @@ import Pulse from 'react-native-pulse';
 
 const BasketBallButton = ({ clickFunction, disabled, title }) => (
   <View style={{ alignItems: 'center' }}>
-    <View>
+    <View style={{ alignItems: 'center' }}>
       <Text
         style={{
           fontSize: 20,

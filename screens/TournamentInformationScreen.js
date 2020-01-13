@@ -211,11 +211,13 @@ const TournamentInformationScreen = ({ history }) => {
                     </ListItem>
                   ))}
                 </List>
-                {admin === user.id && (
-                  <View style={{ height: 200 }}>
-                    <BasketBallButton clickFunction={startTournament} disabled={false} title="BEGIN POOL NOW" />
-                  </View>
-                )}
+                <View>
+                  {admin === user.id && (
+                    <View style={{ height: 200, width: '100%' }}>
+                      <BasketBallButton clickFunction={startTournament} disabled={false} title="BEGIN POOL NOW" />
+                    </View>
+                  )}
+                </View>
                 {tournamentInfo && tournamentInfo.isWaiting && user.id !== admin && (
                   <>
                     <View
@@ -244,7 +246,16 @@ const TournamentInformationScreen = ({ history }) => {
                   </>
                 )}
                 <Form style={styles.form}>
-                  <Item regular style={{ marginBottom: 10 }}>
+                  <Item
+                    regular
+                    style={{
+                      borderColor: '#fc3',
+                      borderTopWidth: 2,
+                      borderBottomWidth: 2,
+                      borderRightWidth: 2,
+                      borderLeftWidth: 2,
+                    }}
+                  >
                     <Input
                       placeholder="Email Address"
                       keyboardType="email-address"
@@ -252,8 +263,8 @@ const TournamentInformationScreen = ({ history }) => {
                       onChangeText={email => setEmail(email)}
                       textContentType="emailAddress"
                       autoCapitalize="none"
-                      style={{ color: '#f3f3f3', fontFamily: 'graduate' }}
-                      placeholderTextColor="#fc3"
+                      style={{ color: '#fc3', fontFamily: 'graduate' }}
+                      placeholderTextColor="#f3f3f3"
                     />
                   </Item>
                   <Button
