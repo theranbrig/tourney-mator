@@ -15,7 +15,7 @@ const MemberItem = ({ memberId, order }) => {
       console.log('MEMBER', data.tournamentMember);
       setMemberData(data.tournamentMember);
     }
-  }, [onCompleted, memberId, data]);
+  }, [onCompleted, memberId, data, loading]);
 
   if (loading) return <Spinner color="#7a0019" />;
 

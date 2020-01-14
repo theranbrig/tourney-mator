@@ -17,7 +17,7 @@ const WaitingTournamentScreen = ({ history }) => {
   const { tournamentId, admin, currentMember } = history.location.state;
   const [currentMembers, setCurrentMembers] = useState([]);
   const [docSnap, setDocSnap] = useState(null);
-  const [listLoading, setListLoading] = useState(false);
+  const [listLoading, setListLoading] = useState(true);
 
   const { loading: tournamentLoading, data: tournamentData } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: tournamentId },
@@ -74,25 +74,26 @@ const WaitingTournamentScreen = ({ history }) => {
             >
               Waiting For All Tournament Members
             </Text>
+
             {currentMembers.length && (
               <List
-                style={{
-                  backgroundColor: '#fc3',
-                  width: '100%',
-                  borderTopWidth: 2,
-                  borderTopColor: '#fff',
-                }}
+                style={
+                  currentMembers.length > 0
+                    ? { width: '100%', borderTopWidth: 2, borderTopColor: '#fff' }
+                    : { width: '100%' }
+                }
               >
                 {currentMembers.map(member => (
                   <MemberItem key={member.id} memberId={member.id} />
                 ))}
               </List>
             )}
+
             {currentMembers.length !== 8 && (
               <View style={{ height: 200 }}>
                 <BasketBallButton
                   clickFunction={setOrder}
-                  disabled={currentMembers.length !== 8}
+                  disabled={currentMembers.length === 8}
                   title=" START PICKING DRAFT ORDER NOW"
                 />
               </View>
