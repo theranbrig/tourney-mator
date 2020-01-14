@@ -17,7 +17,6 @@ const WaitingTournamentScreen = ({ history }) => {
   const { tournamentId, admin, currentMember } = history.location.state;
   const [currentMembers, setCurrentMembers] = useState([]);
   const [docSnap, setDocSnap] = useState(null);
-  const [listLoading, setListLoading] = useState(true);
 
   const { loading: tournamentLoading, data: tournamentData } = useQuery(TOURNAMENT_INFORMATION_QUERY, {
     variables: { id: tournamentId },
@@ -74,7 +73,6 @@ const WaitingTournamentScreen = ({ history }) => {
             >
               Waiting For All Tournament Members
             </Text>
-
             {currentMembers.length && (
               <List
                 style={
